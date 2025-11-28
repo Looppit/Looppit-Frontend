@@ -1,0 +1,37 @@
+# Readability
+
+Improving the clarity and ease of understanding code.
+
+## Naming Magic Numbers
+
+**Rule:** Replace magic numbers with named constants for clarity.
+
+**Guidance:** Use `const ANIMATION_DELAY_MS = 300;` instead of magic numbers.
+
+## Abstracting Implementation Details
+
+**Rule:** Abstract complex logic/interactions into dedicated components/HOCs.
+
+**Guidance:** Use components like `<AuthGuard>` or `<InviteButton>` to encapsulate complex interactions.
+
+## Handling Conditional Logic
+
+**Rule:** Separate different conditional UI/logic into distinct components. Replace complex/nested ternaries with `if`/`else` or IIFEs.
+
+**Guidance:** Use `isViewer ? <ViewerSubmitButton /> : <AdminSubmitButton />` for component separation. Use IIFEs for complex ternaries: `const status = (() => { if (A && B) return "BOTH"; return "NONE"; })();`
+
+## Reducing Eye Movement
+
+**Rule:** Colocate simple, localized logic or use inline definitions to reduce context switching.
+
+**Guidance:** Use colocated policy objects or inline switches for simple, localized logic.
+
+## Naming Complex Conditions
+
+**Rule:** Assign complex boolean conditions to named variables.
+
+**Guidance:** Name conditions when logic is complex, reused, or needs testing. Avoid naming very simple, single-use conditions.
+
+---
+
+## alwaysApply: true

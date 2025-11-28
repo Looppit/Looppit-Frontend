@@ -1,0 +1,31 @@
+# Coupling
+
+Minimizing dependencies between different parts of the codebase.
+
+## Balancing Abstraction and Coupling
+
+**Rule:** Avoid premature abstraction of duplicates if use cases might diverge; prefer lower coupling.
+
+**Reasoning:** Avoids tight coupling from forcing potentially diverging logic into one abstraction. Allowing some duplication can improve decoupling when future needs are uncertain.
+
+**Guidance:** Before abstracting, consider if the logic is truly identical and likely to _stay_ identical. If divergence is possible, keeping logic separate initially can lead to more maintainable, decoupled code.
+
+## Scoping State Management
+
+**Rule:** Break down broad state management into smaller, focused hooks/contexts.
+
+**Reasoning:** Reduces coupling by ensuring components only depend on necessary state slices. Improves performance by preventing unnecessary re-renders.
+
+**Guidance:** Create focused hooks like `useCardIdQueryParam()` instead of broad state contexts.
+
+## Eliminating Props Drilling with Composition
+
+**Rule:** Use Component Composition instead of Props Drilling.
+
+**Reasoning:** Reduces coupling by eliminating unnecessary intermediate dependencies. Makes refactoring easier and clarifies data flow.
+
+**Guidance:** Pass data directly to components that need it, avoiding intermediate components that only forward props.
+
+---
+
+## alwaysApply: true

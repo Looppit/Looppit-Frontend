@@ -1,105 +1,30 @@
 # API & 데이터 처리 규칙
 
-## 기술 스택
+## 스택·구조
 
-- HTTP Client: Axios
-- 타입 검증: Zod
-- 에러 처리: Interceptor + 객체 매핑
-
-## 파일 구조
-
-```
-domains/user/
-  user.api.ts       // API 함수
-  user.schema.ts    // Zod 스키마
-  user.hooks.ts     // React Query hooks
-  user.types.ts     // 타입
-```
-
-## Axios 설정
-
-```typescript
-// shared/api/client.ts
-export const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "",
-  timeout: 10000,
-  withCredentials: true,
-});
-
-apiClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      window.location.href = "/login";
-    }
-    return Promise.reject(error);
-  }
-);
-```
+- Axios + Zod + React Query + 에러 매핑
+- 도메인별로 `.api.ts`, `.schema.ts`, `.hooks.ts`, `.types.ts` 분리
 
 ## API 함수
 
-```typescript
-// user.api.ts
-export const fetchUser = async (userId: string): Promise<User> => {
-  const { data } = await apiClient.get(`/users/${userId}`);
-  return userSchema.parse(data);
-};
-```
+- 모든 요청은 `apiClient` 사용
+- 응답 즉시 Zod `parse`, 반환 타입은 `z.infer`
 
-## Zod 검증
+## React Query
 
-```typescript
-// user.schema.ts
-export const userSchema = z.object({
-  id: z.string(),
-  name: z.string().min(1),
-  email: z.string().email(),
-});
-
-export type User = z.infer<typeof userSchema>;
-```
-
-## React Query Hooks
-
-```typescript
-// user.hooks.ts
-export const userKeys = {
-  all: ["users"] as const,
-  detail: (id: string) => [...userKeys.all, id] as const,
-};
-
-export const useUser = (userId: string) => {
-  return useQuery({
-    queryKey: userKeys.detail(userId),
-    queryFn: () => fetchUser(userId),
-    staleTime: 5 * 60 * 1000,
-  });
-};
-```
+- `*Keys` 객체로 queryKey 생성
+- `useQuery/useMutation`은 hook 파일에 정의
+- Mutation 이후 invalidate 또는 optimistic 업데이트
 
 ## 에러 처리
 
-```typescript
-// shared/api/error-handler.ts
-const ERROR_MESSAGES = {
-  400: "잘못된 요청입니다",
-  401: "로그인이 필요합니다",
-  500: "서버 오류가 발생했습니다",
-} as const;
-
-export const getErrorMessage = (error: unknown): string => {
-  if (!(error instanceof AxiosError)) return "알 수 없는 오류";
-  const status = error.response?.status;
-  return ERROR_MESSAGES[status as keyof typeof ERROR_MESSAGES] ?? error.message;
-};
-```
+- 상태코드 → 사용자 메시지 매핑 객체 유지
+- AxiosError 여부 확인 후 기본 메시지 제공
 
 ## 체크리스트
 
-- [ ] API 함수는 `{domain}.api.ts`에 정의
-- [ ] Zod 스키마로 런타임 검증
-- [ ] React Query hooks 작성
-- [ ] Query Key 일관성 관리
-- [ ] Mutation 후 invalidate
-- [ ] 에러 처리에 객체 매핑 사용
+- [ ] API/Schema/Hook/Type 파일 분리
+- [ ] 런타임 검증 완료
+- [ ] Query key 일관성
+- [ ] Mutation invalidate 적용
+- [ ] 에러 매핑 상수가 `UPPER_SNAKE_CASE`인가?

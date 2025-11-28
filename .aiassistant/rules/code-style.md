@@ -1,42 +1,19 @@
 # 코드 스타일 규칙
 
-## 핵심 철학
+## 핵심
 
-복잡한 제어 흐름을 숨기고 의도에 집중
+- 로딩·에러는 `QueryBoundary`, 비즈니스 로직은 hook, 데이터 분기는 매핑으로 처리
+- WHAT 중심 선언적 UI, 조건 분기는 컴포넌트 밖으로 이동
+- 가독성·일관성·의도 표현을 최우선
 
-```typescript
-// ❌ 명령형
-if (isLoading) return <LoadingSpinner />;
-if (error) return <ErrorMessage />;
+## 한도
 
-// ✅ 선언적
-<QueryBoundary>
-  <UserProfileView user={user} />
-</QueryBoundary>;
-```
+- 파일 ≤ 250줄, 함수 ≤ 50줄, Cyclomatic Complexity ≤ 10
 
-### 적용 방법
-
-1. 로딩/에러: QueryBoundary가 담당
-2. 비즈니스 로직: hooks에 캡슐화
-3. 데이터 구조: switch문 대신 객체 매핑
-
-## 기본 원칙
-
-- 가독성 우선
-- 일관성 유지
-- 의도 표현 (WHAT 우선, HOW 숨김)
-
-## 복잡도 기준
-
-- 파일당 최대 250줄
-- Cyclomatic Complexity 10 이하
-- 함수당 최대 50줄
-
-## 컴포넌트 구조
+## 컴포넌트 템플릿
 
 ```typescript
-// 1. Import
+// 1. Import (React → 외부 → shared → domains → 상대)
 // 2. 타입
 // 3. 상수
 // 4. 컴포넌트
@@ -45,59 +22,21 @@ export const UserCard = ({ user }: UserProps) => {
 };
 ```
 
-## Import 순서
+## 함수 원칙
 
-```typescript
-// 1. React
-// 2. 외부 라이브러리
-// 3. shared
-// 4. domains
-// 5. 상대 경로
-```
-
-## 함수 규칙
-
-```typescript
-// ✅ Early Return
-const getDiscount = (user: User) => {
-  if (!user) return 0;
-  if (!user.isPremium) return 0;
-  return 0.1;
-};
-
-// ✅ 작은 함수로 분리
-const processOrder = (order: Order) => {
-  return saveOrder(calculateTotal(validateOrder(order)));
-};
-```
+- Early return으로 예외 제거
+- **유틸 함수는 반드시 `{feature}.utils.ts` 파일로 분리** (`naming-conventions.md` 참고)
+- 단일 파일에 유틸 함수가 3개 이상이면 분리 검토
 
 ## 선언적 패턴
 
-```typescript
-// ❌ 명령형
-export const UserProfile = ({ userId }) => {
-  const { data, isLoading, error } = useUser(userId);
-  if (isLoading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage />;
-  return <div>{data.name}</div>;
-};
-
-// ✅ 선언적
-export const UserProfile = ({ userId }) => {
-  const user = useUser(userId);
-  const updateUser = useUserUpdate(userId);
-  return (
-    <QueryBoundary>
-      <UserProfileView user={user} onUpdate={updateUser} />
-    </QueryBoundary>
-  );
-};
-```
+- 로딩/에러 분기 대신 `QueryBoundary`와 뷰 컴포넌트를 조합
+- 데이터 로딩·업데이트 hook을 두고 JSX는 UI 표현만 담당
 
 ## 체크리스트
 
-- [ ] 컴포넌트에 `if (isLoading)`, `if (error)` 없음
-- [ ] 비즈니스 로직이 hooks에 있음
-- [ ] QueryBoundary로 로딩/에러 처리
-- [ ] 250줄 이하, 복잡도 10 이하
-- [ ] Early return 적용
+- [ ] 컴포넌트에 `if (isLoading|error)` 없음
+- [ ] 비즈니스 로직이 hook에 존재
+- [ ] QueryBoundary 사용
+- [ ] 줄 수/복잡도 제한 준수
+- [ ] 유틸 함수가 `{feature}.utils.ts`로 분리되어 있는가?

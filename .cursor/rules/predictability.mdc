@@ -1,0 +1,31 @@
+# Predictability
+
+Ensuring code behaves as expected based on its name, parameters, and context.
+
+## Standardizing Return Types
+
+**Rule:** Use consistent return types for similar functions/hooks.
+
+**Reasoning:** Improves predictability; developers can anticipate return value shapes. Reduces confusion from inconsistent types.
+
+**Guidance:** API hooks should return `UseQueryResult<T, Error>`. Validation functions should use consistent result types like `{ ok: true } | { ok: false; reason: string }`.
+
+## Revealing Hidden Logic (Single Responsibility)
+
+**Rule:** Avoid hidden side effects; functions should only perform actions implied by their signature.
+
+**Reasoning:** Leads to predictable behavior without unintended side effects. Creates more robust, testable code through separation of concerns.
+
+**Guidance:** Separate concerns: `fetchBalance()` should only fetch, while `handleUpdateClick()` orchestrates fetching, logging, and syncing.
+
+## Using Unique and Descriptive Names
+
+**Rule:** Use unique, descriptive names for custom wrappers/functions to avoid ambiguity.
+
+**Reasoning:** Avoids ambiguity and enhances predictability. Makes specific actions (e.g., adding auth) explicit from the name.
+
+**Guidance:** Use names like `getWithAuth()` instead of generic `get()` to make behavior explicit.
+
+---
+
+## alwaysApply: true

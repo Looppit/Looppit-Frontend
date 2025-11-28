@@ -1,0 +1,43 @@
+# Cohesion
+
+Keeping related code together and ensuring modules have a well-defined, single purpose.
+
+## Considering Form Cohesion
+
+**Rule:** Choose field-level or form-level cohesion based on form requirements.
+
+**Reasoning:** Balances field independence (field-level) vs. form unity (form-level).
+
+**Guidance:** Use **field-level** for independent validation (`register("name", { validate: ... })`), **form-level** for related fields or interdependent validation (`zodResolver(schema)`).
+
+## Organizing Code by Feature/Domain
+
+**Rule:** Organize directories by feature/domain, not just by code type.
+
+**Reasoning:** Increases cohesion by keeping related files together. Simplifies feature understanding, development, and deletion.
+
+```
+domains/user/
+├── components/UserProfileCard.tsx
+├── hooks/useUser.ts
+└── index.ts
+```
+
+## Relating Magic Numbers to Logic
+
+**Rule:** Define constants near related logic or ensure names link them clearly.
+
+**Reasoning:** Improves cohesion by linking constants to the logic they represent. Prevents silent failures from updating logic without updating constants.
+
+```typescript
+const ANIMATION_DELAY_MS = 300;
+async function onLikeClick() {
+  await postLike(url);
+  await delay(ANIMATION_DELAY_MS);
+  await refetchPostLike();
+}
+```
+
+---
+
+## alwaysApply: true

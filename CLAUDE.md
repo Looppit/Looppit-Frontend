@@ -1,81 +1,63 @@
 # CLAUDE.md
 
-Claude Code 프로젝트 가이드
+Claude Code 가이드
 
-## Process
+## 규칙 폴더 구조
 
-1. Rules 적용 여부 확인
-2. 사용자 요청 해석
-3. 규칙 기반 작업 수행
-4. 최종 검증
+### `.aiassistant/rules/` - 프로젝트 특화 규칙
 
-## 상세 문서
+프로젝트의 구체적인 코딩 가이드라인과 실행 가능한 규칙들
 
-기본적으로 이 파일만 읽고, 필요 시 관련 문서 참조:
+### `.cursor/rules/` - 일반적인 코드 품질 원칙
 
-| 문서                    | 참조 시점                   |
-| ----------------------- | --------------------------- |
-| `code-style.md`         | 코드 작성/리팩토링 (최우선) |
-| `api-data-handling.md`  | API 연동                    |
-| `state-management.md`   | 상태 관리                   |
-| `project-structure.md`  | 프로젝트 구조               |
-| `naming-conventions.md` | 네이밍                      |
-| `git-workflow.md`       | 커밋/PR                     |
+범용적인 소프트웨어 설계 원칙 (응집도, 가독성, 결합도, 예측가능성)
 
-## ⚠️ Rules (최우선)
+- Cursor가 자동으로 적용 (`alwaysApply: true`)
+- 프로젝트 독립적인 설계 철학
 
-### Rule #1: 프로젝트 구조
+## 필수 규칙 (항상 확인)
 
-- 도메인 기반(FSD Lite) 구조
-- `app/`는 라우팅만, 비즈니스 로직은 `domains/`
-- 공통 코드는 `shared/`
-- 상세: `.aiassistant/rules/project-structure.md`
+- `.aiassistant/rules/naming-conventions.md` - 네이밍 규칙
+- `.aiassistant/rules/code-style.md` - 코드 스타일
+- `.aiassistant/rules/project-structure.md` - 프로젝트 구조
+- `.cursor/rules/` - 일반적인 코드 품질 원칙 (자동 적용)
 
-### Rule #2: 네이밍
+## 선택 규칙 (관련 작업 시)
 
-- 폴더/컴포넌트: `kebab-case`
-- 함수/변수: `camelCase`
-- 상세: `.aiassistant/rules/naming-conventions.md`
+- `.aiassistant/rules/api-data-handling.md` - API 작업 시
+- `.aiassistant/rules/state-management.md` - 상태 관리 작업 시
+- `.aiassistant/rules/git-workflow.md` - Git 작업 시
+- `.aiassistant/rules/import-rules.md` - import 관련 이슈 시
 
-### Rule #3: 선언적 코드 (최우선)
+## 작업 흐름
 
-- 복잡한 제어 흐름 숨기고 의도에 집중
-- 컴포넌트에 `if (isLoading)` 금지
-- 비즈니스 로직은 hooks에 캡슐화
-- switch문 대신 객체 매핑
-- 상세: `.aiassistant/rules/code-style.md`
+1. 요구 분석 → 변경 대상 식별
+2. 코드 구조 분석 (`read_file`, `codebase_search`)
+3. **필수 규칙 검토** (항상)
+4. **선택 규칙 검토** (관련 작업 시)
+5. 구현 (규칙 준수, 기존 패턴 일관성)
+6. 검증 (`read_lints`, 규칙 점검)
 
-### Rule #4: 상태관리
+## 필수 확인
 
-- API 데이터: React Query
-- 공유 상태: Jotai
-- 환경 설정: Context
-- 상세: `.aiassistant/rules/state-management.md`
+- [ ] 내부 구조 분석 완료
+- [ ] 상수 `UPPER_SNAKE_CASE` 확인
+- [ ] 함수/파일 길이 제한 준수 (함수 ≤50줄, 파일 ≤250줄)
 
-### Rule #5: API 처리
+## 프로젝트 구조
 
-- Axios 사용
-- Zod 타입 검증
-- React Query hooks
-- 상세: `.aiassistant/rules/api-data-handling.md`
+- `app/`(라우팅), `domains/`(비즈니스), `shared/`(공용)
+- 규칙: `.aiassistant/rules/` (프로젝트 특화), `.cursor/rules/` (일반 원칙)
 
-### Rule #6: Git
+## 핵심 Rules
 
-- 커밋: `<type>(<scope>): <message>`
-- 브랜치: `feature/*`, `hotfix/*`
-- PR: 2명 이상 승인
-- 상세: `.aiassistant/rules/git-workflow.md`
+- 구조: FSD Lite, 네이밍: 폴더·컴포넌트=kebab, 함수·변수=camel, 상수=UPPER_SNAKE_CASE
+- 코드: 선언적 패턴, 비즈니스 로직은 hook 분리, 유틸 함수는 `{feature}.utils.ts`로 분리
+- 상태·API: React Query(API), Jotai(공유), Context(환경), Axios+Zod+React Query
+- Git: 커밋 `type(scope): message`, 브랜치 `feature/*`/`hotfix/*`, PR 1인 승인
 
 ## 프로젝트 개요
 
-- 스택: Next.js 16, TypeScript, React 19, Tailwind CSS 4
-- 아키텍처: 서버 컴포넌트 기반 App Router
-- 구조: 도메인 기반 (FSD Lite)
+Next.js 16 · TypeScript · React 19 · Tailwind CSS 4 · App Router
 
-## 개발 명령어
-
-```bash
-npm run dev      # 개발 서버
-npm run build    # 프로덕션 빌드
-npm run lint     # ESLint 실행
-```
+**명령어**: `npm run dev` / `npm run build` / `npm run lint`

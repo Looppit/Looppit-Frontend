@@ -1,65 +1,35 @@
 # Git 워크플로우 규칙
 
-## 브랜치 전략
+## 브랜치
 
-```
-main          // PROD 배포
-develop       // Staging
-feature/*     // 기능 개발
-hotfix/*      // 긴급 패치
-```
+- `main`: 프로덕션, `develop`: 스테이징
+- `feature/*`: develop에서 파생, develop으로 병합 (일반 merge)
+- `hotfix/*`: main에서 파생, main·develop 모두 병합 (merge commit)
+- develop→main: merge commit
 
-| 브랜치      | 네이밍           | 생성 기준     | Merge 대상        |
-| ----------- | ---------------- | ------------- | ----------------- |
-| `main`      | `main`           | -             | -                 |
-| `develop`   | `develop`        | `main`에서    | `main`            |
-| `feature/*` | `feature/{name}` | `develop`에서 | `develop`         |
-| `hotfix/*`  | `hotfix/{name}`  | `main`에서    | `main`, `develop` |
+## 커밋
 
-## 커밋 메시지
+- 형식 `<type>(scope): 작업 내용`
+- type: feat / fix / refactor / docs / chore / style
+- scope: kebab-case 선택, message: 한글, 명령형·소문자·마침표 없음
 
-형식: `<type>(<scope>): <message>`
+## PR
 
-| Type       | 의미         | 예시                              |
-| ---------- | ------------ | --------------------------------- |
-| `feat`     | 새 기능      | `feat(auth): 로그인 API 연동`     |
-| `fix`      | 버그 수정    | `fix(login): 토큰 만료 오류 수정` |
-| `refactor` | 코드 개선    | `refactor(user): API 로직 분리`   |
-| `docs`     | 문서         | `docs(readme): 설치 방법 추가`    |
-| `chore`    | 빌드, 패키지 | `chore(deps): react 업데이트`     |
+- 제목 `{type}: {summary}`, 리뷰어 1명 이상, self merge 금지
+- Merge 전 테스트·CI 통과 및 최소 1회 승인 필요
+- **PR 생성 시 `.github/pull_request_template.md` 읽어 형식에 맞춰 본문 작성**
+  - 템플릿 구조 그대로 복사, 주석(`<!-- -->`)을 실제 내용으로 채움
+  - "변경 유형" 체크박스는 해당 항목만 `[x]` 표시
 
-- Scope: kebab-case (선택)
-- Message: 명령형, 소문자 시작, 마침표 없음
+## 기본 플로우
 
-## PR 규칙
-
-- 제목: `{type}: {change summary}`
-- 최소 Reviewer: 2명
-- Merge 조건: Approve 2회 + CI 통과
-- Self merge: 금지
-
-## Merge 전략
-
-| 상황              | 전략         |
-| ----------------- | ------------ |
-| Feature → Develop | Merge        |
-| Develop → Main    | Merge Commit |
-| Hotfix → Main     | Merge Commit |
-
-## 워크플로우
-
-```bash
-# 기능 개발
-git checkout develop
-git pull origin develop
-git checkout -b feature/user-profile
-git commit -m "feat(user-profile): 프로필 페이지 구현"
-git push origin feature/user-profile
-```
+1. `git checkout develop && git pull`
+2. `git checkout -b feature/{name}`
+3. 작업 후 규칙에 맞춰 commit
+4. `git push origin feature/{name}` → PR 생성
 
 ## 체크리스트
 
-- [ ] 커밋 메시지 규칙 준수
-- [ ] 브랜치명 올바름
-- [ ] 테스트/Lint 통과
-- [ ] 민감 정보 미포함
+- [ ] 브랜치/커밋 규칙 준수
+- [ ] 테스트·lint 통과
+- [ ] 민감 정보 포함 여부 확인
