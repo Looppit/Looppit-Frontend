@@ -1,11 +1,18 @@
-import type { ApiError, ErrorResponse } from "./api.types";
-import { DEFAULT_ERROR_MESSAGE, ERROR_MESSAGE_MAP } from "./api.constants";
+import axios, { AxiosInstance } from "axios";
+
+import {
+  API_BASE_URL,
+  API_TIMEOUT,
+  DEFAULT_ERROR_MESSAGE,
+  ERROR_MESSAGE_MAP,
+} from "./api.constants";
+import type { ApiError, ErrorResponse, ErrorStatusKey } from "./api.types";
 
 export const transformError = (
-  statusCode: number,
+  statusCode: ErrorStatusKey,
   serverMessage?: string
 ): ApiError => {
-  const statusKey = statusCode as keyof typeof ERROR_MESSAGE_MAP;
+  const statusKey = statusCode;
   const message = ERROR_MESSAGE_MAP[statusKey] || DEFAULT_ERROR_MESSAGE;
 
   return {
@@ -25,7 +32,7 @@ export const handleNetworkError = () => {
 };
 
 export const handleResponseError = (error: {
-  response: { status: number; data: unknown };
+  response: { status: ErrorStatusKey; data: unknown };
 }) => {
   const { status, data } = error.response;
 
@@ -37,4 +44,15 @@ export const handleResponseError = (error: {
   const apiError = errorResponse?.error || transformError(status);
 
   return Promise.reject(apiError);
+};
+
+export const initAxiosInstance = (): AxiosInstance => {
+  return axios.create({
+    baseURL: API_BASE_URL,
+    timeout: API_TIMEOUT,
+    withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 };
