@@ -1,63 +1,39 @@
 # CLAUDE.md
 
-Claude Code 가이드
+## 필수 레퍼런스
 
-## 규칙 폴더 구조
+`.aiassistant/rules/` 기준:
 
-### `.aiassistant/rules/` - 프로젝트 특화 규칙
+- `conventions/naming-conventions.md`
+- `conventions/code-style.md`
+- `architecture/project-structure.md`
 
-프로젝트의 구체적인 코딩 가이드라인과 실행 가능한 규칙들
+## 선택 레퍼런스
 
-### `.cursor/rules/` - 일반적인 코드 품질 원칙
+`.aiassistant/rules/` 기준:
 
-범용적인 소프트웨어 설계 원칙 (응집도, 가독성, 결합도, 예측가능성)
+- `architecture/api-data-handling.md`
+- `architecture/state-management.md`
+- `workflow/git-workflow.md`
+- `conventions/import-rules.md`
 
-- Cursor가 자동으로 적용 (`alwaysApply: true`)
-- 프로젝트 독립적인 설계 철학
+## 작업 순서
 
-## 필수 규칙 (항상 확인)
+1. 요구·범위 파악
+2. 구조 분석(`read_file`, `codebase_search`)
+3. 필수 규칙 확인
+4. 필요 시 선택 규칙 추가 확인
+5. 구현: 기존 패턴·규칙 유지
+6. `read_lints` 등으로 검증
 
-- `.aiassistant/rules/naming-conventions.md` - 네이밍 규칙
-- `.aiassistant/rules/code-style.md` - 코드 스타일
-- `.aiassistant/rules/project-structure.md` - 프로젝트 구조
-- `.cursor/rules/` - 일반적인 코드 품질 원칙 (자동 적용)
+## 체크리스트
 
-## 선택 규칙 (관련 작업 시)
+- [ ] 프로젝트 내부 구조를 `read_file`, `codebase_search`로 파악했는가?
+- [ ] 모든 상수가 `UPPER_SNAKE_CASE` 형식인가? (예: `API_BASE_URL`, `MAX_RETRY_COUNT`)
+- [ ] 함수가 50줄 이하인가? (초과 시 분리 검토)
+- [ ] 파일이 250줄 이하인가? (초과 시 모듈 분리 검토)
 
-- `.aiassistant/rules/api-data-handling.md` - API 작업 시
-- `.aiassistant/rules/state-management.md` - 상태 관리 작업 시
-- `.aiassistant/rules/git-workflow.md` - Git 작업 시
-- `.aiassistant/rules/import-rules.md` - import 관련 이슈 시
+## 스택·명령
 
-## 작업 흐름
-
-1. 요구 분석 → 변경 대상 식별
-2. 코드 구조 분석 (`read_file`, `codebase_search`)
-3. **필수 규칙 검토** (항상)
-4. **선택 규칙 검토** (관련 작업 시)
-5. 구현 (규칙 준수, 기존 패턴 일관성)
-6. 검증 (`read_lints`, 규칙 점검)
-
-## 필수 확인
-
-- [ ] 내부 구조 분석 완료
-- [ ] 상수 `UPPER_SNAKE_CASE` 확인
-- [ ] 함수/파일 길이 제한 준수 (함수 ≤50줄, 파일 ≤250줄)
-
-## 프로젝트 구조
-
-- `app/`(라우팅), `domains/`(비즈니스), `shared/`(공용)
-- 규칙: `.aiassistant/rules/` (프로젝트 특화), `.cursor/rules/` (일반 원칙)
-
-## 핵심 Rules
-
-- 구조: FSD Lite, 네이밍: 폴더·컴포넌트=kebab, 함수·변수=camel, 상수=UPPER_SNAKE_CASE
-- 코드: 선언적 패턴, 비즈니스 로직은 hook 분리, 유틸 함수는 `{feature}.utils.ts`로 분리
-- 상태·API: React Query(API), Jotai(공유), Context(환경), Axios+Zod+React Query
-- Git: 커밋 `type(scope): message`, 브랜치 `feature/*`/`hotfix/*`, PR 1인 승인
-
-## 프로젝트 개요
-
-Next.js 16 · TypeScript · React 19 · Tailwind CSS 4 · App Router
-
-**명령어**: `npm run dev` / `npm run build` / `npm run lint`
+- Next.js 16, React 19, TypeScript, Tailwind 4, App Router
+- `npm run dev`, `npm run build`, `npm run lint`
