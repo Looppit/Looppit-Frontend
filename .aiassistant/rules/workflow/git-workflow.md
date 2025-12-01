@@ -22,7 +22,9 @@ origin: assistant
 
 - 제목 `{type}: {summary}`, 리뷰어 1명 이상, self merge 금지
 - Merge 전 테스트·CI 통과 및 최소 1회 승인 필요
-- PR 본문은 `.github/pull_request_template.md` 형식에 맞춰 작성
+- PR 본문은 `pull_request_template.md` 형식에 맞춰 작성
+  - PR 생성 전 반드시 `.github/pull_request_template.md` 파일을 읽어서 그 내용과 형식을 사용
+  - 파일이 존재하지 않으면 템플릿 형식에 맞춰 자유롭게 작성
 
 ## 기본 플로우
 
