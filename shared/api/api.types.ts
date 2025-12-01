@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE_MAP } from "@/shared/api/api.constants";
+import { ERROR_MESSAGE_MAP } from '@/shared/api/api.constants';
 
 export interface ApiResponse<T> {
   data: T;
@@ -27,11 +27,13 @@ export type ErrorCode = ErrorStatusKey | HttpErrorCode;
 
 export type ErrorTransformer = (
   statusCode: number,
-  serverMessage?: string
+  serverMessage?: string,
 ) => ApiError;
 
 export type RequestConfig = {
-  method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
   headers?: Record<string, string>;
   body?: unknown;
 };
+
+export type QueryValue = string | number | boolean | null | undefined;
