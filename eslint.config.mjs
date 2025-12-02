@@ -51,12 +51,12 @@ const eslintConfig = defineConfig([
               position: 'after',
             },
             {
-              pattern: '@shared/**',
+              pattern: '@/shared/**',
               group: 'internal',
               position: 'after',
             },
             {
-              pattern: '@domains/**',
+              pattern: '@/domains/**',
               group: 'internal',
               position: 'after',
             },
