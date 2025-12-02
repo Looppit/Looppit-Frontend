@@ -24,6 +24,10 @@ const eslintConfig = defineConfig([
     rules: {
       'prettier/prettier': 'error',
       '@typescript-eslint/no-unused-expressions': 'error',
+      'react/jsx-curly-brace-presence': [
+        'error',
+        { props: 'never', children: 'never' },
+      ],
       'import/order': [
         'error',
         {
