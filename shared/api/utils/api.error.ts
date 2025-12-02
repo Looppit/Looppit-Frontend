@@ -1,16 +1,9 @@
-import axios, { AxiosInstance } from "axios";
-
-import {
-  API_BASE_URL,
-  API_TIMEOUT,
-  DEFAULT_ERROR_MESSAGE,
-  ERROR_MESSAGE_MAP,
-} from "./api.constants";
-import type { ApiError, ErrorResponse, ErrorStatusKey } from "./api.types";
+import { DEFAULT_ERROR_MESSAGE, ERROR_MESSAGE_MAP } from '../api.constants';
+import type { ApiError, ErrorResponse, ErrorStatusKey } from '../api.types';
 
 export const transformError = (
   statusCode: ErrorStatusKey,
-  serverMessage?: string
+  serverMessage?: string,
 ): ApiError => {
   const statusKey = statusCode;
   const message = ERROR_MESSAGE_MAP[statusKey] || DEFAULT_ERROR_MESSAGE;
@@ -22,13 +15,13 @@ export const transformError = (
 };
 
 export const handleUnauthorized = () => {
-  if (typeof window !== "undefined") {
-    window.location.href = "/login";
+  if (typeof window !== 'undefined') {
+    window.location.href = '/login';
   }
 };
 
 export const handleNetworkError = () => {
-  return Promise.reject(transformError(503, "네트워크 연결을 확인해주세요."));
+  return Promise.reject(transformError(503, '네트워크 연결을 확인해주세요.'));
 };
 
 export const handleResponseError = (error: {
@@ -44,15 +37,4 @@ export const handleResponseError = (error: {
   const apiError = errorResponse?.error || transformError(status);
 
   return Promise.reject(apiError);
-};
-
-export const initAxiosInstance = (): AxiosInstance => {
-  return axios.create({
-    baseURL: API_BASE_URL,
-    timeout: API_TIMEOUT,
-    withCredentials: true,
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
 };

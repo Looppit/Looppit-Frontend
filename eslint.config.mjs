@@ -3,6 +3,7 @@ import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
 import importPlugin from 'eslint-plugin-import';
 import prettier from 'eslint-plugin-prettier';
+import pluginQuery from '@tanstack/eslint-plugin-query';
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -12,6 +13,13 @@ const eslintConfig = defineConfig([
     plugins: {
       prettier,
       import: importPlugin,
+    },
+    plugins: {
+      '@tanstack/query': pluginQuery,
+    },
+    rules: {
+      '@tanstack/query/stable-query-client': 'error',
+      '@tanstack/query/no-unstable-deps': 'error',
     },
     rules: {
       'prettier/prettier': 'error',

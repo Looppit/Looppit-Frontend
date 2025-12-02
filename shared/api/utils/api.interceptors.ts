@@ -1,10 +1,10 @@
 import {
   handleNetworkError,
   handleResponseError,
-} from "@/shared/api/api.utils";
-import { tokenAtom } from "@/shared/store/auth.atom";
-import { AxiosInstance } from "axios";
-import { getDefaultStore } from "jotai";
+} from '@/shared/api/utils/api.error';
+import { tokenAtom } from '@/shared/store/auth.atom';
+import { AxiosInstance } from 'axios';
+import { getDefaultStore } from 'jotai';
 
 const store = getDefaultStore();
 
@@ -18,7 +18,7 @@ export const setupRequestInterceptor = (instance: AxiosInstance) => {
       }
       return config;
     },
-    (error) => Promise.reject(error)
+    (error) => Promise.reject(error),
   );
 };
 
@@ -31,6 +31,6 @@ export const setupErrorInterceptors = (instance: AxiosInstance) => {
       }
 
       return handleResponseError(error);
-    }
+    },
   );
 };
