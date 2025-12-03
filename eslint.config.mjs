@@ -23,6 +23,7 @@ const eslintConfig = defineConfig([
     },
     rules: {
       'prettier/prettier': 'error',
+      '@typescript-eslint/no-unused-expressions': 'error',
       'import/order': [
         'error',
         {
