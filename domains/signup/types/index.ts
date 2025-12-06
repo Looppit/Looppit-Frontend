@@ -1,1 +1,2 @@
-export * from './signup.types';
+export * from './schema';
+export * from './api';

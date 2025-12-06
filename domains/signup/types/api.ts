@@ -1,4 +1,4 @@
-import { SignupFormValues } from './signup.types';
+import { SignupFormValues } from './schema';
 
 export type SignupRequest = SignupFormValues;
 

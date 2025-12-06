@@ -1,7 +1,4 @@
-import {
-  SignupRequest,
-  SignupResponse,
-} from '@/domains/signup/types/api.types';
+import { SignupRequest, SignupResponse } from '@/domains/signup/types';
 import { apiClient } from '@/shared/api/api.client';
 
 export const postSignupRequest = async (data: SignupRequest) => {
