@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -25,6 +26,7 @@ export default function SignupForm() {
     },
   });
   const { mutateAsync: signup, isPending } = useSignup();
+  const [isEmailSent, setIsEmailSent] = useState(false);
 
   const onSubmit = async (data: SignupFormValues) => {
     try {
@@ -42,8 +44,8 @@ export default function SignupForm() {
         className="flex flex-col gap-4"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <EmailField />
-        <EmailConfirmField timer="5:00" />
+        <EmailField onEmailSent={() => setIsEmailSent(true)} />
+        {isEmailSent && <EmailConfirmField timer="5:00" />}
         <PasswordField />
         <PasswordConfirmField />
         <div className="flex flex-col">

@@ -10,7 +10,11 @@ import { Input } from '@/shared/ui/input';
 
 import { useEmailSendMutation } from '../hooks/use-email-verification';
 
-export default function EmailField() {
+interface EmailFieldProps {
+  onEmailSent: () => void;
+}
+
+export default function EmailField({ onEmailSent }: EmailFieldProps) {
   const { control, formState, getValues } = useFormContext<SignupFormValues>();
   const { mutateAsync: sendEmail, isPending } = useEmailSendMutation();
   const error = formState.errors.email;
@@ -23,6 +27,7 @@ export default function EmailField() {
       await sendEmail({ email });
 
       toast.success('이메일 인증 메일이 발송되었습니다.');
+      onEmailSent();
     } catch (error) {
       if (isApiError(error)) {
         toast.error(error.message);
