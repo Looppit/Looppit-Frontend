@@ -8,8 +8,15 @@ export type SignupResponse = {
   password: string;
 };
 
-export type VerifyEmailRequest = {
+export type EmailSendRequest = {
   email: string;
 };
 
-export type VerifyEmailResponse = unknown;
+export type EmailSendResponse = unknown;
+
+export type EmailCertifyRequest = {
+  email: string;
+  code: string;
+};
+
+export type EmailCertifyResponse = unknown;
