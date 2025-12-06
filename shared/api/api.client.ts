@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import { AxiosInstance, AxiosResponse } from 'axios';
 
 import {
   setupErrorInterceptors,
@@ -11,19 +11,30 @@ export class ApiClient {
   constructor(private readonly client: AxiosInstance) {}
 
   get<T>(endpoint: string, headers?: Record<string, string>) {
-    return this.request<T>(endpoint, { method: 'GET', headers });
+    return this.request<AxiosResponse<T>>(endpoint, { method: 'GET', headers });
   }
 
   post<T>(endpoint: string, body?: unknown, headers?: Record<string, string>) {
-    return this.request<T>(endpoint, { method: 'POST', body, headers });
+    return this.request<AxiosResponse<T>>(endpoint, {
+      method: 'POST',
+      body,
+      headers,
+    });
   }
 
   put<T>(endpoint: string, body?: unknown, headers?: Record<string, string>) {
-    return this.request<T>(endpoint, { method: 'PUT', body, headers });
+    return this.request<AxiosResponse<T>>(endpoint, {
+      method: 'PUT',
+      body,
+      headers,
+    });
   }
 
   delete<T>(endpoint: string, headers?: Record<string, string>) {
-    return this.request<T>(endpoint, { method: 'DELETE', headers });
+    return this.request<AxiosResponse<T>>(endpoint, {
+      method: 'DELETE',
+      headers,
+    });
   }
 
   async request<T>(endpoint: string, config: RequestConfig = {}): Promise<T> {
