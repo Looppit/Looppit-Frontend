@@ -1,15 +1,24 @@
 import { useFormContext } from 'react-hook-form';
 
+import { SignupFormValues } from '@/domains/signup/types';
 import { Button } from '@/shared/ui/button';
 import { FieldError } from '@/shared/ui/field';
 import { FormControl, FormField, FormItem, FormLabel } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
 
-import { SignupFormValues } from '@/domains/signup/types';
+import { useEmailSendMutation } from '../hooks/use-email-verification';
 
 export default function EmailField() {
-  const { control, formState } = useFormContext<SignupFormValues>();
+  const { control, formState, getValues } = useFormContext<SignupFormValues>();
+  const { mutate: sendEmail, isPending } = useEmailSendMutation();
   const error = formState.errors.email;
+
+  const handleVerifyEmail = () => {
+    if (isPending || error !== undefined) return;
+
+    const email = getValues('email');
+    sendEmail({ email });
+  };
 
   return (
     <FormField
@@ -21,7 +30,13 @@ export default function EmailField() {
           <FormControl>
             <div className="flex items-center gap-2">
               <Input {...field} placeholder="이메일을 입력해주세요." />
-              <Button variant="outline">인증하기</Button>
+              <Button
+                disabled={isPending || error !== undefined}
+                variant="outline"
+                onClick={handleVerifyEmail}
+              >
+                인증하기
+              </Button>
             </div>
           </FormControl>
           <FieldError errors={error ? [error] : undefined} />
