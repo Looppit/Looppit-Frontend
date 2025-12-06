@@ -13,7 +13,9 @@ export interface ApiError {
 }
 
 export interface ErrorResponse {
-  error: ApiError;
+  message?: string;
+  path?: string;
+  responseCode: string;
   timestamp?: string;
 }
 
