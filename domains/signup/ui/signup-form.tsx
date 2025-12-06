@@ -11,6 +11,7 @@ import EmailConfirmField from './email-confirm-field';
 import EmailField from './email-field';
 import PasswordConfirmField from './password-confirm-field';
 import PasswordField from './password-field';
+import { useSignup } from '../api/api.query';
 
 export default function SignupForm() {
   const form = useForm<SignupFormValues>({
@@ -21,9 +22,10 @@ export default function SignupForm() {
       password: '',
     },
   });
+  const { mutateAsync: signup, isPending } = useSignup();
 
-  const onSubmit = (data: SignupFormValues) => {
-    console.log(data);
+  const onSubmit = async (data: SignupFormValues) => {
+    await signup(data);
   };
 
   return (
@@ -38,8 +40,13 @@ export default function SignupForm() {
         <PasswordConfirmField />
         <div className="flex flex-col">
           <Spacing size={108} />
-          <Button type="submit" className="w-full">
-            회원가입
+          <Button
+            className="w-full"
+            type="button"
+            onClick={form.handleSubmit(onSubmit)}
+            disabled={isPending}
+          >
+            {isPending ? '회원가입 중...' : '회원가입'}
           </Button>
         </div>
       </form>
