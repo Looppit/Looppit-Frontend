@@ -3,7 +3,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useSignup } from '@/domains/signup/api';
+import { useSignup } from '@/domains/signup/hooks';
 import { signupFormSchema, SignupFormValues } from '@/domains/signup/types';
 import { isApiError } from '@/shared/guard';
 import { Button } from '@/shared/ui/button';

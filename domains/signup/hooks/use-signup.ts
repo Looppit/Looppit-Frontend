@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { postSignupRequest } from './signup.api';
+import { postSignupRequest } from '@/domains/signup/api';
 
 export const useSignup = () => {
   return useMutation({
