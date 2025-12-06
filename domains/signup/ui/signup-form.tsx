@@ -27,8 +27,12 @@ export default function SignupForm() {
   });
   const { mutateAsync: signup, isPending } = useSignup();
   const [isEmailSent, setIsEmailSent] = useState(false);
+  const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
+  const submitDisabled = isPending || !isEmailSent || !isPasswordConfirmed;
 
   const onSubmit = async (data: SignupFormValues) => {
+    if (submitDisabled) return;
+
     try {
       const response = await signup(data);
     } catch (error) {
@@ -47,14 +51,19 @@ export default function SignupForm() {
         <EmailField onEmailSent={() => setIsEmailSent(true)} />
         {isEmailSent && <EmailConfirmField timer="5:00" />}
         <PasswordField />
-        <PasswordConfirmField />
+        <PasswordConfirmField
+          isPasswordConfirmed={isPasswordConfirmed}
+          onChangeConfirmStatus={(isConfirmed) =>
+            setIsPasswordConfirmed(isConfirmed)
+          }
+        />
         <div className="flex flex-col">
           <Spacing size={108} />
           <Button
             className="w-full"
             type="button"
             onClick={form.handleSubmit(onSubmit)}
-            disabled={isPending}
+            disabled={submitDisabled}
           >
             {isPending ? '회원가입 중...' : '회원가입'}
           </Button>
