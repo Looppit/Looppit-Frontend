@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 
+import { useRouter } from 'next/navigation';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useSignup } from '@/domains/signup/hooks';
@@ -18,6 +20,7 @@ import PasswordConfirmField from './password-confirm-field';
 import PasswordField from './password-field';
 
 export default function SignupForm() {
+  const router = useRouter();
   const form = useForm<SignupFormValues>({
     resolver: zodResolver(signupFormSchema),
     mode: 'onChange',
@@ -36,7 +39,9 @@ export default function SignupForm() {
     if (submitDisabled) return;
 
     try {
-      const response = await signup(data);
+      await signup(data);
+      toast.success('회원가입이 완료되었습니다!');
+      router.push('/login');
     } catch (error) {
       if (isApiError(error)) {
         toast.error(error?.message);
