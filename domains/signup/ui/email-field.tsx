@@ -25,7 +25,8 @@ export default function EmailField({ onEmailSendSuccess }: EmailFieldProps) {
   } = useEmailSendMutation();
   const { isSuccess: isEmailCertificationSuccess } =
     useEmailCertificationMutation();
-  const { startTimer, isRunning: isTimerRunning } = useTimer(60);
+  const { startTimer: startEmailResendTimer, isRunning: isTimerRunning } =
+    useTimer(60);
 
   const emailValue = getValues('email');
   const error = formState.errors.email;
@@ -43,7 +44,7 @@ export default function EmailField({ onEmailSendSuccess }: EmailFieldProps) {
     }
 
     try {
-      startTimer();
+      startEmailResendTimer();
       await sendEmail({ email: emailValue });
 
       toast.success('이메일 인증 메일이 발송되었습니다.');

@@ -29,11 +29,15 @@ export default function SignupForm() {
       password: '',
     },
   });
-  const { mutateAsync: signup, isPending } = useSignup();
-  const { startTimer, endTimer, formattedTime } = useTimer(300);
+  const { mutateAsync: signup, isPending: isSignupPending } = useSignup();
+  const {
+    startTimer: startEmailCertificationTimer,
+    endTimer: endEmailCertificationTimer,
+    formattedTime: formattedEmailCertificationTime,
+  } = useTimer(300);
 
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
-  const submitDisabled = isPending || !isPasswordConfirmed;
+  const submitDisabled = isSignupPending || !isPasswordConfirmed;
 
   const onSubmit = async (data: SignupFormValues) => {
     if (submitDisabled) return;
@@ -55,10 +59,10 @@ export default function SignupForm() {
         className="flex flex-col gap-4"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <EmailField onEmailSendSuccess={() => startTimer()} />
+        <EmailField onEmailSendSuccess={() => startEmailCertificationTimer()} />
         <EmailConfirmField
-          time={formattedTime}
-          onEmailCertificationSuccess={() => endTimer()}
+          time={formattedEmailCertificationTime}
+          onEmailCertificationSuccess={() => endEmailCertificationTimer()}
         />
         <PasswordField />
         <PasswordConfirmField
@@ -75,7 +79,7 @@ export default function SignupForm() {
             onClick={form.handleSubmit(onSubmit)}
             disabled={submitDisabled}
           >
-            {isPending ? '회원가입 중...' : '회원가입'}
+            {isSignupPending ? '회원가입 중...' : '회원가입'}
           </Button>
           <Toaster position="top-center" />
         </div>

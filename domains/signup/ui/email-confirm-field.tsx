@@ -29,13 +29,13 @@ export default function EmailConfirmField({
   const { getValues } = useFormContext<SignupFormValues>();
   const {
     mutateAsync: certifyEmail,
-    isPending,
-    error,
+    isPending: isCertificationPending,
+    error: certificationError,
   } = useEmailCertificationMutation();
-  const isDisabled = isPending || code.length !== 6;
+  const isCertificationDisabled = isCertificationPending || code.length !== 6;
 
   const handleConfirm = async () => {
-    if (isDisabled) return;
+    if (isCertificationDisabled) return;
 
     try {
       const email = getValues('email');
@@ -58,6 +58,7 @@ export default function EmailConfirmField({
           <InputGroup>
             <InputGroupInput
               value={code}
+              maxLength={6}
               onChange={(e) => setCode(e.target.value)}
               placeholder="인증번호 6자리를 입력해주세요."
             />
@@ -68,7 +69,8 @@ export default function EmailConfirmField({
             </InputGroupAddon>
           </InputGroup>
           <Button
-            disabled={isDisabled}
+            className="w-[84px]"
+            disabled={isCertificationDisabled}
             variant="outline"
             onClick={handleConfirm}
           >
@@ -76,7 +78,11 @@ export default function EmailConfirmField({
           </Button>
         </div>
       </FormControl>
-      {error && <FieldError errors={error ? [error] : undefined} />}
+      {certificationError && (
+        <FieldError
+          errors={certificationError ? [certificationError] : undefined}
+        />
+      )}
     </FormItem>
   );
 }
