@@ -15,6 +15,7 @@ import EmailConfirmField from './email-confirm-field';
 import EmailField from './email-field';
 import PasswordConfirmField from './password-confirm-field';
 import PasswordField from './password-field';
+import { useEmailSendMutation } from '../hooks/use-email-verification';
 
 export default function SignupForm() {
   const form = useForm<SignupFormValues>({
@@ -26,9 +27,11 @@ export default function SignupForm() {
     },
   });
   const { mutateAsync: signup, isPending } = useSignup();
-  const [isEmailSent, setIsEmailSent] = useState(false);
+  const { isSuccess: isEmailSendSuccess } = useEmailSendMutation();
+
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
-  const submitDisabled = isPending || !isEmailSent || !isPasswordConfirmed;
+  const submitDisabled =
+    isPending || !isEmailSendSuccess || !isPasswordConfirmed;
 
   const onSubmit = async (data: SignupFormValues) => {
     if (submitDisabled) return;
@@ -48,8 +51,8 @@ export default function SignupForm() {
         className="flex flex-col gap-4"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <EmailField onEmailSent={() => setIsEmailSent(true)} />
-        {isEmailSent && <EmailConfirmField timer="5:00" />}
+        <EmailField />
+        {isEmailSendSuccess && <EmailConfirmField timer="5:00" />}
         <PasswordField />
         <PasswordConfirmField
           isPasswordConfirmed={isPasswordConfirmed}
