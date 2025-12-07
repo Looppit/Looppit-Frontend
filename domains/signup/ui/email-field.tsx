@@ -16,15 +16,21 @@ interface EmailFieldProps {
 
 export default function EmailField({ onEmailSent }: EmailFieldProps) {
   const { control, formState, getValues } = useFormContext<SignupFormValues>();
-  const { mutateAsync: sendEmail, isPending } = useEmailSendMutation();
+  const {
+    mutateAsync: sendEmail,
+    isPending,
+    isSuccess,
+  } = useEmailSendMutation();
+  const emailValue = getValues('email');
   const error = formState.errors.email;
+  const isCertificationDisabled =
+    emailValue === '' || isPending || error !== undefined;
 
   const handleVerifyEmail = async () => {
-    if (isPending || error !== undefined) return;
+    if (isCertificationDisabled) return;
 
     try {
-      const email = getValues('email');
-      await sendEmail({ email });
+      await sendEmail({ email: emailValue });
 
       toast.success('이메일 인증 메일이 발송되었습니다.');
       onEmailSent();
@@ -46,11 +52,12 @@ export default function EmailField({ onEmailSent }: EmailFieldProps) {
             <div className="flex items-center gap-2">
               <Input {...field} placeholder="이메일을 입력해주세요." />
               <Button
-                disabled={isPending || error !== undefined}
+                className="w-[84px]"
+                disabled={isCertificationDisabled}
                 variant="outline"
                 onClick={handleVerifyEmail}
               >
-                인증하기
+                {isSuccess ? '재발송' : '인증하기'}
               </Button>
             </div>
           </FormControl>
