@@ -6,7 +6,7 @@ import { LoginForm } from './ui';
 
 export default function LoginScreen() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 px-6">
       <Spacing size={157} />
       <h1 className="text-2xl font-bold">
         우리 App
