@@ -12,7 +12,7 @@ export const postEmailSendRequest = async (data: EmailSendRequest) => {
   const endpoint = withQueryParams('/email/send', { email: data.email });
   const response = await apiClient.post<EmailSendResponse>(endpoint);
 
-  return response.data;
+  return response;
 };
 
 export const postEmailCertifyRequest = async (data: EmailCertifyRequest) => {
@@ -22,5 +22,5 @@ export const postEmailCertifyRequest = async (data: EmailCertifyRequest) => {
   });
   const response = await apiClient.post<EmailCertifyResponse>(endpoint, data);
 
-  return response.data;
+  return response;
 };

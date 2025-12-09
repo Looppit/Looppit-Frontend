@@ -1,21 +1,21 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance } from 'axios';
 
+import type { RequestConfig } from '@/shared/api/api.types';
+import { initAxiosInstance } from '@/shared/api/utils/api.instance';
 import {
   setupErrorInterceptors,
   setupRequestInterceptor,
 } from '@/shared/api/utils/api.interceptors';
-import { initAxiosInstance } from '@/shared/api/utils/api.instance';
-import type { RequestConfig } from '@/shared/api/api.types';
 
 export class ApiClient {
   constructor(private readonly client: AxiosInstance) {}
 
   get<T>(endpoint: string, headers?: Record<string, string>) {
-    return this.request<AxiosResponse<T>>(endpoint, { method: 'GET', headers });
+    return this.request<T>(endpoint, { method: 'GET', headers });
   }
 
   post<T>(endpoint: string, body?: unknown, headers?: Record<string, string>) {
-    return this.request<AxiosResponse<T>>(endpoint, {
+    return this.request<T>(endpoint, {
       method: 'POST',
       body,
       headers,
@@ -23,7 +23,7 @@ export class ApiClient {
   }
 
   put<T>(endpoint: string, body?: unknown, headers?: Record<string, string>) {
-    return this.request<AxiosResponse<T>>(endpoint, {
+    return this.request<T>(endpoint, {
       method: 'PUT',
       body,
       headers,
@@ -31,7 +31,7 @@ export class ApiClient {
   }
 
   delete<T>(endpoint: string, headers?: Record<string, string>) {
-    return this.request<AxiosResponse<T>>(endpoint, {
+    return this.request<T>(endpoint, {
       method: 'DELETE',
       headers,
     });
