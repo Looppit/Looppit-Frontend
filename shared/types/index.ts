@@ -1,2 +1,2 @@
 export * from './components';
-export * from './zod';
+export * from './bridge';
