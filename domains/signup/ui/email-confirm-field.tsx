@@ -1,5 +1,8 @@
 import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
+import { isApiError } from '@/shared/guard';
 import { Button } from '@/shared/ui/button';
 import { FieldError } from '@/shared/ui/field';
 import { FormControl, FormItem, FormLabel } from '@/shared/ui/form';
@@ -10,17 +13,41 @@ import {
   InputGroupText,
 } from '@/shared/ui/input-group';
 
+import { useEmailCertificationMutation } from '../hooks';
+import { SignupFormValues } from '../types';
+
 interface EmailConfirmFieldProps {
-  timer: string;
+  time: string;
+  onEmailCertificationSuccess: () => void;
 }
 
 export default function EmailConfirmField({
-  timer = '5:00',
+  time,
+  onEmailCertificationSuccess,
 }: EmailConfirmFieldProps) {
-  const [error, setError] = useState<string | null>(null);
+  const [code, setCode] = useState('');
+  const { getValues } = useFormContext<SignupFormValues>();
+  const {
+    mutateAsync: certifyEmail,
+    isPending: isCertificationPending,
+    error: certificationError,
+  } = useEmailCertificationMutation();
+  const isCertificationDisabled = isCertificationPending || code.length !== 6;
 
-  const handleConfirm = () => {
-    setError('이메일 인증에 실패했습니다.');
+  const handleConfirm = async () => {
+    if (isCertificationDisabled) return;
+
+    try {
+      const email = getValues('email');
+      await certifyEmail({ email, code });
+
+      toast.success('이메일 인증이 완료되었습니다.');
+      onEmailCertificationSuccess();
+    } catch (error) {
+      if (isApiError(error)) {
+        toast.error(error.message);
+      }
+    }
   };
 
   return (
@@ -29,19 +56,33 @@ export default function EmailConfirmField({
       <FormControl>
         <div className="flex items-center gap-2">
           <InputGroup>
-            <InputGroupInput placeholder="인증번호를 입력해주세요." />
+            <InputGroupInput
+              value={code}
+              maxLength={6}
+              onChange={(e) => setCode(e.target.value)}
+              placeholder="인증번호 6자리를 입력해주세요."
+            />
             <InputGroupAddon align="inline-end">
               <InputGroupText className="text-xs text-gray-500">
-                {timer}
+                {time}
               </InputGroupText>
             </InputGroupAddon>
           </InputGroup>
-          <Button variant="outline" onClick={handleConfirm}>
+          <Button
+            className="w-[84px]"
+            disabled={isCertificationDisabled}
+            variant="outline"
+            onClick={handleConfirm}
+          >
             인증하기
           </Button>
         </div>
       </FormControl>
-      {error && <FieldError>{error}</FieldError>}
+      {certificationError && (
+        <FieldError
+          errors={certificationError ? [certificationError] : undefined}
+        />
+      )}
     </FormItem>
   );
 }

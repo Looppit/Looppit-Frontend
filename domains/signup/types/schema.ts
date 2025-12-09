@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { SIGNUP_ERROR_MESSAGES } from './signup.constants';
+import { SIGNUP_ERROR_MESSAGES } from '@/domains/signup/constants';
 
 export type SignupErrorMessageKeys = 'email' | 'password';
 

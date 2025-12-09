@@ -1,6 +1,5 @@
+import { SignupErrorMessageKeys } from '@/domains/signup/types';
 import { ExtendedZodErrorMessageMap } from '@/shared/types';
-
-import { SignupErrorMessageKeys } from './signup.types';
 
 type SignupErrorMessageValues = Record<
   SignupErrorMessageKeys,

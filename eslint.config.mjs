@@ -1,9 +1,9 @@
+import pluginQuery from '@tanstack/eslint-plugin-query';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
 import importPlugin from 'eslint-plugin-import';
 import prettier from 'eslint-plugin-prettier';
-import pluginQuery from '@tanstack/eslint-plugin-query';
 
 const eslintConfig = defineConfig([
   ...nextVitals,

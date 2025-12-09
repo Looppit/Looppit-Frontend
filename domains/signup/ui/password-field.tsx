@@ -1,5 +1,6 @@
 import { useFormContext } from 'react-hook-form';
 
+import { SignupFormValues } from '@/domains/signup/types';
 import { FieldError } from '@/shared/ui/field';
 import {
   FormControl,
@@ -9,8 +10,6 @@ import {
   FormLabel,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
-
-import { SignupFormValues } from '../signup.types';
 
 export default function PasswordField() {
   const { control, formState } = useFormContext<SignupFormValues>();

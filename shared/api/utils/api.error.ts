@@ -1,4 +1,5 @@
 import { DEFAULT_ERROR_MESSAGE, ERROR_MESSAGE_MAP } from '../api.constants';
+
 import type { ApiError, ErrorResponse, ErrorStatusKey } from '../api.types';
 
 export const transformError = (
@@ -34,7 +35,7 @@ export const handleResponseError = (error: {
   }
 
   const errorResponse = data as ErrorResponse | undefined;
-  const apiError = errorResponse?.error || transformError(status);
+  const apiError = transformError(status, errorResponse?.message);
 
   return Promise.reject(apiError);
 };
