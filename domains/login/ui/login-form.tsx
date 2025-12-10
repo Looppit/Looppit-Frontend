@@ -22,14 +22,19 @@ export default function LoginForm() {
     defaultValues: LOGIN_DEFAULT_VALUES,
   });
   const { mutateAsync: loginMutation, isPending: isLoginPending } = useLogin();
+  const submitDisabled = isLoginPending;
 
-  const onSubmit = async (data: LoginFormValues) => {
+  const handleSubmitForm = async (data: LoginFormValues) => {
     try {
-      const response = await loginMutation(data);
+      const formData = new FormData();
+      formData.append('email', data.email);
+      formData.append('password', data.password);
 
-      router.push('/');
+      const response = await loginMutation(formData);
 
-      toast.success('로그인 성공');
+      if (response) {
+        router.push('/');
+      }
     } catch (error) {
       if (isApiError(error)) {
         toast.error(error.message);
@@ -43,7 +48,11 @@ export default function LoginForm() {
         <EmailField />
         <PasswordField />
         <div className="flex flex-col items-center justify-center gap-2">
-          <Button onClick={form.handleSubmit(onSubmit)} className="w-full">
+          <Button
+            onClick={form.handleSubmit(handleSubmitForm)}
+            className="w-full"
+            disabled={submitDisabled}
+          >
             {isLoginPending ? '로그인 중...' : '로그인'}
           </Button>
           <span className="text-sm text-gray-500">비밀번호 찾기</span>
