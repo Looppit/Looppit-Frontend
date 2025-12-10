@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { postLoginRequest } from '../api';
+import { loginAction } from '../api';
 
 export const useLogin = () => {
   return useMutation({
-    mutationFn: postLoginRequest,
+    mutationFn: (formData: FormData) => loginAction(formData),
   });
 };
