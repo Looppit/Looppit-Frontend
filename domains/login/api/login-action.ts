@@ -16,7 +16,6 @@ export const loginAction = async (
       method: 'POST',
       body: formData,
     });
-
     await setTokensToCookies(data);
 
     return data;

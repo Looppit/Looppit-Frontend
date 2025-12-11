@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 
 import { DEFAULT_ERROR_MESSAGE, ERROR_MESSAGE_MAP } from '../api.constants';
-import { handleAuthorizedError } from './api.refresh';
+import { handleUnAuthorizedError } from './api.refresh';
 import { isErrorStatusKey } from './api.type-guard';
 
 import type { ApiError, ErrorResponse } from '../api.types';
@@ -24,7 +24,7 @@ export const handleUnauthorized = (error: AxiosError) => {
     window.location.href = '/login';
   }
 
-  handleAuthorizedError(error);
+  handleUnAuthorizedError(error);
 };
 
 export const handleNetworkError = () => {

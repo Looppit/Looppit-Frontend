@@ -10,8 +10,8 @@ export const isGuestRoute = (request: NextRequest) => {
 };
 
 export const hasSession = (request: NextRequest) => {
-  const accessToken = request.cookies.get('accessToken');
-  return !!accessToken;
+  const refreshToken = request.cookies.get('refreshToken');
+  return !!refreshToken;
 };
 
 export const isProtectedRoute = (request: NextRequest) => {

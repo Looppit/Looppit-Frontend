@@ -1,7 +1,7 @@
 import { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { getDefaultStore } from 'jotai';
 
-import { refreshTokenAtom, tokenAtom } from '@/shared/store/auth.atom';
+import { tokenAtom } from '@/shared/store/auth.atom';
 
 import { fetchRefreshToken } from './api.action';
 
@@ -38,7 +38,7 @@ class RefreshTokenHandler {
     });
   }
 
-  async handleAuthorizedError(
+  async handleUnAuthorizedError(
     error: AxiosError,
   ): Promise<InternalAxiosRequestConfig> {
     this.isRefreshing = true;
@@ -47,15 +47,15 @@ class RefreshTokenHandler {
     if (!originalRequest) {
       return Promise.reject(error);
     }
+
     if (this.isRefreshing) {
       this.addSuspendedRequest(originalRequest);
     }
 
     try {
-      const { accessToken, refreshToken } = await fetchRefreshToken();
+      const { accessToken } = await fetchRefreshToken();
 
       store.set(tokenAtom, accessToken);
-      store.set(refreshTokenAtom, refreshToken);
 
       return await this.processSuspendedRequests(accessToken);
     } catch (error) {
@@ -69,5 +69,5 @@ class RefreshTokenHandler {
 
 const refreshTokenHandler = new RefreshTokenHandler();
 
-export const handleAuthorizedError = async (error: AxiosError) =>
-  await refreshTokenHandler.handleAuthorizedError(error);
+export const handleUnAuthorizedError = async (error: AxiosError) =>
+  await refreshTokenHandler.handleUnAuthorizedError(error);
