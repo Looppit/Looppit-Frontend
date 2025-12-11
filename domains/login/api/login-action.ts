@@ -1,10 +1,8 @@
 'use server';
 
-import { cookies } from 'next/headers';
-
 import { ERROR_MESSAGE_MAP } from '@/shared/api/api.constants';
 import { ApiError, ErrorStatusKey } from '@/shared/api/api.types';
-import { getProjectConfig } from '@/shared/utils';
+import { getProjectConfig, setTokensToCookies } from '@/shared/utils';
 
 import { LoginResponse } from '../types';
 
@@ -49,22 +47,4 @@ export const loginAction = async (
       field: undefined,
     };
   }
-};
-
-const setTokensToCookies = async (data: LoginResponse) => {
-  const cookieStore = await cookies();
-  const { isProduction } = getProjectConfig();
-
-  cookieStore.set('accessToken', data.accessToken, {
-    httpOnly: true,
-    secure: isProduction,
-    sameSite: 'lax',
-    maxAge: 60 * 5,
-  });
-  cookieStore.set('refreshToken', data.refreshToken, {
-    httpOnly: true,
-    secure: isProduction,
-    sameSite: 'lax',
-    maxAge: 60 * 60 * 24 * 7,
-  });
 };
