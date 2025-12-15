@@ -2,9 +2,12 @@
 
 import { Spacing } from '@/shared/ui/spacing';
 
+import { useOAuthError } from './hooks';
 import { LoginForm } from './ui';
 
 export default function LoginScreen() {
+  useOAuthError();
+
   return (
     <div className="flex flex-col gap-6 px-6">
       <Spacing size={157} />

@@ -8,6 +8,7 @@ import { Form } from '@/shared/ui/form';
 import { loginFormSchema, LoginFormValues } from '../login.types';
 import EmailField from './email-field';
 import PasswordField from './password-field';
+import SocialLoginButtons from './social-login-buttons';
 import { LOGIN_DEFAULT_VALUES } from '../constants';
 
 export default function LoginForm() {
@@ -34,6 +35,7 @@ export default function LoginForm() {
           </Button>
           <span className="text-sm text-gray-500">비밀번호 찾기</span>
         </div>
+        <SocialLoginButtons />
       </form>
     </Form>
   );
