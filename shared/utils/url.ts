@@ -1,20 +1,30 @@
 import type { QueryValue } from '@/shared/api/api.types';
 
+const setQueryParams = (
+  searchParams: URLSearchParams,
+  queryParams: Record<string, QueryValue>,
+): void => {
+  Object.entries(queryParams).forEach(([key, value]) => {
+    if (value !== null && value !== undefined) {
+      searchParams.set(key, String(value));
+    }
+  });
+};
+
 export const buildUrl = (
   baseUrl: string,
   pathname: string,
   queryParams?: Record<string, QueryValue>,
 ): string => {
-  const url = new URL(pathname, baseUrl);
-
-  if (queryParams) {
-    Object.entries(queryParams).forEach(([key, value]) => {
-      if (value !== null && value !== undefined) {
-        url.searchParams.set(key, String(value));
-      }
-    });
+  if (!baseUrl) {
+    const searchParams = new URLSearchParams();
+    if (queryParams) setQueryParams(searchParams, queryParams);
+    const queryString = searchParams.toString();
+    return queryString ? `${pathname}?${queryString}` : pathname;
   }
 
+  const url = new URL(pathname, baseUrl);
+  if (queryParams) setQueryParams(url.searchParams, queryParams);
   return url.toString();
 };
 
