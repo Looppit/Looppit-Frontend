@@ -1,5 +1,6 @@
 'use client';
 
+import SocialLoginButtons from '@/domains/login/ui/social-login-buttons';
 import { Spacing } from '@/shared/ui/spacing';
 
 import { useOAuthError } from './hooks';
@@ -17,6 +18,7 @@ export default function LoginScreen() {
       </h1>
       <Spacing size={157} />
       <LoginForm />
+      <SocialLoginButtons />
     </div>
   );
 }
