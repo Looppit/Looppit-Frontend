@@ -1,4 +1,8 @@
 import { AxiosError } from 'axios';
+import { getDefaultStore } from 'jotai';
+
+import { tokenAtom } from '@/shared/store/auth.atom';
+import { removeTokensFromCookies } from '@/shared/utils';
 
 import { DEFAULT_ERROR_MESSAGE, ERROR_MESSAGE_MAP } from '../api.constants';
 import { handleUnAuthorizedError } from './api.refresh';
@@ -19,12 +23,21 @@ export const transformError = (
   };
 };
 
+const onAuthorizationError = async () => {
+  const store = getDefaultStore();
+
+  await removeTokensFromCookies();
+  store.set(tokenAtom, null);
+
+  window.location.href = '/login';
+};
+
 export const handleUnauthorized = (error: AxiosError) => {
   if (typeof window !== 'undefined') {
     window.location.href = '/login';
   }
 
-  return handleUnAuthorizedError(error);
+  return handleUnAuthorizedError(error, onAuthorizationError);
 };
 
 export const handleNetworkError = () => {

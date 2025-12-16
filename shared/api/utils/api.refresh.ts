@@ -2,7 +2,6 @@ import { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { getDefaultStore } from 'jotai';
 
 import { tokenAtom } from '@/shared/store/auth.atom';
-import { removeTokensFromCookies } from '@/shared/utils';
 
 import { fetchRefreshToken } from './api.action';
 
@@ -17,12 +16,10 @@ type SuspendedRequest = {
 class RefreshTokenHandler {
   private isRefreshing: boolean;
   private suspendedRequests: SuspendedRequest[];
-  private onAuthorizationError: () => void;
 
-  constructor(onAuthorizationError: () => void) {
+  constructor() {
     this.isRefreshing = false;
     this.suspendedRequests = [];
-    this.onAuthorizationError = onAuthorizationError;
   }
 
   private addSuspendedRequest(config: InternalAxiosRequestConfig) {
@@ -54,7 +51,10 @@ class RefreshTokenHandler {
     );
   }
 
-  async handleUnAuthorizedError(error: AxiosError) {
+  async handleUnAuthorizedError(
+    error: AxiosError,
+    onAuthorizationError: () => void,
+  ) {
     const originalRequest = error.config;
 
     if (!originalRequest) {
@@ -77,7 +77,7 @@ class RefreshTokenHandler {
       originalRequest.headers.Authorization = `Bearer ${accessToken}`;
       return originalRequest;
     } catch (error) {
-      this.onAuthorizationError();
+      onAuthorizationError();
       this.rejectSuspendedRequests(error);
 
       return Promise.reject(error);
@@ -87,14 +87,13 @@ class RefreshTokenHandler {
   }
 }
 
-const onAuthorizationError = async () => {
-  await removeTokensFromCookies();
-  store.set(tokenAtom, null);
+const refreshTokenHandler = new RefreshTokenHandler();
 
-  window.location.href = '/login';
-};
-
-const refreshTokenHandler = new RefreshTokenHandler(onAuthorizationError);
-
-export const handleUnAuthorizedError = async (error: AxiosError) =>
-  await refreshTokenHandler.handleUnAuthorizedError(error);
+export const handleUnAuthorizedError = async (
+  error: AxiosError,
+  onAuthorizationError: () => void,
+) =>
+  await refreshTokenHandler.handleUnAuthorizedError(
+    error,
+    onAuthorizationError,
+  );
