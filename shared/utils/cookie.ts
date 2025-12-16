@@ -4,36 +4,30 @@ import { cookies } from 'next/headers';
 
 import { getProjectConfig } from './env';
 
-export const setAccessTokenToCookie = async (accessToken: string) => {
+type CookieOptions = {
+  httpOnly?: boolean;
+  secure?: boolean;
+  sameSite?: 'lax' | 'strict' | 'none';
+  maxAge?: number;
+};
+
+type setCookieProps = {
+  key: string;
+  value: string;
+  options: CookieOptions;
+};
+
+export const setCookie = async ({ key, value, options }: setCookieProps) => {
   const cookieStore = await cookies();
   const { isProduction } = getProjectConfig();
 
-  cookieStore.set('accessToken', accessToken, {
-    httpOnly: true,
-    secure: isProduction,
-    sameSite: 'lax',
-    maxAge: 60 * 5,
+  const { httpOnly, secure, sameSite, maxAge } = options;
+  const secureValue = isProduction ? secure : false;
+
+  cookieStore.set(key, value, {
+    httpOnly,
+    secure: secureValue,
+    sameSite,
+    maxAge,
   });
-};
-
-export const setRefreshTokenToCookie = async (refreshToken: string) => {
-  const cookieStore = await cookies();
-  const { isProduction } = getProjectConfig();
-
-  cookieStore.set('refreshToken', refreshToken, {
-    httpOnly: true,
-    secure: isProduction,
-    sameSite: 'lax',
-    maxAge: 60 * 60 * 24 * 7,
-  });
-};
-
-type Tokens = {
-  accessToken: string;
-  refreshToken: string;
-};
-
-export const setTokensToCookies = async (data: Tokens) => {
-  await setAccessTokenToCookie(data.accessToken);
-  await setRefreshTokenToCookie(data.refreshToken);
 };

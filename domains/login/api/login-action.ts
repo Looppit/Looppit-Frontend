@@ -2,9 +2,10 @@
 
 import { ERROR_MESSAGE_MAP } from '@/shared/api/api.constants';
 import { ApiError, ErrorStatusKey } from '@/shared/api/api.types';
-import { getProjectConfig, setTokensToCookies } from '@/shared/utils';
+import { getProjectConfig } from '@/shared/utils';
 
 import { LoginResponse } from '../types';
+import { setTokensToCookies } from '../utils';
 
 export const loginAction = async (
   formData: FormData,
