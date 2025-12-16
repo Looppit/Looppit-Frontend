@@ -1,4 +1,4 @@
-import { setCookie } from '@/shared/utils';
+import { removeCookie, setCookie } from '@/shared/utils';
 
 export const setAccessTokenToCookie = async (accessToken: string) => {
   await setCookie({
@@ -28,4 +28,9 @@ type Tokens = {
 export const setTokensToCookies = async (data: Tokens) => {
   await setAccessTokenToCookie(data.accessToken);
   await setRefreshTokenToCookie(data.refreshToken);
+};
+
+export const removeTokensFromCookies = async () => {
+  await removeCookie('accessToken');
+  await removeCookie('refreshToken');
 };

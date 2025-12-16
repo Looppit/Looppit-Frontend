@@ -2,6 +2,7 @@ import { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { getDefaultStore } from 'jotai';
 
 import { tokenAtom } from '@/shared/store/auth.atom';
+import { removeTokensFromCookies } from '@/shared/utils';
 
 import { fetchRefreshToken } from './api.action';
 
@@ -16,10 +17,12 @@ type SuspendedRequest = {
 class RefreshTokenHandler {
   private isRefreshing: boolean;
   private suspendedRequests: SuspendedRequest[];
+  private onAuthorizationError: () => void;
 
-  constructor() {
+  constructor(onAuthorizationError: () => void) {
     this.isRefreshing = false;
     this.suspendedRequests = [];
+    this.onAuthorizationError = onAuthorizationError;
   }
 
   private addSuspendedRequest(config: InternalAxiosRequestConfig) {
@@ -39,6 +42,14 @@ class RefreshTokenHandler {
         suspendedRequest.config.headers.Authorization = `Bearer ${refreshToken}`;
 
         suspendedRequest.resolve(suspendedRequest.config);
+      }),
+    );
+  }
+
+  private rejectSuspendedRequests(error: unknown) {
+    return Promise.all(
+      this.suspendedRequests.map((suspendedRequest) => {
+        suspendedRequest.reject(error);
       }),
     );
   }
@@ -66,6 +77,9 @@ class RefreshTokenHandler {
       originalRequest.headers.Authorization = `Bearer ${accessToken}`;
       return originalRequest;
     } catch (error) {
+      this.onAuthorizationError();
+      this.rejectSuspendedRequests(error);
+
       return Promise.reject(error);
     } finally {
       this.clearSuspendedRequests();
@@ -73,7 +87,14 @@ class RefreshTokenHandler {
   }
 }
 
-const refreshTokenHandler = new RefreshTokenHandler();
+const onAuthorizationError = async () => {
+  await removeTokensFromCookies();
+  store.set(tokenAtom, null);
+
+  window.location.href = '/login';
+};
+
+const refreshTokenHandler = new RefreshTokenHandler(onAuthorizationError);
 
 export const handleUnAuthorizedError = async (error: AxiosError) =>
   await refreshTokenHandler.handleUnAuthorizedError(error);
