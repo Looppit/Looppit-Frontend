@@ -3,9 +3,9 @@
 import { apiFetch } from '@/shared/api/api.fetch';
 import { ApiError } from '@/shared/api/api.types';
 import { FetchError } from '@/shared/api/fetch.error';
+import { setTokensToCookies } from '@/shared/utils';
 
 import { LoginResponse } from '../types';
-import { setTokensToCookies } from '../utils';
 
 export const loginAction = async (
   formData: FormData,
