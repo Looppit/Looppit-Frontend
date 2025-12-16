@@ -1,3 +1,5 @@
+import { IS_DEVELOPMENT } from '@/shared/constants';
+
 /**
  * Error 객체인지 확인하는 타입 가드
  * @param error - 확인할 에러 객체
@@ -5,6 +7,15 @@
  */
 export const isError = (error: unknown): error is Error => {
   return error instanceof Error;
+};
+/**
+ * production이 아닐 때 에러 메시지 앞에 [WEB] 접두사 추가
+ */
+const prefixErrorMessage = (message: string): string => {
+  if (IS_DEVELOPMENT) {
+    return `[WEB] ${message}`;
+  }
+  return message;
 };
 
 /**

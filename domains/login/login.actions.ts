@@ -12,25 +12,16 @@ import {
   platformHandler,
 } from '@/shared/utils';
 
-/**
- * Auth 도메인 브릿지 액션 상수
- */
-const ACTION_TYPE = 'USER_ACTION';
-const NEXT_AUTH_OPTIONS = {
-  callbackUrl: '/',
-};
-const BRIDGE_REQUEST_OPTIONS = {
-  action: 'kakao_login',
-};
-const DEFAULT_ERROR_MESSAGE = '네트워크나 기타 알 수 없는 에러가 발생했습니다.';
+import {
+  ACTION_TYPE,
+  BRIDGE_REQUEST_OPTIONS,
+  DEFAULT_ERROR_MESSAGE,
+  KAKAO_ERROR_CODE,
+  NEXT_AUTH_OPTIONS,
+} from './constants';
+import { getKakaoErrorMessage } from './ui/social-login.utils';
 
-type KakaoLoginResponse = {
-  success: true;
-  data: {
-    providerId: number;
-    email: string;
-  };
-};
+import type { KakaoLoginResponse } from './login.types';
 
 /**
  * 에러를 처리하고 사용자에게 알림을 표시합니다.
@@ -57,9 +48,21 @@ const handleKakaoAppLogin = async () => {
     BRIDGE_REQUEST_OPTIONS,
   );
 
+  if (!result.success) {
+    const errorCode = result.error;
+    const isCancelled = errorCode === KAKAO_ERROR_CODE.CANCELLED;
+
+    if (!isCancelled) {
+      const errorMessage = getKakaoErrorMessage(errorCode!);
+      alert(errorMessage);
+    }
+    return;
+  }
+
+  const { email, providerId } = result.data;
   const redirectUrl = buildUrl('', '/api/auth/oauth/exchange', {
-    email: result.data.email,
-    providerId: result.data.providerId,
+    email,
+    providerId,
     provider: 'kakao',
   });
 

@@ -5,6 +5,11 @@ import {
   SocialProvider,
 } from '@/domains/auth';
 
+import {
+  KAKAO_DEFAULT_ERROR_MESSAGE,
+  KAKAO_ERROR_MESSAGES,
+} from '../constants/kakao.constants';
+
 export const getSocialProviderStyles = (provider: SocialProvider): string => {
   switch (provider) {
     case SOCIAL_PROVIDER_GOOGLE:
@@ -16,4 +21,8 @@ export const getSocialProviderStyles = (provider: SocialProvider): string => {
     default:
       return '';
   }
+};
+
+export const getKakaoErrorMessage = (error: string): string => {
+  return KAKAO_ERROR_MESSAGES[error] ?? KAKAO_DEFAULT_ERROR_MESSAGE;
 };
