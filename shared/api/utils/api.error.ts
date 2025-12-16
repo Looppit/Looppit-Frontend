@@ -24,7 +24,7 @@ export const handleUnauthorized = (error: AxiosError) => {
     window.location.href = '/login';
   }
 
-  handleUnAuthorizedError(error);
+  return handleUnAuthorizedError(error);
 };
 
 export const handleNetworkError = () => {
@@ -39,7 +39,7 @@ export const handleResponseError = (error: AxiosError) => {
   const { status, data } = error.response;
 
   if (status === 401) {
-    handleUnauthorized(error);
+    return handleUnauthorized(error);
   }
 
   const errorResponse = data as ErrorResponse | undefined;

@@ -7,41 +7,43 @@ import { fetchRefreshToken } from './api.action';
 
 const store = getDefaultStore();
 
+type SuspendedRequest = {
+  config: InternalAxiosRequestConfig;
+  resolve: (value: unknown) => void;
+  reject: (reason?: unknown) => void;
+};
+
 class RefreshTokenHandler {
   private isRefreshing: boolean;
-  private suspendedRequests: InternalAxiosRequestConfig[];
+  private suspendedRequests: SuspendedRequest[];
 
   constructor() {
     this.isRefreshing = false;
     this.suspendedRequests = [];
   }
 
-  private addSuspendedRequest(error: InternalAxiosRequestConfig): void {
-    this.suspendedRequests.push(error);
+  private addSuspendedRequest(config: InternalAxiosRequestConfig) {
+    return new Promise((resolve, reject) => {
+      this.suspendedRequests.push({ config, resolve, reject });
+    });
   }
 
   private clearSuspendedRequests(): void {
     this.suspendedRequests = [];
+    this.isRefreshing = false;
   }
 
-  private processSuspendedRequests(
-    refreshToken: string,
-  ): Promise<InternalAxiosRequestConfig> {
-    return new Promise((resolve) => {
-      this.suspendedRequests.forEach((request) => {
-        if (!request) {
-          throw new Error('Failed to refresh token');
-        }
-        request.headers.Authorization = `Bearer ${refreshToken}`;
-        resolve(request);
-      });
-    });
+  private processSuspendedRequests(refreshToken: string) {
+    return Promise.all(
+      this.suspendedRequests.map((suspendedRequest) => {
+        suspendedRequest.config.headers.Authorization = `Bearer ${refreshToken}`;
+
+        suspendedRequest.resolve(suspendedRequest.config);
+      }),
+    );
   }
 
-  async handleUnAuthorizedError(
-    error: AxiosError,
-  ): Promise<InternalAxiosRequestConfig> {
-    this.isRefreshing = true;
+  async handleUnAuthorizedError(error: AxiosError) {
     const originalRequest = error.config;
 
     if (!originalRequest) {
@@ -49,19 +51,23 @@ class RefreshTokenHandler {
     }
 
     if (this.isRefreshing) {
-      this.addSuspendedRequest(originalRequest);
+      return await this.addSuspendedRequest(originalRequest);
     }
+
+    this.isRefreshing = true;
 
     try {
       const { accessToken } = await fetchRefreshToken();
 
       store.set(tokenAtom, accessToken);
 
-      return await this.processSuspendedRequests(accessToken);
+      this.processSuspendedRequests(accessToken);
+
+      originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+      return originalRequest;
     } catch (error) {
-      throw error;
+      return Promise.reject(error);
     } finally {
-      this.isRefreshing = false;
       this.clearSuspendedRequests();
     }
   }
