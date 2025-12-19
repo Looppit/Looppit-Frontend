@@ -31,3 +31,8 @@ export const setCookie = async ({ key, value, options }: setCookieProps) => {
     maxAge,
   });
 };
+
+export const removeCookie = async (key: string) => {
+  const cookieStore = await cookies();
+  cookieStore.delete(key);
+};
