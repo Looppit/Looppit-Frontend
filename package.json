@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "packageManager": "npm@10.5.2",
+  "engines": {
+    "node": "22.17.1"
+  },
   "scripts": {
     "kill-port": "lsof -ti:3000 | xargs kill -9 2>/dev/null || true",
     "predev": "npm ls --depth=0 >/dev/null 2>&1 || npm install",
