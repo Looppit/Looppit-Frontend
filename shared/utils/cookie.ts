@@ -3,6 +3,7 @@
 import { cookies } from 'next/headers';
 
 import { IS_PRODUCTION } from '@/shared/constants';
+import { ENV_CONFIG } from './env';
 
 type CookieOptions = {
   httpOnly?: boolean;
@@ -44,4 +45,30 @@ export const getCookie = async (name: string) => {
 export const deleteCookie = async (name: string) => {
   const cookieStore = await cookies();
   cookieStore.delete(name);
+};
+
+type setCookieProps = {
+  key: string;
+  value: string;
+  options: CookieOptions;
+};
+
+export const setCookie = async ({ key, value, options }: setCookieProps) => {
+  const cookieStore = await cookies();
+  const { isProduction } = ENV_CONFIG;
+
+  const { httpOnly, secure, sameSite, maxAge } = options;
+  const secureValue = isProduction ? secure : false;
+
+  cookieStore.set(key, value, {
+    httpOnly,
+    secure: secureValue,
+    sameSite,
+    maxAge,
+  });
+};
+
+export const removeCookie = async (key: string) => {
+  const cookieStore = await cookies();
+  cookieStore.delete(key);
 };
