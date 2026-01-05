@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "kill-port": "lsof -ti:3000 | xargs kill -9 2>/dev/null || true",
+    "dev": "npm run kill-port && next dev -p 3000",
     "build": "next build",
-    "start": "next start",
+    "start": "npm run kill-port && next start -p 3000",
     "lint": "eslint"
   },
   "dependencies": {
@@ -20,9 +21,10 @@
     "clsx": "^2.1.1",
     "jotai": "^2.15.1",
     "lucide-react": "^0.555.0",
-    "next": "^16.0.8",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
+    "next": "^16.0.10",
+    "next-auth": "^5.0.0-beta.30",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "react-hook-form": "^7.67.0",
     "react-hot-toast": "^2.6.0",
     "tailwind-merge": "^3.4.0",

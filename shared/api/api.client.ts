@@ -59,3 +59,4 @@ export const createAxiosClient = () => {
 };
 
 export const apiClient = new ApiClient(createAxiosClient());
+export const apiServerClient = new ApiClient(initAxiosInstance());

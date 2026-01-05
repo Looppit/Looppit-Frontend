@@ -12,7 +12,7 @@ const store = getDefaultStore();
 export const setupRequestInterceptor = (instance: AxiosInstance) => {
   instance.interceptors.request.use(
     (config) => {
-      const token = store.get(tokenAtom);
+      const token = '';
 
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;

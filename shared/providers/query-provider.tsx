@@ -1,14 +1,16 @@
 'use client';
 
-import { IS_DEVELOPMENT } from '@/shared/constants';
-import { StrictPropsWithChildren } from '@/shared/types';
+import { useState } from 'react';
+
 import {
   QueryClient,
   type QueryClientConfig,
   QueryClientProvider,
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { useState } from 'react';
+
+import { PROJECT_ENV } from '@/shared/constants';
+import { StrictPropsWithChildren } from '@/shared/types';
 
 const queryClientConfig: QueryClientConfig = {
   defaultOptions: {
@@ -32,7 +34,9 @@ const QueryProvider = ({ children }: StrictPropsWithChildren) => {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      {IS_DEVELOPMENT && <ReactQueryDevtools initialIsOpen={false} />}
+      {PROJECT_ENV.isDevelopment && (
+        <ReactQueryDevtools initialIsOpen={false} />
+      )}
     </QueryClientProvider>
   );
 };

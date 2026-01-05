@@ -1,17 +1,16 @@
-export const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
-export const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+import { validateEnv } from '@/shared/utils/env';
 
-export const envs = {
+const envs = {
   node: {
-    isDevelopment: IS_DEVELOPMENT,
-    isProduction: IS_PRODUCTION,
+    isDevelopment: process.env.NODE_ENV === 'development',
+    isProduction: process.env.NODE_ENV === 'production',
   },
   urls: {
     apiEndPoint: process.env.NEXT_PUBLIC_API_BASE_URL!,
   },
 } as const;
 
-export const PROJECT_ENV = {
+export const PROJECT_ENV = validateEnv({
   ...envs.urls,
   ...envs.node,
-} as const;
+});

@@ -1,5 +1,5 @@
 // @/shared/api/fetchClient.ts
-import { ENV_CONFIG } from '@/shared/utils';
+import { PROJECT_ENV } from '@/shared/constants';
 
 import { FetchError } from './fetch.error';
 
@@ -8,7 +8,7 @@ interface FetchOptions extends RequestInit {
 }
 
 export async function apiFetch<T>(options: FetchOptions): Promise<T> {
-  const { apiEndPoint } = ENV_CONFIG;
+  const { apiEndPoint } = PROJECT_ENV;
   const { endpoint, ...fetchOptions } = options;
 
   const response = await fetch(apiEndPoint + endpoint, fetchOptions);
