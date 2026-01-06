@@ -2,14 +2,15 @@
 
 import { cookies } from 'next/headers';
 
-import { getProjectConfig, setRefreshTokenToCookie } from '@/shared/utils';
+import { PROJECT_ENV } from '@/shared/constants';
+import { setRefreshTokenToCookie } from '@/shared/utils';
 
 import { RefreshTokenResponse } from '../api.types';
 
 export const fetchRefreshToken = async (): Promise<RefreshTokenResponse> => {
   const cookieStore = await cookies();
   const refreshToken = cookieStore.get('refreshToken')?.value;
-  const { apiEndPoint } = getProjectConfig();
+  const { apiEndPoint } = PROJECT_ENV;
 
   try {
     const response = await fetch(apiEndPoint + '/auth/reissue', {
