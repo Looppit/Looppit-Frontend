@@ -4,11 +4,14 @@ import {
   getKakaoErrorMessage,
   handleOauthError,
 } from '@/domains/auth/oauth/oauth.utils';
-import { bridgeRequest, buildUrl, platformHandler } from '@/shared/utils';
+import {
+  bridgeRequest,
+  joinPathWithQuery,
+  platformHandler,
+} from '@/shared/utils';
 
 import { BRIDGE_REQUEST_OPTIONS, KAKAO_ERROR_CODE } from './kakao.constants';
 import {
-  SOCIAL_PROVIDER_GOOGLE,
   SOCIAL_PROVIDER_KAKAO,
   SOCIAL_PROVIDER_NAVER,
 } from './oauth.constants';
@@ -50,25 +53,13 @@ const handleKakaoAppLogin = async () => {
   }
 
   const { email, providerId } = result.data;
-  const redirectUrl = buildUrl('', '/api/auth/oauth/exchange', {
+  const redirectUrl = joinPathWithQuery('/api/auth/oauth/exchange', {
     email,
     providerId,
-    provider: 'kakao',
+    provider: SOCIAL_PROVIDER_KAKAO,
   });
 
   window.location.href = redirectUrl;
-};
-
-/**
- * Google 로그인 처리
- * - 웹: NextAuth를 통해 Google OAuth 로그인 진행
- */
-export const handleGoogleLogin = async () => {
-  try {
-    await signInWithProvider(SOCIAL_PROVIDER_GOOGLE);
-  } catch (error) {
-    handleOauthError(error);
-  }
 };
 
 /**

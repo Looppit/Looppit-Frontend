@@ -6,10 +6,6 @@ const envs = {
       secret: process.env.AUTH_SECRET,
       baseUrl: process.env.AUTH_URL,
     },
-    google: {
-      id: process.env.AUTH_GOOGLE_ID,
-      secret: process.env.AUTH_GOOGLE_SECRET,
-    },
     kakao: {
       id: process.env.AUTH_KAKAO_ID,
       secret: process.env.AUTH_KAKAO_SECRET,

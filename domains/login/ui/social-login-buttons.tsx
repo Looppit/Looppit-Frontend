@@ -2,15 +2,10 @@
 
 import { SocialProvider } from '@/domains/auth';
 import {
-  SOCIAL_PROVIDER_GOOGLE,
   SOCIAL_PROVIDER_KAKAO,
   SOCIAL_PROVIDER_NAVER,
 } from '@/domains/auth/oauth';
-import {
-  handleGoogleLogin,
-  handleKakaoLogin,
-  handleNaverLogin,
-} from '@/domains/auth/oauth';
+import { handleKakaoLogin, handleNaverLogin } from '@/domains/auth/oauth';
 import { Button } from '@/shared/ui/button';
 import { Separator } from '@/shared/ui/separator';
 
@@ -22,7 +17,6 @@ interface SocialLoginButtonProps {
 }
 
 const SOCIAL_LOGIN_HANDLERS: Record<SocialProvider, () => Promise<void>> = {
-  [SOCIAL_PROVIDER_GOOGLE]: handleGoogleLogin,
   [SOCIAL_PROVIDER_KAKAO]: handleKakaoLogin,
   [SOCIAL_PROVIDER_NAVER]: handleNaverLogin,
 };
@@ -37,10 +31,6 @@ export default function SocialLoginButtons() {
         </span>
       </div>
       <div className="flex flex-col gap-2">
-        <SocialLoginButton
-          provider={SOCIAL_PROVIDER_GOOGLE}
-          label="Google로 로그인"
-        />
         <SocialLoginButton
           provider={SOCIAL_PROVIDER_KAKAO}
           label="카카오로 로그인"
