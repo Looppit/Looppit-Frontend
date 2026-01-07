@@ -1,29 +1,5 @@
-'use server';
+import { apiClient } from '@/shared/api/api.client';
 
-import { apiFetch } from '@/shared/api/api.fetch';
-import { ApiError } from '@/shared/api/api.types';
-import { FetchError } from '@/shared/api/fetch.error';
-import { setTokensToCookies } from '@/shared/utils';
-
-import { LoginResponse } from '../types';
-
-export const loginAction = async (
-  formData: FormData,
-): Promise<LoginResponse | ApiError | undefined> => {
-  try {
-    const data = await apiFetch<LoginResponse>({
-      endpoint: '/user/login',
-      method: 'POST',
-      body: formData,
-    });
-    await setTokensToCookies(data);
-
-    return data;
-  } catch (error) {
-    if (error instanceof FetchError) {
-      return error.toJSON();
-    }
-
-    return new FetchError(500);
-  }
+export const processLogin = async (formData: FormData) => {
+  return await apiClient.post('/user/login', formData);
 };
