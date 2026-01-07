@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { SocialProvider } from '@/domains/auth';
 import { ExtendedZodErrorMessageMap } from '@/shared/types';
 
 import { LOGIN_ERROR_MESSAGES } from './login.constants';
@@ -21,3 +22,5 @@ export type LoginErrorMessageValues = Record<
   LoginErrorMessageKeys,
   Partial<ExtendedZodErrorMessageMap>
 >;
+
+export type { SocialProvider };

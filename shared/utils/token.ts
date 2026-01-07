@@ -1,22 +1,14 @@
-import { removeCookie, setCookie } from '@/shared/utils';
+import { deleteCookie, setCookie } from '@/shared/utils';
 
 export const setAccessTokenToCookie = async (accessToken: string) => {
-  await setCookie({
-    key: 'accessToken',
-    value: accessToken,
-    options: {
-      maxAge: 60 * 5,
-    },
+  await setCookie('accessToken', accessToken, {
+    maxAge: 60 * 5,
   });
 };
 
 export const setRefreshTokenToCookie = async (refreshToken: string) => {
-  await setCookie({
-    key: 'refreshToken',
-    value: refreshToken,
-    options: {
-      maxAge: 60 * 60 * 24 * 7,
-    },
+  await setCookie('refreshToken', refreshToken, {
+    maxAge: 60 * 60 * 24 * 7,
   });
 };
 
@@ -31,6 +23,6 @@ export const setTokensToCookies = async (data: Tokens) => {
 };
 
 export const removeTokensFromCookies = async () => {
-  await removeCookie('accessToken');
-  await removeCookie('refreshToken');
+  await deleteCookie('accessToken');
+  await deleteCookie('refreshToken');
 };

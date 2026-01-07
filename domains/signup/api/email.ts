@@ -1,5 +1,5 @@
 import { apiClient } from '@/shared/api/api.client';
-import { withQueryParams } from '@/shared/utils';
+import { joinPathWithQuery } from '@/shared/utils';
 
 import {
   EmailSendRequest,
@@ -9,14 +9,14 @@ import {
 } from '../types';
 
 export const postEmailSendRequest = async (data: EmailSendRequest) => {
-  const endpoint = withQueryParams('/email/send', { email: data.email });
+  const endpoint = joinPathWithQuery('/email/send', { email: data.email });
   const response = await apiClient.post<EmailSendResponse>(endpoint);
 
   return response;
 };
 
 export const postEmailCertifyRequest = async (data: EmailCertifyRequest) => {
-  const endpoint = withQueryParams('/email/certification', {
+  const endpoint = joinPathWithQuery('/email/certification', {
     email: data.email,
     code: data.code,
   });

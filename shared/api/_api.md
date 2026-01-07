@@ -22,3 +22,11 @@ const data = await apiClient.get<Data>('/endpoint', {
   'X-Custom-Header': 'value',
 });
 ```
+
+서버(SSR/Route Handler/Server Action 등)에서 사용할 경우에는 클라이언트 인터셉터 의존성을 피하기 위해 아래를 사용합니다.
+
+```typescript
+import { apiServerClient } from '@/shared/api/api.server-client';
+
+const data = await apiServerClient.get<Data>('/endpoint');
+```

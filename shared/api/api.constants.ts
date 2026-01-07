@@ -1,8 +1,8 @@
-import { ENV_CONFIG } from '../utils';
+import { PROJECT_ENV } from '@/shared/constants';
 
 import type { ErrorMessageMap } from './api.types';
 
-export const { apiEndPoint: API_BASE_URL } = ENV_CONFIG;
+export const { apiEndPoint: API_BASE_URL } = PROJECT_ENV;
 export const API_TIMEOUT = 5000;
 
 export const ERROR_MESSAGE_MAP: ErrorMessageMap = {

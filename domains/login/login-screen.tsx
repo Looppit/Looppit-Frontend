@@ -1,10 +1,14 @@
 'use client';
 
+import { useOAuthError } from '@/domains/auth/oauth';
+import SocialLoginButtons from '@/domains/login/ui/social-login-buttons';
 import { Spacing } from '@/shared/ui/spacing';
 
 import { LoginForm } from './ui';
 
 export default function LoginScreen() {
+  useOAuthError();
+
   return (
     <div className="flex flex-col gap-6 px-6">
       <Spacing size={157} />
@@ -14,6 +18,7 @@ export default function LoginScreen() {
       </h1>
       <Spacing size={157} />
       <LoginForm />
+      <SocialLoginButtons />
     </div>
   );
 }

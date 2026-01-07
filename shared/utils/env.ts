@@ -1,15 +1,11 @@
-import { PROJECT_ENV } from '@/shared/constants';
-
-const validateEnv = (): typeof PROJECT_ENV => {
-  const missingKey = Object.entries(PROJECT_ENV).find(
+export const validateEnv = <T extends Record<string, unknown>>(env: T): T => {
+  const missingEntry = Object.entries(env).find(
     ([, value]) => value === undefined,
   );
 
-  if (missingKey) {
-    throw new Error(`환경 변수 ${missingKey}가 설정되지 않았습니다.`);
+  if (missingEntry) {
+    throw new Error(`환경 변수 ${missingEntry[0]}가 설정되지 않았습니다.`);
   }
 
-  return PROJECT_ENV;
+  return env;
 };
-
-export const ENV_CONFIG = validateEnv();
