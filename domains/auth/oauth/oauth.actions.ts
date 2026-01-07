@@ -1,17 +1,17 @@
 import { signIn } from 'next-auth/react';
+import { toast } from 'sonner';
 
+import { ACCOUNT_PROVIDER_BY_SOCIAL_PROVIDER_ID } from '@/domains/auth/auth.types';
+import { processOAuthLogin } from '@/domains/auth/oauth/oauth.service';
 import {
   getKakaoErrorMessage,
   handleOauthError,
 } from '@/domains/auth/oauth/oauth.utils';
-import {
-  bridgeRequest,
-  joinPathWithQuery,
-  platformHandler,
-} from '@/shared/utils';
+import { bridgeRequest, platformHandler } from '@/shared/utils';
 
 import { BRIDGE_REQUEST_OPTIONS, KAKAO_ERROR_CODE } from './kakao.constants';
 import {
+  OAUTH_REDIRECT,
   SOCIAL_PROVIDER_KAKAO,
   SOCIAL_PROVIDER_NAVER,
 } from './oauth.constants';
@@ -20,8 +20,8 @@ import type { KakaoLoginResponse } from './oauth.types';
 
 export const ACTION_TYPE = 'USER_ACTION' as const;
 
-export const NEXT_AUTH_OPTIONS = {
-  callbackUrl: '/',
+const NEXT_AUTH_OPTIONS = {
+  callbackUrl: OAUTH_REDIRECT.SUCCESS,
 } as const;
 
 /**
@@ -47,16 +47,17 @@ const handleKakaoAppLogin = async () => {
 
     if (!isCancelled) {
       const errorMessage = getKakaoErrorMessage(errorCode!);
-      alert(errorMessage);
+      toast.error(errorMessage);
     }
     return;
   }
 
   const { email, providerId } = result.data;
-  const redirectUrl = joinPathWithQuery('/api/auth/oauth/exchange', {
+
+  const redirectUrl = await processOAuthLogin({
     email,
-    providerId,
-    provider: SOCIAL_PROVIDER_KAKAO,
+    providerId: String(providerId),
+    provider: ACCOUNT_PROVIDER_BY_SOCIAL_PROVIDER_ID[SOCIAL_PROVIDER_KAKAO],
   });
 
   window.location.href = redirectUrl;

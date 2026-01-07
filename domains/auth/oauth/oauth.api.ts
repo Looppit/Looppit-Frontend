@@ -1,6 +1,9 @@
+'use server';
+
 import { z } from 'zod';
 
-import { apiServerClient } from '@/shared/api/api.client';
+import { apiServerClient } from '@/shared/api/api.server-client';
+import { applySetCookieHeader } from '@/shared/utils';
 
 import { ACCOUNT_PROVIDERS } from '../auth.types';
 
@@ -12,18 +15,18 @@ const oAuthProviderInfoSchema = z.object({
 
 export type OAuthSignupRequest = z.infer<typeof oAuthProviderInfoSchema>;
 
-const oAuthSignupResponseSchema = z.object({
-  responseCode: z.literal('SUCCESS'),
-  result: oAuthProviderInfoSchema.extend({
-    status: z.literal('ACTIVE'),
-    accessToken: z.string(),
-    refreshToken: z.string(),
-    createAt: z.coerce.date(),
-    deletedAt: z.null(),
-  }),
-});
-
 export const postOAuthSignupRequest = async (data: OAuthSignupRequest) => {
-  const response = await apiServerClient.post('/auth/signup', data);
-  return oAuthSignupResponseSchema.parse(response);
+  const parsedData = oAuthProviderInfoSchema.parse(data);
+
+  const response = await apiServerClient.requestRaw('/auth/signup', {
+    method: 'POST',
+    body: parsedData,
+  });
+
+  const setCookieHeader = response.headers['set-cookie'];
+  if (setCookieHeader && Array.isArray(setCookieHeader)) {
+    await applySetCookieHeader(setCookieHeader);
+  }
+
+  return response.data;
 };

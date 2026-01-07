@@ -1,3 +1,5 @@
+import { toast } from 'sonner';
+
 import {
   KAKAO_DEFAULT_ERROR_MESSAGE,
   KAKAO_ERROR_MESSAGES,
@@ -7,11 +9,11 @@ import { OAUTH_DEFAULT_ERROR_MESSAGE } from '@/domains/auth/oauth/oauth.constant
 import { getErrorMessage } from '@/shared/utils';
 
 /**
- * 에러를 처리하고 사용자에게 알림을 표시합니다.
+ * 에러를 처리하고 사용자에게 토스트 알림을 표시합니다.
  */
 export const handleOauthError = (error: unknown) => {
   const errorMessage = getErrorMessage(error, OAUTH_DEFAULT_ERROR_MESSAGE);
-  alert(errorMessage);
+  toast.error(errorMessage);
 };
 
 export const getKakaoErrorMessage = (error: KakaoErrorCode): string => {

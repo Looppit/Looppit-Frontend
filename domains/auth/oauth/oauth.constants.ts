@@ -5,6 +5,11 @@ export const SOCIAL_PROVIDER_KAKAO =
 export const SOCIAL_PROVIDER_NAVER =
   SOCIAL_PROVIDER_ID_BY_ACCOUNT_PROVIDER.NAVER;
 
+export const OAUTH_REDIRECT = {
+  SUCCESS: '/',
+  FAILURE: (errorCode: string) => `/login?error=${errorCode}`,
+} as const;
+
 /**
  * OAuth 에러 코드 상수
  *

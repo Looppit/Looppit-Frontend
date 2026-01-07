@@ -6,8 +6,10 @@ import {
   SocialProvider,
   SOCIAL_PROVIDERS,
 } from '@/domains/auth/auth.types';
+import { OAUTH_REDIRECT } from '@/domains/auth/oauth/oauth.constants';
+import { processOAuthLogin } from '@/domains/auth/oauth/oauth.service';
 import { PROJECT_PRIVATE_ENV } from '@/shared/constants/environment.server';
-import { createTypeValidator, withSearchParams } from '@/shared/utils';
+import { createTypeValidator } from '@/shared/utils';
 
 import type { NextAuthConfig } from 'next-auth';
 
@@ -39,17 +41,13 @@ export const authConfig = {
 
       const provider = ACCOUNT_PROVIDER_BY_SOCIAL_PROVIDER_ID[socialProviderId];
 
-      const baseUrl = PROJECT_PRIVATE_ENV.nextauth.baseUrl;
-      if (!baseUrl) return false;
-
-      const url = new URL('/api/auth/oauth/exchange', baseUrl);
-      const params = withSearchParams(url.searchParams, {
+      const redirectUrl = await processOAuthLogin({
         email,
         providerId,
         provider,
       });
 
-      return `${url.origin}${url.pathname}?${params}`;
+      return redirectUrl;
     },
   },
 } satisfies NextAuthConfig;
