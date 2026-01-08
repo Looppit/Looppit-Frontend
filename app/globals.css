@@ -31,7 +31,7 @@
   --radius-medium: var(--radius-medium);
   --radius-large: var(--radius-large);
 
-  /* Looppit Custom Colors - 추가 색상 */
+  /* Custom Colors - 추가 색상 */
   --color-background: var(--background);
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
@@ -48,6 +48,9 @@
   --color-positive: var(--positive);
   --color-action: var(--action);
   --color-destructive: var(--destructive);
+
+  /* Typography Styles */
+  --font-wanted-sans: var(--font-wanted-sans);
 }
 
 /* Typography Styles */

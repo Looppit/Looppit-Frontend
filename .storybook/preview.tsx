@@ -1,4 +1,7 @@
+import { wantedSans } from '../shared/assets/fonts';
+
 import type { Preview } from '@storybook/nextjs';
+
 import '../app/globals.css';
 
 const preview: Preview = {
@@ -14,6 +17,13 @@ const preview: Preview = {
       test: 'todo',
     },
   },
+  decorators: [
+    (Story) => (
+      <div className={`${wantedSans.variable} font-wanted-sans`}>
+        <Story />
+      </div>
+    ),
+  ],
   tags: ['autodocs'],
 };
 

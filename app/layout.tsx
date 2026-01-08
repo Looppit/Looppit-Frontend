@@ -1,19 +1,9 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 
 import './globals.css';
+import { wantedSans } from '@/shared/assets/fonts';
 import { Providers } from '@/shared/providers';
 import { Toaster } from '@/shared/ui/sonner';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -28,9 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${wantedSans.variable} overflow-y-scroll bg-background text-white font-wanted-sans antialiased`}
       >
-        <Providers>{children}</Providers>
+        <div className="relative mx-auto min-h-screen max-w-xl items-center justify-center overflow-hidden">
+          <Providers>{children}</Providers>
+        </div>
         <Toaster />
       </body>
     </html>
