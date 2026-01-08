@@ -5,13 +5,13 @@ import { toast } from 'sonner';
 
 import { isApiError } from '@/shared/guard';
 
-import { loginAction } from '../api';
+import { postLogin } from '../api';
 
 export const useLogin = () => {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: (formData: FormData) => loginAction(formData),
+    mutationFn: (formData: FormData) => postLogin(formData),
     onError: (error) => {
       if (isApiError(error)) {
         toast.error(error.message);
