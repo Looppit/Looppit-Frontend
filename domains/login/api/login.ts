@@ -1,5 +1,7 @@
-import { apiClient } from '@/shared/api/api.client';
+import { apiNextServerClient } from '@/shared/api/api.next-server-client';
 
 export const postLogin = async (formData: FormData) => {
-  return await apiClient.post('/user/login', formData);
+  return await apiNextServerClient.post('/auth/login', formData, {
+    'Content-Type': 'multipart/form-data',
+  });
 };
