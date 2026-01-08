@@ -28,11 +28,9 @@ class RefreshTokenHandler {
     this.isRefreshing = false;
   }
 
-  private processSuspendedRequests(refreshToken: string) {
+  private processSuspendedRequests() {
     return Promise.all(
       this.suspendedRequests.map((suspendedRequest) => {
-        suspendedRequest.config.headers.Authorization = `Bearer ${refreshToken}`;
-
         suspendedRequest.resolve(suspendedRequest.config);
       }),
     );
@@ -63,13 +61,9 @@ class RefreshTokenHandler {
     this.isRefreshing = true;
 
     try {
-      const { accessToken } = await fetchRefreshToken();
+      await fetchRefreshToken();
 
-      // store.set(tokenAtom, accessToken);
-
-      this.processSuspendedRequests(accessToken);
-
-      originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+      this.processSuspendedRequests();
       return originalRequest;
     } catch (error) {
       onAuthorizationError();
