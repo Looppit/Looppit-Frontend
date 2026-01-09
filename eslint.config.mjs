@@ -4,11 +4,18 @@ import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
 import importPlugin from 'eslint-plugin-import';
 import prettier from 'eslint-plugin-prettier';
+import storybookPlugin from 'eslint-plugin-storybook';
 
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts']),
+  globalIgnores([
+    '.next/**',
+    'out/**',
+    'build/**',
+    'storybook-static/**',
+    'next-env.d.ts',
+  ]),
   {
     plugins: {
       prettier,
@@ -16,6 +23,9 @@ const eslintConfig = defineConfig([
     },
     plugins: {
       '@tanstack/query': pluginQuery,
+    },
+    plugins: {
+      storybook: storybookPlugin,
     },
     rules: {
       '@tanstack/query/stable-query-client': 'error',

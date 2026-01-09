@@ -6,7 +6,6 @@ import {
   SocialProvider,
   SOCIAL_PROVIDERS,
 } from '@/domains/auth/auth.types';
-import { OAUTH_REDIRECT } from '@/domains/auth/oauth/oauth.constants';
 import { processOAuthLogin } from '@/domains/auth/oauth/oauth.service';
 import { PROJECT_PRIVATE_ENV } from '@/shared/constants/environment.server';
 import { createTypeValidator } from '@/shared/utils';
