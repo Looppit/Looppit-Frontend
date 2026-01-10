@@ -41,7 +41,7 @@ class RefreshTokenHandler {
     this.suspendedRequests = [];
   }
 
-  private addSuspendedRequest(config: InternalAxiosRequestConfig) {
+  private async addSuspendedRequest(config: InternalAxiosRequestConfig) {
     return new Promise((resolve, reject) => {
       this.suspendedRequests.push({ config, resolve, reject });
     });
@@ -52,16 +52,16 @@ class RefreshTokenHandler {
     this.isRefreshing = false;
   }
 
-  private processSuspendedRequests() {
-    return Promise.all(
-      this.suspendedRequests.map((suspendedRequest) => {
-        suspendedRequest.resolve(suspendedRequest.config);
+  private async processSuspendedRequests(axiosInstance: AxiosInstance) {
+    await Promise.all(
+      this.suspendedRequests.map(({ config, resolve, reject }) => {
+        axiosInstance.request(config).then(resolve).catch(reject);
       }),
     );
   }
 
-  private rejectSuspendedRequests(error: unknown) {
-    return Promise.all(
+  private async rejectSuspendedRequests(error: unknown) {
+    await Promise.all(
       this.suspendedRequests.map((suspendedRequest) => {
         suspendedRequest.reject(error);
       }),
