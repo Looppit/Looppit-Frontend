@@ -1,5 +1,3 @@
-import { isAxiosError } from 'axios';
-
 /**
  * Error 객체인지 확인하는 타입 가드
  * @param error - 확인할 에러 객체
@@ -20,28 +18,4 @@ export const getErrorMessage = (
   defaultMessage: string,
 ): string => {
   return isError(error) ? error.message : defaultMessage;
-};
-
-/**
- * 에러 코드를 추출하는 유틸
- * @param error - 에러 객체
- * @returns 에러 코드
- */
-export const getErrorCode = (error: unknown): number => {
-  if (isAxiosError(error)) {
-    return error.response?.status ?? 500;
-  }
-
-  if (isError(error)) {
-    return 500;
-  }
-
-  return 500;
-};
-
-export const getSafeErrorInfo = (error: unknown, defaultMessage: string) => {
-  return {
-    code: getErrorCode(error),
-    message: getErrorMessage(error, defaultMessage),
-  };
 };

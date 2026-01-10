@@ -1,24 +1,24 @@
-import { AxiosError, AxiosInstance } from 'axios';
+import { AxiosError, AxiosInstance, isAxiosError } from 'axios';
 
 import { removeTokensFromCookies } from '@/shared/utils';
 
-import { DEFAULT_ERROR_MESSAGE, ERROR_MESSAGE_MAP } from '../api.constants';
 import { handleUnAuthorizedError } from './api.refresh';
-import { isErrorStatusKey } from './api.type-guard';
+import { createApiError } from './api.response-format';
 
-import type { ApiError, ErrorResponse } from '../api.types';
+import type { ErrorCode, ErrorResponse } from '../api.types';
 
-export const transformError = (
-  statusCode: number,
-  serverMessage?: string,
-): ApiError => {
-  const statusKey = isErrorStatusKey(statusCode) ? statusCode : 500;
-  const message = ERROR_MESSAGE_MAP[statusKey] || DEFAULT_ERROR_MESSAGE;
+/**
+ * 에러 코드를 추출하는 유틸
+ * @param error - 에러 객체
+ * @returns 에러 코드
+ */
+export const getErrorCode = (error: unknown): ErrorCode => {
+  if (isAxiosError(error)) {
+    const status = error.response?.status ?? 500;
+    return status as ErrorCode;
+  }
 
-  return {
-    code: `HTTP_${statusKey}`,
-    message: serverMessage || message,
-  };
+  return 500 as ErrorCode;
 };
 
 const onAuthorizationError = async () => {
@@ -28,7 +28,7 @@ const onAuthorizationError = async () => {
 };
 
 export const handleNetworkError = () => {
-  return Promise.reject(transformError(503, '네트워크 연결을 확인해주세요.'));
+  return Promise.reject(createApiError(503, '네트워크 연결을 확인해주세요.'));
 };
 
 export const handleResponseError = (
@@ -46,7 +46,7 @@ export const handleResponseError = (
   }
 
   const errorResponse = data as ErrorResponse | undefined;
-  const apiError = transformError(status, errorResponse?.message);
+  const apiError = createApiError(errorResponse?.message);
 
   return Promise.reject(apiError);
 };
