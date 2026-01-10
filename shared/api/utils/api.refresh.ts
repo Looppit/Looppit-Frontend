@@ -102,11 +102,5 @@ class RefreshTokenHandler {
 
 const refreshTokenHandler = new RefreshTokenHandler();
 
-export const handleUnAuthorizedError = async (
-  error: AxiosError,
-  onAuthorizationError: () => void,
-) =>
-  await refreshTokenHandler.handleUnAuthorizedError(
-    error,
-    onAuthorizationError,
-  );
+const handleUnAuthorizedError = refreshTokenHandler.handleUnAuthorizedError;
+export { handleUnAuthorizedError };
