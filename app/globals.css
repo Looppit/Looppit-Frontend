@@ -29,22 +29,24 @@
   --radius-large: 32px;
 
   /* Custom Colors - 추가 색상 */
-  --color-background: var(--background);
-  --color-primary: var(--primary);
-  --color-secondary: var(--secondary);
-  --color-secondary-muted: var(--secondary-muted);
-  --color-card: var(--card);
-  --color-card-lighter: var(--card-lighter);
+  --color-background: #161022;
+  --color-primary: #5b13ec;
+  --color-secondary: #a492c9;
 
   --color-white-soft: var(--white-soft);
   --color-white-softer: var(--white-softer);
+  --color-card: #1e182a;
+  --color-card-lighter: #2a223a;
 
-  --color-surface: var(--surface);
-  --color-chip: var(--chip);
+  --color-white-soft: rgba(255, 255, 255, 0.1);
+  --color-white-softer: rgba(255, 255, 255, 0.05);
 
-  --color-positive: var(--positive);
-  --color-action: var(--action);
-  --color-destructive: var(--destructive);
+  --color-surface: #221933;
+  --color-chip: #2f2348;
+
+  --color-positive: #4ade80;
+  --color-action: #818cf8;
+  --color-destructive: #ef4444;
 
   /* Typography Styles */
   --font-wanted-sans: var(--font-wanted-sans);
