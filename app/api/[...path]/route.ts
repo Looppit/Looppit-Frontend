@@ -5,6 +5,12 @@ import { apiServerClient } from '@/shared/api/api.server-client';
 import { createApiError } from '@/shared/api/utils/api.response-format';
 import { makeNextResponseError } from '@/shared/utils';
 
+const getEndpoint = (nextUrl: NextRequest['nextUrl']): string => {
+  const { pathname } = nextUrl;
+  const [, ...pathParts] = pathname.split('/api/');
+  return pathParts.join('/');
+};
+
 export async function GET(request: NextRequest) {
   const cookieStore = await cookies();
   const cookieString = cookieStore.toString();
@@ -14,9 +20,7 @@ export async function GET(request: NextRequest) {
     ...Object.fromEntries(requestHeaders.entries()),
     Cookie: cookieString,
   };
-  const { pathname } = nextUrl;
-  const [, ...pathParts] = pathname.split('/api/');
-  const endpoint = pathParts.join('/');
+  const endpoint = getEndpoint(nextUrl);
 
   try {
     const response = await apiServerClient.get(endpoint, headers);
@@ -36,11 +40,11 @@ export async function POST(request: NextRequest) {
     ...Object.fromEntries(requestHeaders.entries()),
     Cookie: cookieString,
   };
-  const { pathname } = nextUrl;
+  const endpoint = getEndpoint(nextUrl);
 
   try {
     const response = await apiServerClient.post(
-      pathname,
+      endpoint,
       request.body,
       headers,
     );
@@ -61,9 +65,7 @@ export async function PUT(request: NextRequest) {
     ...Object.fromEntries(requestHeaders.entries()),
     Cookie: cookieString,
   };
-  const { pathname } = nextUrl;
-  const [, ...pathParts] = pathname.split('/api/');
-  const endpoint = pathParts.join('/');
+  const endpoint = getEndpoint(nextUrl);
 
   try {
     const response = await apiServerClient.put(endpoint, request.body, headers);
@@ -83,9 +85,7 @@ export async function DELETE(request: NextRequest) {
     ...Object.fromEntries(requestHeaders.entries()),
     Cookie: cookieString,
   };
-  const { pathname } = nextUrl;
-  const [, ...pathParts] = pathname.split('/api/');
-  const endpoint = pathParts.join('/');
+  const endpoint = getEndpoint(nextUrl);
 
   try {
     const response = await apiServerClient.delete(endpoint, headers);
