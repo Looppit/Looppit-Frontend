@@ -1,7 +1,7 @@
 import { getErrorMessage } from '@/shared/utils';
 
 import { DEFAULT_ERROR_MESSAGE, ERROR_MESSAGE_MAP } from '../api.constants';
-import { ApiError, ApiResponse, ErrorCode } from '../api.types';
+import { ApiError, ApiResponse } from '../api.types';
 import { getErrorCode } from './api.error';
 import { isErrorStatusKey } from './api.type-guard';
 
@@ -26,7 +26,7 @@ export const createApiError = (
     : defaultMessage;
 
   return {
-    code: errorCode as ErrorCode,
+    code: errorCode,
     message: getErrorMessage(error, defaultErrorMessage),
   };
 };

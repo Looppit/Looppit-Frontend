@@ -5,20 +5,20 @@ import { removeTokensFromCookies } from '@/shared/utils';
 import { handleUnAuthorizedError } from './api.refresh';
 import { createApiError } from './api.response-format';
 
-import type { ErrorResponse } from '../api.types';
+import type { ErrorCode, ErrorResponse } from '../api.types';
 
 /**
  * 에러 코드를 추출하는 유틸
  * @param error - 에러 객체
  * @returns 에러 코드
  */
-export const getErrorCode = (error: unknown) => {
+export const getErrorCode = (error: unknown): ErrorCode => {
   if (isAxiosError(error)) {
     const status = error.response?.status ?? 500;
-    return status;
+    return status as ErrorCode;
   }
 
-  return 500;
+  return 500 as ErrorCode;
 };
 
 export const handleNetworkError = () => {
