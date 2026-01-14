@@ -11,16 +11,18 @@ const getEndpoint = (nextUrl: NextRequest['nextUrl']): string => {
   return pathParts.join('/');
 };
 
-export async function GET(request: NextRequest) {
+const makeHeadersWithCookie = async (request: NextRequest) => {
   const cookieStore = await cookies();
   const cookieString = cookieStore.toString();
-
-  const { nextUrl, headers: requestHeaders } = request;
-  const headers = {
-    ...Object.fromEntries(requestHeaders.entries()),
+  return {
+    ...Object.fromEntries(request.headers.entries()),
     Cookie: cookieString,
   };
-  const endpoint = getEndpoint(nextUrl);
+};
+
+export async function GET(request: NextRequest) {
+  const headers = await makeHeadersWithCookie(request);
+  const endpoint = getEndpoint(request.nextUrl);
 
   try {
     const response = await apiServerClient.get(endpoint, headers);
@@ -32,15 +34,8 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const cookieStore = await cookies();
-  const cookieString = cookieStore.toString();
-
-  const { nextUrl, headers: requestHeaders } = request;
-  const headers = {
-    ...Object.fromEntries(requestHeaders.entries()),
-    Cookie: cookieString,
-  };
-  const endpoint = getEndpoint(nextUrl);
+  const headers = await makeHeadersWithCookie(request);
+  const endpoint = getEndpoint(request.nextUrl);
 
   try {
     const response = await apiServerClient.post(
@@ -57,15 +52,8 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-  const cookieStore = await cookies();
-  const cookieString = cookieStore.toString();
-
-  const { nextUrl, headers: requestHeaders } = request;
-  const headers = {
-    ...Object.fromEntries(requestHeaders.entries()),
-    Cookie: cookieString,
-  };
-  const endpoint = getEndpoint(nextUrl);
+  const headers = await makeHeadersWithCookie(request);
+  const endpoint = getEndpoint(request.nextUrl);
 
   try {
     const response = await apiServerClient.put(endpoint, request.body, headers);
@@ -78,14 +66,8 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  const { nextUrl, headers: requestHeaders } = request;
-  const cookieStore = await cookies();
-  const cookieString = cookieStore.toString();
-  const headers = {
-    ...Object.fromEntries(requestHeaders.entries()),
-    Cookie: cookieString,
-  };
-  const endpoint = getEndpoint(nextUrl);
+  const headers = await makeHeadersWithCookie(request);
+  const endpoint = getEndpoint(request.nextUrl);
 
   try {
     const response = await apiServerClient.delete(endpoint, headers);
