@@ -2,6 +2,8 @@ import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { apiServerClient } from '@/shared/api/api.server-client';
+import { createApiError } from '@/shared/api/utils/api.response-format';
+import { makeNextResponseError } from '@/shared/utils';
 
 export async function GET(request: NextRequest) {
   const cookieStore = await cookies();
@@ -18,14 +20,10 @@ export async function GET(request: NextRequest) {
 
   try {
     const response = await apiServerClient.get(endpoint, headers);
-
     return NextResponse.json(response);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 },
-    );
+    const apiError = createApiError(error);
+    return makeNextResponseError(apiError);
   }
 }
 
@@ -49,10 +47,8 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(response);
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 },
-    );
+    const apiError = createApiError(error);
+    return makeNextResponseError(apiError);
   }
 }
 
@@ -74,10 +70,8 @@ export async function PUT(request: NextRequest) {
 
     return NextResponse.json(response);
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 },
-    );
+    const apiError = createApiError(error);
+    return makeNextResponseError(apiError);
   }
 }
 
@@ -98,9 +92,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json(response);
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 },
-    );
+    const apiError = createApiError(error);
+    return makeNextResponseError(apiError);
   }
 }
