@@ -12,7 +12,7 @@ export const isGuestRoute = (request: NextRequest) => {
 };
 
 export const hasSession = (request: NextRequest) => {
-  const accessToken = request.cookies.get(COOKIE_KEYS.ACCESS_TOKEN)?.value;
+  const accessToken = request.cookies.get(COOKIE_KEYS.REFRESH_TOKEN)?.value;
   return !!accessToken;
 };
 
