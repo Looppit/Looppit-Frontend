@@ -1,7 +1,5 @@
 import { AxiosError, AxiosInstance, isAxiosError } from 'axios';
 
-import { removeTokensFromCookies } from '@/shared/utils';
-
 import { handleUnAuthorizedError } from './api.refresh';
 import { createApiError } from './api.response-format';
 
