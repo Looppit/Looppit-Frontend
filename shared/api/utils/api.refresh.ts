@@ -90,23 +90,29 @@ class RefreshTokenHandler {
     error: AxiosError,
     onAuthorizationError: () => void,
   ) {
-    const originalRequest = error.config;
+    try {
+      const originalRequest = error.config;
 
-    if (!originalRequest || originalRequest._retry) {
+      if (!originalRequest || originalRequest._retry) {
+        return Promise.reject(error);
+      }
+
+      originalRequest._retry = true;
+      const requestPromise = this.addSuspendedRequest(originalRequest);
+
+      if (!this.isRefreshing) {
+        this.isRefreshing = true;
+        await this.performRefresh(axiosInstance, onAuthorizationError);
+      }
+      return requestPromise;
+    } catch (error) {
       return Promise.reject(error);
     }
-    originalRequest._retry = true;
-    const requestPromise = this.addSuspendedRequest(originalRequest);
-
-    if (!this.isRefreshing) {
-      this.isRefreshing = true;
-      await this.performRefresh(axiosInstance, onAuthorizationError);
-    }
-    return requestPromise;
   }
 }
 
 const refreshTokenHandler = new RefreshTokenHandler();
 
-const handleUnAuthorizedError = refreshTokenHandler.handleUnAuthorizedError;
+const handleUnAuthorizedError =
+  refreshTokenHandler.handleUnAuthorizedError.bind(refreshTokenHandler);
 export { handleUnAuthorizedError };
