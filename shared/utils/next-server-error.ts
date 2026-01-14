@@ -2,13 +2,11 @@
 
 import { NextResponse } from 'next/server';
 
-import { getSafeErrorInfo } from './error';
+import { ApiError } from '../api/api.types';
 
-export const makeNextResponseError = (
-  error: unknown,
-  defaultMessage: string = '알 수 없는 에러가 발생했습니다.',
-) => {
-  const { code, message } = getSafeErrorInfo(error, defaultMessage);
-
-  return NextResponse.json({ message }, { status: code });
+export const makeNextResponseError = async (apiError: ApiError) => {
+  return NextResponse.json(
+    { message: apiError.message },
+    { status: apiError.code },
+  );
 };
