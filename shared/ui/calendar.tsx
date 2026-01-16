@@ -123,10 +123,7 @@ function Calendar({
         ),
         range_middle: cn('rounded-none', defaultClassNames.range_middle),
         range_end: cn('rounded-r-md bg-accent', defaultClassNames.range_end),
-        today: cn(
-          'bg-accent text-accent-foreground rounded-md data-[selected=true]:rounded-none',
-          defaultClassNames.today,
-        ),
+        today: cn('data-[selected=true]:rounded-none', defaultClassNames.today),
         outside: cn(
           'text-muted-foreground aria-selected:text-muted-foreground',
           defaultClassNames.outside,
@@ -182,7 +179,13 @@ function Calendar({
         Day: ({ children, ...props }) => {
           return (
             <div {...props}>
-              <button className="cursor-pointer w-9 h-9 flex items-center justify-center rounded-full text-[14px] font-medium transition-all text-white/80 hover:bg-white/5">
+              <button
+                className={cn(
+                  'cursor-pointer w-9 h-9 flex items-center justify-center rounded-full text-[14px] font-medium transition-all text-white/80 hover:bg-white/5',
+                  'in-data-[today=true]:bg-primary in-data-[today=true]:text-white in-data-[today=true]:shadow-lg in-data-[today=true]:shadow-primary/30',
+                  defaultClassNames.day,
+                )}
+              >
                 {children}
               </button>
             </div>
