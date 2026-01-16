@@ -61,11 +61,13 @@ function Calendar({
         button_previous: cn(
           buttonVariants({ variant: buttonVariant }),
           'size-(--cell-size) aria-disabled:opacity-50 p-0 select-none',
+          'w-10 h-10 flex items-center justify-center rounded-full text-secondary hover:text-white transition-colors',
           defaultClassNames.button_previous,
         ),
         button_next: cn(
           buttonVariants({ variant: buttonVariant }),
           'size-(--cell-size) aria-disabled:opacity-50 p-0 select-none',
+          'w-10 h-10 flex items-center justify-center rounded-full text-secondary hover:text-white transition-colors',
           defaultClassNames.button_next,
         ),
         month_caption: cn(
@@ -148,21 +150,21 @@ function Calendar({
         Chevron: ({ className, orientation, ...props }) => {
           if (orientation === 'left') {
             return (
-              <ChevronLeftIcon className={cn('size-4', className)} {...props} />
+              <ChevronLeftIcon className={cn('size-6', className)} {...props} />
             );
           }
 
           if (orientation === 'right') {
             return (
               <ChevronRightIcon
-                className={cn('size-4', className)}
+                className={cn('size-6', className)}
                 {...props}
               />
             );
           }
 
           return (
-            <ChevronDownIcon className={cn('size-4', className)} {...props} />
+            <ChevronDownIcon className={cn('size-6', className)} {...props} />
           );
         },
         DayButton: CalendarDayButton,
