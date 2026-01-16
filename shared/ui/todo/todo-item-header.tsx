@@ -23,6 +23,8 @@ const TodoItemHeader = ({
   color,
   completedCount,
   totalCount,
+  onTitleClick,
+  onAddClick,
 }: TodoItemHeaderProps) => {
   return (
     <>
@@ -36,7 +38,10 @@ const TodoItemHeader = ({
           >
             <Icon icon="ic_delete" size="14" className="fill-current" />
           </div>
-          <strong className="typography-title-medium tracking-tight flex-1 min-w-0">
+          <strong
+            className="typography-title-medium tracking-tight flex-1 min-w-0"
+            onClick={onTitleClick}
+          >
             <span className="w-full truncate block">{title}</span>
           </strong>
         </div>
@@ -52,6 +57,7 @@ const TodoItemHeader = ({
               borderColor: `${color}40`,
               color,
             }}
+            onClick={onAddClick}
           />
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import useSwipeable from '@/shared/hooks/use-swipeable';
+import { useSwipeable } from '@/shared/hooks';
 import { StrictPropsWithChildren } from '@/shared/types';
 import { cn } from '@/shared/utils';
 

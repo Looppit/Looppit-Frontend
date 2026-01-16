@@ -50,6 +50,7 @@ const IconButton = ({
       className={cn(
         'rounded-full transition-all active:scale-90 border shadow-sm bg-card border-white-soft',
         iconButtonVariants[size].className,
+        props.disabled && 'opacity-50',
         className,
       )}
       {...props}
