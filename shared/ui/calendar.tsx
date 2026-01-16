@@ -20,7 +20,7 @@ import { cn } from '@/shared/utils';
 function Calendar({
   className,
   classNames,
-  showOutsideDays = true,
+  showOutsideDays = false,
   captionLayout = 'label',
   buttonVariant = 'ghost',
   formatters,
@@ -87,9 +87,9 @@ function Calendar({
           defaultClassNames.dropdown,
         ),
         caption_label: cn(
-          'select-none font-medium',
+          'select-none font-bold',
           captionLayout === 'label'
-            ? 'text-sm'
+            ? 'text-base'
             : 'rounded-md pl-2 pr-1 flex items-center gap-1 text-sm h-8 [&>svg]:text-muted-foreground [&>svg]:size-3.5',
           defaultClassNames.caption_label,
         ),
