@@ -109,7 +109,8 @@ function Calendar({
           defaultClassNames.week_number,
         ),
         day: cn(
-          'relative w-full h-full p-0 text-center [&:last-child[data-selected=true]_button]:rounded-r-md group/day aspect-square select-none',
+          'relative w-full h-full p-0 text-center [&:last-child[data-selected=true]_button]:rounded-r-md group/day aspect-square select-none ',
+          'flex flex-col items-center justify-center',
           props.showWeekNumber
             ? '[&:nth-child(2)[data-selected=true]_button]:rounded-l-md'
             : '[&:first-child[data-selected=true]_button]:rounded-l-md',
@@ -175,6 +176,15 @@ function Calendar({
                 {children}
               </div>
             </td>
+          );
+        },
+        Day: ({ children, ...props }) => {
+          return (
+            <div {...props}>
+              <button className="w-9 h-9 flex items-center justify-center rounded-full text-[14px] font-medium transition-all text-white/80 hover:bg-white/5">
+                {children}
+              </button>
+            </div>
           );
         },
         ...components,
