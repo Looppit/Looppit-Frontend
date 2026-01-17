@@ -17,7 +17,8 @@ export const useMergedTodos = (
       missingCategories.map((category) => ({
         categoryId: category.id,
         categoryName: category.categoryName,
-        tier: 'DEFAULT',
+        categoryIconName: category.categoryIconName,
+        categoryColor: category.categoryColor,
         todo: [],
       }));
 

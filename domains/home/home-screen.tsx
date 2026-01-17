@@ -14,7 +14,6 @@ import { useHomeScreen } from './hooks/use-home-screen';
 export const HomeScreen = () => {
   const {
     mergedTodos,
-    categoryColors,
     checkedTodos,
     isTodosPending,
     isCategoriesPending,
@@ -42,13 +41,11 @@ export const HomeScreen = () => {
           profileImage="https://picsum.photos/seed/alex/200/200"
         />
         <HabitStreakCard />
-        {mergedTodos.map((category, categoryIndex) => {
-          const color = categoryColors[categoryIndex % categoryColors.length];
+        {mergedTodos.map((category) => {
           return (
             <CategoryTodoSection key={category.categoryId}>
               <CategoryTodoSection.Header
                 category={category}
-                color={color}
                 onAddClick={() => handleAddTodo(category.categoryId)}
                 onLabelClick={handleClickTask}
               />

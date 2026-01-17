@@ -17,7 +17,7 @@ export const useAddTodoForm = (
     () => initialCategoryId ?? null,
   );
   const today = dayjs();
-  const createTodoMutation = useCreateTodo(dayjs().format('YYYY-MM-DD'));
+  const createTodoMutation = useCreateTodo(dayjs().format('YYYY-MM'));
 
   const selectedCategory = categories.find(
     (cat) => cat.id === selectedCategoryId,

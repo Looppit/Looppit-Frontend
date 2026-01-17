@@ -13,14 +13,12 @@ const CategoryTodoSectionRoot = ({ children }: StrictPropsWithChildren) => {
 
 type CategoryTodoSectionHeaderProps = {
   category: CategoryTodoApiResponse;
-  color: string;
   onAddClick?: () => void;
   onLabelClick: () => void;
 };
 
 const CategoryTodoSectionHeader = ({
   category,
-  color,
   onAddClick,
   onLabelClick,
 }: CategoryTodoSectionHeaderProps) => {
@@ -30,7 +28,8 @@ const CategoryTodoSectionHeader = ({
   return (
     <TodoItemHeader
       title={category.categoryName}
-      color={color}
+      color={category.categoryColor}
+      icon={category.categoryIconName}
       completedCount={completedCount}
       totalCount={totalCount}
       onTitleClick={onLabelClick}

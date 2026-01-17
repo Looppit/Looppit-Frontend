@@ -1,4 +1,5 @@
-import { Icon } from '@/shared/ui/icon';
+import { CategoryColor } from '@/domains/category/constants';
+import { Icon, IconName } from '@/shared/ui/icon';
 import { IconButton } from '@/shared/ui/icon-button';
 import { Progress } from '@/shared/ui/progress';
 import { getGradient } from '@/shared/utils';
@@ -7,7 +8,9 @@ interface TodoItemHeaderProps {
   /** 투두 카테고리 제목 */
   title: string;
   /** 투두 카테고리 색상 */
-  color: string;
+  color: CategoryColor;
+  /** 투두 카테고리 아이콘 */
+  icon: IconName;
   /** 카테고리 전체 갯수 */
   totalCount: number;
   /** 카테고리 투두 중 완료한 투두 갯수 */
@@ -21,6 +24,7 @@ interface TodoItemHeaderProps {
 const TodoItemHeader = ({
   title,
   color,
+  icon,
   completedCount,
   totalCount,
   onTitleClick,
@@ -36,7 +40,7 @@ const TodoItemHeader = ({
               background: getGradient(color),
             }}
           >
-            <Icon icon="ic_delete" size="14" className="fill-current" />
+            <Icon icon={icon} size="14" className="fill-current" />
           </div>
           <strong
             className="typography-title-medium tracking-tight flex-1 min-w-0"

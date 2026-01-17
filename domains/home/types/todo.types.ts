@@ -1,5 +1,7 @@
 import { Dayjs } from 'dayjs';
 
+import { Category } from '@/domains/category/types';
+
 export interface TodoApiResponse {
   todoId: number;
   title: string;
@@ -7,10 +9,11 @@ export interface TodoApiResponse {
   completed: boolean;
 }
 
-export interface CategoryTodoApiResponse {
+export interface CategoryTodoApiResponse extends Pick<
+  Category,
+  'categoryName' | 'categoryIconName' | 'categoryColor'
+> {
   categoryId: number;
-  categoryName: string;
-  tier: string;
   todo: TodoApiResponse[];
 }
 

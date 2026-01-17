@@ -5,15 +5,15 @@ import { useMergedTodos, useTodos } from '@/domains/home/hooks';
 import { useSwipeable } from '@/shared/hooks';
 import { dayjs } from '@/shared/lib';
 
-const CATEGORY_COLORS = ['#1c763c', '#2563eb', '#dc2626', '#ea580c', '#7c3aed'] as const;
-
 export const useHomeScreen = () => {
   const [isAddTodoSheetOpen, setIsAddTodoSheetOpen] = useState(false);
-  const [initialCategoryId, setInitialCategoryId] = useState<number | null>(null);
+  const [initialCategoryId, setInitialCategoryId] = useState<number | null>(
+    null,
+  );
   const [checkedTodos, setCheckedTodos] = useState<Record<number, boolean>>({});
 
   const { data: todosData = [], isPending: isTodosPending } = useTodos(
-    dayjs().format('YYYY-MM-DD'),
+    dayjs().format('YYYY-MM'),
   );
   const { data: categories = [], isPending: isCategoriesPending } =
     useCategories();
@@ -43,7 +43,6 @@ export const useHomeScreen = () => {
 
   return {
     mergedTodos,
-    categoryColors: CATEGORY_COLORS,
     checkedTodos,
     isTodosPending,
     isCategoriesPending,
