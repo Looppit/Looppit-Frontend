@@ -18,7 +18,7 @@ type OutlineIconProps = {
 };
 
 const buttonVariants = cva(
-  'h-14 w-full shadow-xl flex items-center transition-all enabled:active:scale-[0.98] enabled:hover:scale-[0.98] disabled:opacity-50 rounded-small tracking-tight p-4 py-3',
+  'h-14 w-full shadow-xl flex items-center transition-all enabled:active:scale-[0.98] enabled:hover:scale-[0.98] disabled:brightness-60 disabled:contrast-80 rounded-small tracking-tight p-4 py-3',
   {
     variants: {
       variant: {
