@@ -7,11 +7,7 @@ import {
   type DayButton,
 } from 'react-day-picker';
 
-import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { ko } from 'react-day-picker/locale';
 
 import { Button, buttonVariants } from '@/shared/ui/button';
@@ -22,7 +18,6 @@ import { useWeeklyCalendar } from './calendar.hooks';
 function WeeklyCalendar({
   className,
   classNames,
-  showOutsideDays = false,
   captionLayout = 'label',
   buttonVariant = 'ghost',
   formatters,
@@ -163,24 +158,22 @@ function WeeklyCalendar({
             />
           );
         },
-        Chevron: ({ className, orientation, ...props }) => {
-          if (orientation === 'left') {
-            return (
-              <ChevronLeftIcon className={cn('size-6', className)} {...props} />
-            );
-          }
-
-          if (orientation === 'right') {
-            return (
-              <ChevronRightIcon
-                className={cn('size-6', className)}
-                {...props}
-              />
-            );
-          }
-
+        PreviousMonthButton: ({ className, ...props }) => {
           return (
-            <ChevronDownIcon className={cn('size-6', className)} {...props} />
+            <PreviousButtonButton
+              className={cn('size-6', className)}
+              {...props}
+              onClick={onClickPreviousWeek}
+            />
+          );
+        },
+        NextMonthButton: ({ className, ...props }) => {
+          return (
+            <NextButtonButton
+              className={cn('size-6', className)}
+              {...props}
+              onClick={onClickNextWeek}
+            />
           );
         },
         DayButton: CalendarDayButton,
@@ -211,6 +204,28 @@ function WeeklyCalendar({
       }}
       {...props}
     />
+  );
+}
+
+function PreviousButtonButton({
+  className,
+  ...props
+}: React.ComponentProps<typeof Button>) {
+  return (
+    <Button type="button" className={cn('size-6', className)} {...props}>
+      <ChevronLeftIcon className={cn('size-6')} />
+    </Button>
+  );
+}
+
+function NextButtonButton({
+  className,
+  ...props
+}: React.ComponentProps<typeof Button>) {
+  return (
+    <Button type="button" className={cn('size-6', className)} {...props}>
+      <ChevronRightIcon className={cn('size-6')} />
+    </Button>
   );
 }
 
