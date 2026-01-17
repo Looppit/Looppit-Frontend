@@ -17,6 +17,8 @@ import { ko } from 'react-day-picker/locale';
 import { Button, buttonVariants } from '@/shared/ui/button';
 import { cn } from '@/shared/utils';
 
+import { useWeeklyCalendar } from './calendar.hooks';
+
 function WeeklyCalendar({
   className,
   classNames,
@@ -30,11 +32,22 @@ function WeeklyCalendar({
   buttonVariant?: React.ComponentProps<typeof Button>['variant'];
 }) {
   const defaultClassNames = getDefaultClassNames();
+  const {
+    month,
+    setMonth,
+    currentWeekStart,
+    isNotCurrentWeek,
+    onClickPreviousWeek,
+    onClickNextWeek,
+  } = useWeeklyCalendar();
 
   return (
     <DayPicker
       locale={ko}
-      showOutsideDays={showOutsideDays}
+      showOutsideDays={true}
+      month={month}
+      onMonthChange={setMonth}
+      hidden={isNotCurrentWeek}
       className={cn(
         'w-full max-w-md bg-background group/calendar p-3 [--cell-size:--spacing(8)] in-data-[slot=card-content]:bg-transparentt in-data-[slot=popover-content]:bg-transparent',
         String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
@@ -100,7 +113,7 @@ function WeeklyCalendar({
           'rounded-md flex-1 typography-caption-bold select-none',
           defaultClassNames.weekday,
         ),
-        week: cn('flex w-full mt-2', defaultClassNames.week),
+        week: cn('flex w-full', defaultClassNames.week),
         week_number_header: cn(
           'select-none w-(--cell-size)',
           defaultClassNames.week_number_header,
@@ -112,6 +125,7 @@ function WeeklyCalendar({
         day: cn(
           'relative w-full h-full p-0 text-center  group/day aspect-square select-none ',
           'flex flex-col items-center justify-center',
+          'data-[hidden=true]:hidden',
           props.showWeekNumber
             ? '[&:nth-child(2)[data-selected=true]_button]:rounded-l-md'
             : '[&:first-child[data-selected=true]_button]:rounded-l-md',
