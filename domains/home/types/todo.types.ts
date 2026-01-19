@@ -9,6 +9,11 @@ export interface TodoApiResponse {
   completed: boolean;
 }
 
+type TodoData = {
+  title: string;
+  date: Dayjs;
+};
+
 export interface CategoryTodoApiResponse extends Pick<
   Category,
   'categoryName' | 'categoryIconName' | 'categoryColor'
@@ -19,10 +24,19 @@ export interface CategoryTodoApiResponse extends Pick<
 
 export interface CreateCategoryTodoApiRequest {
   categoryId: number;
-  data: {
-    title: string;
-    level: string;
-    date: Dayjs;
-    content: string;
+  data: TodoData;
+}
+
+export interface ToggleTodoApiRequest {
+  categoryId: number;
+  todoId: number;
+  completed: boolean;
+}
+
+export interface UpdateTodoApiRequest {
+  categoryId: number;
+  todoId: number;
+  data: TodoData & {
+    updateCategory: number;
   };
 }
