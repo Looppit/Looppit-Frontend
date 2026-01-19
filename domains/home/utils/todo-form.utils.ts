@@ -1,0 +1,31 @@
+import { Dayjs } from 'dayjs';
+
+import { dayjs } from '@/shared/lib';
+
+import { TodoApiResponse } from '../types/todo.types';
+
+type GetInitialFormValuesParams = {
+  initialTodo?: TodoApiResponse & { categoryId?: number };
+  initialCategoryId?: number | null;
+};
+
+export type InitialFormValues = {
+  categoryId: number | null;
+  originalCategoryId: number | null;
+  todoText: string;
+  selectedDate: Dayjs;
+};
+
+export const getInitialFormValues = ({
+  initialTodo,
+  initialCategoryId,
+}: GetInitialFormValuesParams): InitialFormValues => {
+  const categoryId = initialCategoryId ?? null;
+
+  return {
+    categoryId,
+    originalCategoryId: categoryId,
+    todoText: initialTodo?.title ?? '',
+    selectedDate: initialTodo?.date ? dayjs(initialTodo.date) : dayjs(),
+  };
+};
