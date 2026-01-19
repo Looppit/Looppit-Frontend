@@ -16,6 +16,8 @@ interface TodoItemProps {
   onLabelClick?: React.MouseEventHandler<HTMLDivElement>;
   /** 추가 CSS 클래스 */
   className?: string;
+  /** 카테고리 컬러 */
+  categoryColor?: string;
 }
 
 function TodoItem({
@@ -24,6 +26,7 @@ function TodoItem({
   onCheckedChange,
   onLabelClick,
   className,
+  categoryColor,
 }: TodoItemProps) {
   const handleCheckboxChange = (checked: boolean) => {
     if (onCheckedChange) {
@@ -48,7 +51,19 @@ function TodoItem({
       )}
     >
       <div onClick={(e) => e.stopPropagation()}>
-        <Checkbox checked={isChecked} onCheckedChange={handleCheckboxChange} />
+        <Checkbox
+          checked={isChecked}
+          onCheckedChange={handleCheckboxChange}
+          className={cn(
+            categoryColor &&
+              'data-[state=checked]:bg-(--checkbox-checked-color) data-[state=checked]:border-(--checkbox-checked-color)',
+          )}
+          style={{
+            ...(categoryColor && {
+              ['--checkbox-checked-color' as string]: categoryColor,
+            }),
+          }}
+        />
       </div>
 
       <div className="flex-1 cursor-pointer min-w-0" onClick={handleLabelClick}>

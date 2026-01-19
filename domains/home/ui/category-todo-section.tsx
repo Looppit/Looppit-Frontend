@@ -14,13 +14,13 @@ const CategoryTodoSectionRoot = ({ children }: StrictPropsWithChildren) => {
 type CategoryTodoSectionHeaderProps = {
   category: CategoryTodoApiResponse;
   onAddClick?: () => void;
-  onLabelClick: () => void;
+  onTitleClick: () => void;
 };
 
 const CategoryTodoSectionHeader = ({
   category,
   onAddClick,
-  onLabelClick,
+  onTitleClick,
 }: CategoryTodoSectionHeaderProps) => {
   const totalCount = category.todo.length;
   const completedCount = category.todo.filter((todo) => todo.completed).length;
@@ -32,7 +32,7 @@ const CategoryTodoSectionHeader = ({
       icon={category.categoryIconName}
       completedCount={completedCount}
       totalCount={totalCount}
-      onTitleClick={onLabelClick}
+      onTitleClick={onTitleClick}
       onAddClick={onAddClick}
     />
   );
@@ -40,15 +40,24 @@ const CategoryTodoSectionHeader = ({
 
 type CategoryTodoSectionListProps = {
   todos: CategoryTodoApiResponse['todo'];
-  checkedTodos: Record<number, boolean>;
-  onLabelClick: () => void;
-  onTodoCheckedChange: (todoId: number, checked: boolean) => void;
+  categoryId: number;
+  categoryColor: CategoryTodoApiResponse['categoryColor'];
+  onLabelClick: (
+    todo: CategoryTodoApiResponse['todo'][number],
+    categoryId: number,
+  ) => void;
+  onTodoCheckedChange: (
+    categoryId: number,
+    todoId: number,
+    checked: boolean,
+  ) => void;
 };
 
 const CategoryTodoSectionList = ({
   todos,
-  checkedTodos,
+  categoryId,
   onLabelClick,
+  categoryColor,
   onTodoCheckedChange,
 }: CategoryTodoSectionListProps) => {
   return (
@@ -57,8 +66,9 @@ const CategoryTodoSectionList = ({
         <CategoryTodoSectionItem
           key={todo.todoId}
           todo={todo}
-          checkedTodos={checkedTodos}
-          onLabelClick={onLabelClick}
+          categoryId={categoryId}
+          categoryColor={categoryColor}
+          onLabelClick={() => onLabelClick(todo, categoryId)}
           onTodoCheckedChange={onTodoCheckedChange}
         />
       ))}
@@ -68,14 +78,20 @@ const CategoryTodoSectionList = ({
 
 type CategoryTodoSectionItemProps = {
   todo: CategoryTodoApiResponse['todo'][number];
-  checkedTodos: Record<number, boolean>;
+  categoryId: number;
+  categoryColor: CategoryTodoApiResponse['categoryColor'];
   onLabelClick: () => void;
-  onTodoCheckedChange: (todoId: number, checked: boolean) => void;
+  onTodoCheckedChange: (
+    categoryId: number,
+    todoId: number,
+    checked: boolean,
+  ) => void;
 };
 
 const CategoryTodoSectionItem = ({
   todo,
-  checkedTodos,
+  categoryId,
+  categoryColor,
   onLabelClick,
   onTodoCheckedChange,
 }: CategoryTodoSectionItemProps) => {
@@ -83,8 +99,11 @@ const CategoryTodoSectionItem = ({
     <SwipeableContainer actions={<TodoActions />}>
       <TodoItem
         label={todo.title}
-        isChecked={checkedTodos[todo.todoId] ?? todo.completed}
-        onCheckedChange={(checked) => onTodoCheckedChange(todo.todoId, checked)}
+        isChecked={todo.completed}
+        categoryColor={categoryColor}
+        onCheckedChange={(checked) =>
+          onTodoCheckedChange(categoryId, todo.todoId, checked)
+        }
         onLabelClick={onLabelClick}
       />
     </SwipeableContainer>

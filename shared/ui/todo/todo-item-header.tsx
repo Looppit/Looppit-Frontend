@@ -65,7 +65,10 @@ const TodoItemHeader = ({
           />
         </div>
       </div>
-      <Progress value={30} bgColor={getGradient(color)} />
+      <Progress
+        value={totalCount === 0 ? 0 : (completedCount / totalCount) * 100}
+        bgColor={getGradient(color)}
+      />
     </>
   );
 };
