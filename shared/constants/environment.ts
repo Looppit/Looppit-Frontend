@@ -7,7 +7,6 @@ const envs = {
   },
   urls: {
     apiEndPoint: process.env.NEXT_PUBLIC_API_BASE_URL!,
-    nextServerEndPoint: process.env.NEXT_PUBLIC_NEXT_SERVER_END_POINT!,
   },
 } as const;
 

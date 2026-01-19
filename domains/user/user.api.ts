@@ -1,7 +1,9 @@
-import { apiNextServerClient } from '@/shared/api/api.next-server-client';
+'use server';
+
+import { apiClient } from '@/shared/api/api.client';
 
 import { UserProfileResponse } from './user.types';
 
 export const getUserProfile = async () => {
-  return await apiNextServerClient.get<UserProfileResponse>('/user');
+  return await apiClient.get<UserProfileResponse>('/user');
 };
