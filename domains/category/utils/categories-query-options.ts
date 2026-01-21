@@ -9,5 +9,8 @@ export const categoriesQueryOptions = () => {
     queryKey: categoryKeys.list(),
     queryFn: getCategories,
     retry: false,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 };

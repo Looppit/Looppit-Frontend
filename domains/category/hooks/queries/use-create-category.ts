@@ -10,8 +10,11 @@ export const useCreateCategory = () => {
 
   return useMutation({
     mutationFn: (data: CreateCategoryRequest) => createCategory(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: categoryKeys.list() });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: categoryKeys.list(),
+        refetchType: 'all',
+      });
       toast.success('카테고리가 생성되었어요');
     },
     onError: (error) => {

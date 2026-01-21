@@ -24,7 +24,10 @@ export const useCreateTodo = (yearMonth: string) => {
     mutationFn: ({ data, categoryId }: CreateTodoParams) =>
       createTodo({ data, categoryId }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: todoKeys.list(yearMonth) });
+      queryClient.invalidateQueries({
+        queryKey: todoKeys.list(yearMonth),
+        refetchType: 'all',
+      });
       toast.success('투두가 생성되었어요');
     },
     onError: (error) => {
@@ -68,7 +71,10 @@ export const useToggleTodo = (yearMonth: string) => {
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: todoKeys.list(yearMonth) });
+      queryClient.invalidateQueries({
+        queryKey: todoKeys.list(yearMonth),
+        refetchType: 'all',
+      });
     },
   });
 };
@@ -80,7 +86,10 @@ export const useUpdateTodo = (yearMonth: string) => {
     mutationFn: ({ categoryId, todoId, data }: UpdateTodoParams) =>
       updateTodo({ categoryId, todoId, data }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: todoKeys.list(yearMonth) });
+      queryClient.invalidateQueries({
+        queryKey: todoKeys.list(yearMonth),
+        refetchType: 'all',
+      });
       toast.success('투두가 수정되었어요');
     },
     onError: (error) => {
@@ -97,7 +106,10 @@ export const useDeleteTodo = (yearMonth: string) => {
     mutationFn: ({ categoryId, todoId }: DeleteTodoParams) =>
       deleteTodo({ categoryId, todoId }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: todoKeys.list(yearMonth) });
+      queryClient.invalidateQueries({
+        queryKey: todoKeys.list(yearMonth),
+        refetchType: 'all',
+      });
       toast.success('투두가 삭제되었어요');
     },
     onError: (error) => {
