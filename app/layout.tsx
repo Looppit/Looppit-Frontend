@@ -23,7 +23,7 @@ export default function RootLayout({
         <div className="relative mx-auto min-h-screen max-w-xl items-center justify-center overflow-hidden">
           <Providers>{children}</Providers>
         </div>
-        <Toaster />
+        <Toaster position="bottom-center" offset={80} mobileOffset={80} />
       </body>
     </html>
   );
