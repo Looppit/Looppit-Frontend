@@ -77,7 +77,7 @@ export const Weekly: Story = {
         required
         type="weekly"
         selected={selected}
-        onSelect={setSelected}
+        onSelect={(date) => setSelected(date as Date)}
       />
     );
   },
@@ -92,7 +92,7 @@ export const Monthly: Story = {
         required
         type="monthly"
         selected={selected}
-        onSelect={setSelected}
+        onSelect={(date) => setSelected(date as Date)}
       />
     );
   },

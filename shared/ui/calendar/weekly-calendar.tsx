@@ -14,21 +14,18 @@ import { Button, buttonVariants } from '@/shared/ui/button';
 import { cn } from '@/shared/utils';
 
 import { useWeeklyCalendar } from './calendar.hooks';
-
-type WeeklyCalendarProps = React.ComponentProps<typeof DayPicker> & {
-  buttonVariant?: React.ComponentProps<typeof Button>['variant'];
-  SubDayComponent?: React.ReactNode;
-};
-
+import { WeeklyCalendarProps } from './calendar.type';
 
 function WeeklyCalendar({
   className,
   classNames,
   captionLayout = 'label',
   buttonVariant = 'ghost',
-  formatters,
+  formatters,   
   components,
   SubDayComponent,
+  selected,
+  onSelect,
   ...props
 }: WeeklyCalendarProps) {
   const defaultClassNames = getDefaultClassNames();
@@ -53,6 +50,8 @@ function WeeklyCalendar({
   return (
     <div className="w-full" ref={swipeAreaRef}>
       <DayPicker
+        selected={selected}
+        onSelect={onSelect}
         locale={ko}
         hideNavigation
         showOutsideDays={true}

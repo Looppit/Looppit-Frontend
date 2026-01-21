@@ -17,12 +17,10 @@ import { ko } from 'react-day-picker/locale';
 import { Button, buttonVariants } from '@/shared/ui/button';
 import { cn } from '@/shared/utils';
 
-type MonthlyCalendarProps = React.ComponentProps<typeof DayPicker> & {
-  buttonVariant?: React.ComponentProps<typeof Button>['variant'];
-  SubDayComponent?: React.ReactNode;
-};
+import { MonthlyCalendarProps } from './calendar.type';
 
-function MonthlyCalendar({
+
+function  MonthlyCalendar({
   className,
   classNames,
   showOutsideDays = false,
@@ -31,12 +29,16 @@ function MonthlyCalendar({
   formatters,
   components,
   SubDayComponent,
+  selected,
+  onSelect,
   ...props
 }: MonthlyCalendarProps) {
   const defaultClassNames = getDefaultClassNames();
 
   return (
     <DayPicker
+      selected={selected}
+      onSelect={onSelect}
       locale={ko}
       showOutsideDays={showOutsideDays}
       className={cn(
