@@ -1,40 +1,52 @@
 import { Category } from '@/domains/category/types';
 
-export interface TodoApiResponse {
+/** API Response Types */
+export interface TodoResponse {
   todoId: number;
   title: string;
   date: string;
   completed: boolean;
 }
 
-type TodoData = {
-  title: string;
-  date: string;
-};
-
-export interface CategoryTodoApiResponse extends Pick<
+export interface CategoryWithTodosResponse extends Pick<
   Category,
   'categoryName' | 'categoryIconName' | 'categoryColor'
 > {
   categoryId: number;
-  todo: TodoApiResponse[];
+  todo: TodoResponse[];
 }
 
-export interface CreateCategoryTodoApiRequest {
-  categoryId: number;
-  data: TodoData;
+/** API Request Types */
+export interface CreateTodoRequest {
+  title: string;
+  date: string;
 }
 
-export interface ToggleTodoApiRequest {
+export interface UpdateTodoRequest {
+  title: string;
+  date: string;
+  updateCategory: number;
+}
+
+export interface ToggleTodoParams {
   categoryId: number;
   todoId: number;
   completed: boolean;
 }
 
-export interface UpdateTodoApiRequest {
+/** API Function Parameters */
+export interface CreateTodoParams {
+  categoryId: number;
+  data: CreateTodoRequest;
+}
+
+export interface UpdateTodoParams {
   categoryId: number;
   todoId: number;
-  data: TodoData & {
-    updateCategory: number;
-  };
+  data: UpdateTodoRequest;
+}
+
+export interface DeleteTodoParams {
+  categoryId: number;
+  todoId: number;
 }

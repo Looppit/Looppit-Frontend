@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 
-import { TodoApiResponse } from '@/domains/home/types/todo.types';
+import { TodoResponse } from '@/domains/home/types';
 
 export const TODO_FORM_MODE = {
   CREATE: 'create',
@@ -12,13 +12,13 @@ export type TodoFormMode = (typeof TODO_FORM_MODE)[keyof typeof TODO_FORM_MODE];
 export type TodoFormSheetProps = {
   mode: TodoFormMode;
   categoryId: number;
-  todo?: TodoApiResponse;
+  todo?: TodoResponse;
 };
 
 export const todoFormSheetOpenAtom = atom<boolean>(false);
 export const todoFormSheetModeAtom = atom<TodoFormMode>(TODO_FORM_MODE.CREATE);
 export const todoFormSheetCategoryIdAtom = atom<number | null>(null);
-export const todoFormSheetEditingTodoAtom = atom<TodoApiResponse | undefined>(
+export const todoFormSheetEditingTodoAtom = atom<TodoResponse | undefined>(
   undefined,
 );
 

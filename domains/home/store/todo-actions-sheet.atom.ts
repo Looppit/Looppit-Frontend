@@ -1,14 +1,14 @@
 import { atom } from 'jotai';
 
-import { TodoApiResponse } from '@/domains/home/types/todo.types';
+import { TodoResponse } from '@/domains/home/types';
 
 export type TodoActionSheetProps = {
-  todo: TodoApiResponse;
+  todo: TodoResponse;
   categoryId: number;
 };
 
 export const todoActionsSheetOpenAtom = atom<boolean>(false);
-export const todoActionsSheetTodoAtom = atom<TodoApiResponse | null>(null);
+export const todoActionsSheetTodoAtom = atom<TodoResponse | null>(null);
 export const todoActionsSheetCategoryIdAtom = atom<number | null>(null);
 
 export const openTodoActionsSheetAtom = atom(
