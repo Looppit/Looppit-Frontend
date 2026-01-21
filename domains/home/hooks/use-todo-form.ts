@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react';
 
-import { useCategories } from '@/domains/category/hooks';
+import { Category } from '@/domains/category/types';
+import { useCreateTodo, useUpdateTodo } from '@/domains/home/hooks/queries';
 import {
   TODO_FORM_MODE,
   type TodoFormMode,
-} from '@/domains/home/hooks/use-todo-form-sheet';
-import { TodoApiResponse } from '@/domains/home/types/todo.types';
-import { getInitialFormValues } from '@/domains/home/utils/todo-form.utils';
+} from '@/domains/home/hooks/sheets/use-todo-form-sheet';
+import { TodoResponse } from '@/domains/home/types';
+import { getInitialFormValues } from '@/domains/home/utils';
 import { dayjs } from '@/shared/lib';
-
-import { useCreateTodo, useUpdateTodo } from './use-todo-mutations';
 
 type UseTodoFormProps = {
   mode: TodoFormMode;
   onSuccess?: () => void;
   initialCategoryId?: number | null;
-  initialTodo?: TodoApiResponse;
+  initialTodo?: TodoResponse;
+  enabled?: boolean;
+  categories: Category[];
 };
 
 const handleMutationSuccess = (reset: () => void, onSuccess?: () => void) => {
@@ -28,6 +29,7 @@ export const useTodoForm = ({
   onSuccess,
   initialCategoryId,
   initialTodo,
+  categories,
 }: UseTodoFormProps) => {
   const [originalCategoryId, setOriginalCategoryId] = useState<number | null>(
     null,
@@ -40,7 +42,6 @@ export const useTodoForm = ({
     dayjs().format('YYYY-MM-DD'),
   );
 
-  const { data: categories = [] } = useCategories();
   const yearMonth = dayjs().format('YYYY-MM');
   const createTodoMutation = useCreateTodo(yearMonth);
   const updateTodoMutation = useUpdateTodo(yearMonth);

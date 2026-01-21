@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { Category } from '@/domains/category/types';
-import { CategoryTodoApiResponse } from '@/domains/home/types/todo.types';
+import { CategoryWithTodosResponse } from '@/domains/home/types';
 
 /**
  * 투두 데이터(todosData)에 없는 카테고리도 화면에 노출되도록,
@@ -12,7 +12,7 @@ import { CategoryTodoApiResponse } from '@/domains/home/types/todo.types';
  * @returns 각 카테고리별 투두(투두가 없는 카테고리는 빈 배열)
  */
 export const useMergedTodos = (
-  todosData: CategoryTodoApiResponse[],
+  todosData: CategoryWithTodosResponse[],
   categories: Category[],
 ) => {
   return useMemo(() => {
@@ -21,12 +21,12 @@ export const useMergedTodos = (
       (category) => !todosCategoryIds.has(category.id),
     );
 
-    const missingCategoryTodos = missingCategories.map((category) => ({
+    const missingTodos = missingCategories.map((category) => ({
       ...category,
       categoryId: category.id,
       todo: [],
     }));
 
-    return [...todosData, ...missingCategoryTodos];
+    return [...todosData, ...missingTodos];
   }, [todosData, categories]);
 };

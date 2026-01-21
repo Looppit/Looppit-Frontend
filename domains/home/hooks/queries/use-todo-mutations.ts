@@ -9,17 +9,19 @@ import {
 } from '@/domains/home/api/todo.api';
 import { todoKeys } from '@/domains/home/todo.keys';
 import {
-  CategoryTodoApiResponse,
-  CreateCategoryTodoApiRequest,
-  UpdateTodoApiRequest,
-} from '@/domains/home/types/todo.types';
-import { updateTodoInCategory } from '@/domains/home/utils/todo';
+  CategoryWithTodosResponse,
+  CreateTodoParams,
+  DeleteTodoParams,
+  ToggleTodoParams,
+  UpdateTodoParams,
+} from '@/domains/home/types';
+import { updateTodoInCategory } from '@/domains/home/utils';
 
 export const useCreateTodo = (yearMonth: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ data, categoryId }: CreateCategoryTodoApiRequest) =>
+    mutationFn: ({ data, categoryId }: CreateTodoParams) =>
       createTodo({ data, categoryId }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: todoKeys.list(yearMonth) });
@@ -36,15 +38,8 @@ export const useToggleTodo = (yearMonth: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      categoryId,
-      todoId,
-      completed,
-    }: {
-      categoryId: number;
-      todoId: number;
-      completed: boolean;
-    }) => toggleTodoDone({ categoryId, todoId, completed }),
+    mutationFn: ({ categoryId, todoId, completed }: ToggleTodoParams) =>
+      toggleTodoDone({ categoryId, todoId, completed }),
 
     onMutate: async ({ categoryId, todoId, completed }) => {
       const queryKey = todoKeys.list(yearMonth);
@@ -52,9 +47,9 @@ export const useToggleTodo = (yearMonth: string) => {
       await queryClient.cancelQueries({ queryKey });
 
       const previousTodos =
-        queryClient.getQueryData<CategoryTodoApiResponse[]>(queryKey);
+        queryClient.getQueryData<CategoryWithTodosResponse[]>(queryKey);
 
-      queryClient.setQueryData<CategoryTodoApiResponse[]>(queryKey, (old) =>
+      queryClient.setQueryData<CategoryWithTodosResponse[]>(queryKey, (old) =>
         old ? updateTodoInCategory(old, categoryId, todoId, completed) : [],
       );
 
@@ -82,7 +77,7 @@ export const useUpdateTodo = (yearMonth: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ categoryId, todoId, data }: UpdateTodoApiRequest) =>
+    mutationFn: ({ categoryId, todoId, data }: UpdateTodoParams) =>
       updateTodo({ categoryId, todoId, data }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: todoKeys.list(yearMonth) });
@@ -99,13 +94,8 @@ export const useDeleteTodo = (yearMonth: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      categoryId,
-      todoId,
-    }: {
-      categoryId: number;
-      todoId: number;
-    }) => deleteTodo({ categoryId, todoId }),
+    mutationFn: ({ categoryId, todoId }: DeleteTodoParams) =>
+      deleteTodo({ categoryId, todoId }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: todoKeys.list(yearMonth) });
       toast.success('투두가 삭제되었어요');
