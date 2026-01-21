@@ -17,6 +17,10 @@ export class ApiClient {
     return this.request<T>(endpoint, { method: 'PUT', body, headers });
   }
 
+  patch<T>(endpoint: string, body?: unknown, headers?: Record<string, string>) {
+    return this.request<T>(endpoint, { method: 'PATCH', body, headers });
+  }
+
   delete<T>(endpoint: string, headers?: Record<string, string>) {
     return this.request<T>(endpoint, { method: 'DELETE', headers });
   }

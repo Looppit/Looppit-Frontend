@@ -1,9 +1,8 @@
 import { ERROR_MESSAGE_MAP } from '@/shared/api/api.constants';
 
 export interface ApiResponse<T> {
-  data: T;
-  message?: string;
-  timestamp?: string;
+  responseCode: string;
+  result: T;
 }
 
 export interface ApiError {
