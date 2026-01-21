@@ -1,10 +1,9 @@
 import axios, { AxiosInstance } from 'axios';
 
 import { API_TIMEOUT } from '@/shared/api/api.constants';
-import { PROJECT_ENV } from '@/shared/constants';
 
 export const initAxiosInstance = (
-  baseUrl = PROJECT_ENV.apiEndPoint,
+  baseUrl = '/api/proxy',
 ): AxiosInstance => {
   return axios.create({
     baseURL: baseUrl,

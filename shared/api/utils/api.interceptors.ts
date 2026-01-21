@@ -4,7 +4,7 @@ import { handleResponseError } from '@/shared/api/utils/api.error';
 
 export const setupRequestInterceptor = (instance: AxiosInstance) => {
   instance.interceptors.request.use(
-    (config) => {
+    async (config) => {
       return config;
     },
     (error) => Promise.reject(error),

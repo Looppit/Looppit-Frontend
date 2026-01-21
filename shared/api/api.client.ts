@@ -1,5 +1,3 @@
-'use client';
-
 import { initAxiosInstance } from '@/shared/api/utils/api.instance';
 import {
   setupErrorInterceptors,

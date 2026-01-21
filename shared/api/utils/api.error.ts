@@ -1,7 +1,5 @@
 import { AxiosError, AxiosInstance, isAxiosError } from 'axios';
 
-import { removeTokensFromCookies } from '@/shared/utils';
-
 import { handleUnAuthorizedError } from './api.refresh';
 import { createApiError } from './api.response-format';
 
@@ -21,12 +19,6 @@ export const getErrorCode = (error: unknown): ErrorCode => {
   return 500 as ErrorCode;
 };
 
-const onAuthorizationError = async () => {
-  await removeTokensFromCookies();
-
-  window.location.href = '/login';
-};
-
 export const handleNetworkError = () => {
   return Promise.reject(createApiError(503, '네트워크 연결을 확인해주세요.'));
 };
@@ -42,7 +34,7 @@ export const handleResponseError = (
   const { status, data } = error.response;
 
   if (status === 401) {
-    return handleUnAuthorizedError(instance, error, onAuthorizationError);
+    return handleUnAuthorizedError(instance, error);
   }
 
   const errorResponse = data as ErrorResponse | undefined;

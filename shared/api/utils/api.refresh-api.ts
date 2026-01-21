@@ -7,7 +7,7 @@ import {
   createApiError,
   createApiResponse,
 } from '@/shared/api/utils/api.response-format';
-import { applySetCookieHeader } from '@/shared/utils';
+import { applySetCookieHeader, removeTokensFromCookies } from '@/shared/utils';
 
 export async function postReissue() {
   try {
@@ -27,6 +27,8 @@ export async function postReissue() {
 
     return createApiResponse(response.data, '토큰 재발급에 성공했습니다.');
   } catch (error) {
+    await removeTokensFromCookies();
+
     return createApiError(error);
   }
 }

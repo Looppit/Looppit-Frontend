@@ -44,15 +44,15 @@ class RefreshTokenHandler {
     );
   }
 
-  private async performRefresh(
-    axiosInstance: AxiosInstance,
-    onAuthorizationError: () => void,
-  ) {
+  private async performRefresh(axiosInstance: AxiosInstance) {
     try {
       await postReissue();
       await this.processSuspendedRequests(axiosInstance);
     } catch (error) {
-      onAuthorizationError();
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login';
+      }
+
       await this.rejectSuspendedRequests(error);
     } finally {
       this.clearSuspendedRequests();
@@ -62,7 +62,6 @@ class RefreshTokenHandler {
   async handleUnAuthorizedError(
     axiosInstance: AxiosInstance,
     error: AxiosError,
-    onAuthorizationError: () => void,
   ) {
     try {
       const originalRequest = error.config;
@@ -76,7 +75,7 @@ class RefreshTokenHandler {
 
       if (!this.isRefreshing) {
         this.isRefreshing = true;
-        await this.performRefresh(axiosInstance, onAuthorizationError);
+        await this.performRefresh(axiosInstance);
       }
       return requestPromise;
     } catch (error) {
