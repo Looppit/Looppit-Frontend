@@ -137,11 +137,11 @@ function WeeklyCalendar({
             'flex gap-[2px] flex-col items-center justify-center',
             'data-[hidden=true]:hidden',
             props.showWeekNumber
-              ? '[&:nth-child(2)[data-selected=true]_button]:rounded-l-md'
-              : '[&:first-child[data-selected=true]_button]:rounded-l-md',
+              ? 'nth-2:[data-selected=true]_button:rounded-l-md'
+              : 'nth-1:[data-selected=true]_button:rounded-l-md',
             props.mode === 'single'
-              ? '[&:last-child[data-selected=true]_button]:rounded-full [&:first-child[data-selected=true]_button]:rounded-full'
-              : '[&:last-child[data-selected=true]_button]:rounded-r-md',
+              ? 'nth-last-1:[data-selected=true]_button:rounded-full nth-1:[data-selected=true]_button:rounded-full'
+              : 'nth-last-1:[data-selected=true]_button:rounded-r-md',
             defaultClassNames.day,
           ),
           range_start: cn(

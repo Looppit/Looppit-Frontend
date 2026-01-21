@@ -102,7 +102,7 @@ function  MonthlyCalendar({
         table: 'w-full border-collapse',
         weekdays: cn('flex', defaultClassNames.weekdays),
         weekday: cn(
-          'text-secondary opacity-50 [&:nth-child(1)]:text-destructive [&:nth-child(1)]:opacity-100 [&:nth-child(7)]:text-action [&:nth-child(7)]:opacity-100',
+          'text-secondary opacity-50 nth-1:text-destructive nth-1:opacity-100 nth-7:text-action nth-7:opacity-100',
           'rounded-md flex-1 typography-caption-bold select-none',
           defaultClassNames.weekday,
         ),
@@ -119,7 +119,7 @@ function  MonthlyCalendar({
           'relative w-full h-full p-0 text-center  group/day aspect-square select-none ',
           'flex flex-col gap-[2px] items-center justify-center',
           props.showWeekNumber
-            ? '[&:nth-child(2)[data-selected=true]_button]:rounded-l-md'
+            ? 'nth-2:[data-selected=true]_button:rounded-l-md'
             : '[&:first-child[data-selected=true]_button]:rounded-l-md',
           props.mode === 'single'
             ? '[&:last-child[data-selected=true]_button]:rounded-full [&:first-child[data-selected=true]_button]:rounded-full'
