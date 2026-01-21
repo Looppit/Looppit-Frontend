@@ -3,11 +3,11 @@
 import { useState } from 'react';
 
 import { useCategories } from '@/domains/category/hooks';
+import { useTodoForm } from '@/domains/home/hooks/use-todo-form';
 import {
   TODO_FORM_MODE,
-  TodoFormMode,
-} from '@/domains/home/contexts/todo-form-sheet.context';
-import { useTodoForm } from '@/domains/home/hooks/use-todo-form';
+  type TodoFormMode,
+} from '@/domains/home/hooks/use-todo-form-sheet';
 import { TodoApiResponse } from '@/domains/home/types/todo.types';
 
 import { CategorySelectSheet } from './category-select-sheet';

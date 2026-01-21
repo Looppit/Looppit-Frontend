@@ -1,17 +1,15 @@
-import { Dayjs } from 'dayjs';
-
 import { Category } from '@/domains/category/types';
 
 export interface TodoApiResponse {
   todoId: number;
   title: string;
-  date: Dayjs;
+  date: string;
   completed: boolean;
 }
 
 type TodoData = {
   title: string;
-  date: Dayjs;
+  date: string;
 };
 
 export interface CategoryTodoApiResponse extends Pick<

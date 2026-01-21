@@ -1,5 +1,3 @@
-import { Dayjs } from 'dayjs';
-
 import { dayjs } from '@/shared/lib';
 
 import { TodoApiResponse } from '../types/todo.types';
@@ -13,7 +11,7 @@ export type InitialFormValues = {
   categoryId: number | null;
   originalCategoryId: number | null;
   todoText: string;
-  selectedDate: Dayjs;
+  selectedDate: string;
 };
 
 export const getInitialFormValues = ({
@@ -26,6 +24,8 @@ export const getInitialFormValues = ({
     categoryId,
     originalCategoryId: categoryId,
     todoText: initialTodo?.title ?? '',
-    selectedDate: initialTodo?.date ? dayjs(initialTodo.date) : dayjs(),
+    selectedDate: initialTodo?.date
+      ? dayjs(initialTodo.date).format('YYYY-MM-DD')
+      : dayjs().format('YYYY-MM-DD'),
   };
 };

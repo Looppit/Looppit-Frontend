@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 
-import { Dayjs } from 'dayjs';
-
 import { useCategories } from '@/domains/category/hooks';
 import {
   TODO_FORM_MODE,
-  TodoFormMode,
-} from '@/domains/home/contexts/todo-form-sheet.context';
+  type TodoFormMode,
+} from '@/domains/home/hooks/use-todo-form-sheet';
 import { TodoApiResponse } from '@/domains/home/types/todo.types';
 import { getInitialFormValues } from '@/domains/home/utils/todo-form.utils';
 import { dayjs } from '@/shared/lib';
@@ -38,7 +36,9 @@ export const useTodoForm = ({
     null,
   );
   const [todoText, setTodoText] = useState<string>('');
-  const [selectedDate, setSelectedDate] = useState<Dayjs>(() => dayjs());
+  const [selectedDate, setSelectedDate] = useState<string>(() =>
+    dayjs().format('YYYY-MM-DD'),
+  );
 
   const { data: categories = [] } = useCategories();
   const yearMonth = dayjs().format('YYYY-MM');
@@ -97,7 +97,7 @@ export const useTodoForm = ({
   const reset = () => {
     setTodoText('');
     setSelectedCategoryId(null);
-    setSelectedDate(dayjs());
+    setSelectedDate(dayjs().format('YYYY-MM-DD'));
   };
 
   const isSubmitting =
