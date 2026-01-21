@@ -13,16 +13,13 @@ export type DayPickerSingleProps = Omit<
 
 export type CalendarProps = DayPickerSingleProps & {
   type: 'weekly' | 'monthly';
-  buttonVariant?: React.ComponentProps<typeof Button>['variant'];
   SubDayComponent?: React.ReactNode;
 };
 
 export type MonthlyCalendarProps = DayPickerSingleProps & {
-  buttonVariant?: React.ComponentProps<typeof Button>['variant'];
   SubDayComponent?: React.ReactNode;
 };
 
 export type WeeklyCalendarProps = DayPickerSingleProps & {
-  buttonVariant?: React.ComponentProps<typeof Button>['variant'];
   SubDayComponent?: React.ReactNode;
 };

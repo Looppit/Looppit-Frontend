@@ -25,7 +25,6 @@ function  MonthlyCalendar({
   classNames,
   showOutsideDays = false,
   captionLayout = 'label',
-  buttonVariant = 'ghost',
   formatters,
   components,
   SubDayComponent,
@@ -65,13 +64,13 @@ function  MonthlyCalendar({
           defaultClassNames.nav,
         ),
         button_previous: cn(
-          buttonVariants({ variant: buttonVariant }),
+          buttonVariants({ variant: 'ghost' }),
           'size-(--cell-size) aria-disabled:opacity-50 p-0 select-none',
           'w-10 h-10 flex items-center justify-center rounded-full text-secondary hover:text-white transition-colors',
           defaultClassNames.button_previous,
         ),
         button_next: cn(
-          buttonVariants({ variant: buttonVariant }),
+          buttonVariants({ variant: 'ghost' }),
           'size-(--cell-size) aria-disabled:opacity-50 p-0 select-none',
           'w-10 h-10 flex items-center justify-center rounded-full text-secondary hover:text-white transition-colors',
           defaultClassNames.button_next,
