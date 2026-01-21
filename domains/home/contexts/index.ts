@@ -1,4 +1,4 @@
 export {
-  CategoryTodoSectionEventProvider,
-  useCategoryTodoSectionEvents,
-} from './category-todo-section.context';
+  TodoSectionEventProvider,
+  useTodoSectionEvents,
+} from './todo-section.context';

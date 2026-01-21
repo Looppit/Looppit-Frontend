@@ -1,13 +1,13 @@
 'use client';
 
 import {
-  CategoryTodoSectionList,
   HabitStreakCard,
+  TodoActionsSheetContainer,
   TodoDeleteSheetContainer,
+  TodoFormSheetContainer,
+  TodoSections,
   UserGreeting,
 } from '@/domains/home/ui';
-import { TodoActionsSheetContainer } from '@/domains/home/ui/todo-actions-sheet-container';
-import { TodoFormSheetContainer } from '@/domains/home/ui/todo-form-sheet-container';
 
 export const HomeScreen = () => {
   return (
@@ -17,7 +17,7 @@ export const HomeScreen = () => {
         profileImage="https://picsum.photos/seed/alex/200/200"
       />
       <HabitStreakCard />
-      <CategoryTodoSectionList />
+      <TodoSections />
       {/* Sheet */}
       <TodoFormSheetContainer />
       <TodoActionsSheetContainer />

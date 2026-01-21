@@ -1,27 +1,24 @@
 'use client';
 
+import { useTodoSectionEvents } from '@/domains/home/contexts';
 import {
-  CategoryTodoSectionHeaderProps,
-  CategoryTodoSectionItemProps,
-  CategoryTodoSectionListProps,
+  TodoSectionHeaderProps,
+  TodoSectionItemProps,
+  TodoSectionListProps,
   TodoActionsProps,
-} from '@/domains/home/types/category-todo-section.types';
+} from '@/domains/home/types';
 import { StrictPropsWithChildren } from '@/shared/types';
 import { IconButton } from '@/shared/ui/icon-button';
 import SwipeableContainer from '@/shared/ui/swipeable-container';
 import { TodoItem } from '@/shared/ui/todo/todo-item';
 import { TodoItemHeader } from '@/shared/ui/todo/todo-item-header';
 
-import { useCategoryTodoSectionEvents } from '../contexts/category-todo-section.context';
-
-const CategoryTodoSectionRoot = ({ children }: StrictPropsWithChildren) => {
+const TodoSectionRoot = ({ children }: StrictPropsWithChildren) => {
   return <div className="flex flex-col gap-2">{children}</div>;
 };
 
-const CategoryTodoSectionHeader = ({
-  category,
-}: CategoryTodoSectionHeaderProps) => {
-  const { onAddClick, onTitleClick } = useCategoryTodoSectionEvents();
+const TodoSectionHeader = ({ category }: TodoSectionHeaderProps) => {
+  const { onAddClick, onTitleClick } = useTodoSectionEvents();
   const totalCount = category.todo.length;
   const completedCount = category.todo.filter((todo) => todo.completed).length;
 
@@ -38,15 +35,15 @@ const CategoryTodoSectionHeader = ({
   );
 };
 
-const CategoryTodoSectionList = ({
+const TodoSectionList = ({
   todos,
   categoryId,
   categoryColor,
-}: CategoryTodoSectionListProps) => {
+}: TodoSectionListProps) => {
   return (
     <>
       {todos.map((todo) => (
-        <CategoryTodoSectionItem
+        <TodoSectionItem
           key={todo.todoId}
           todo={todo}
           categoryId={categoryId}
@@ -57,13 +54,13 @@ const CategoryTodoSectionList = ({
   );
 };
 
-const CategoryTodoSectionItem = ({
+const TodoSectionItem = ({
   todo,
   categoryId,
   categoryColor,
-}: CategoryTodoSectionItemProps) => {
+}: TodoSectionItemProps) => {
   const { onLabelClick, onOpenTodoActions, onDeleteTodo, onTodoCheckedChange } =
-    useCategoryTodoSectionEvents();
+    useTodoSectionEvents();
 
   return (
     <SwipeableContainer
@@ -108,8 +105,8 @@ const TodoActions = ({ onOpenTodoActions, onDeleteTodo }: TodoActionsProps) => {
   );
 };
 
-export const CategoryTodoSection = Object.assign(CategoryTodoSectionRoot, {
-  Header: CategoryTodoSectionHeader,
-  List: CategoryTodoSectionList,
-  Item: CategoryTodoSectionItem,
+export const TodoSection = Object.assign(TodoSectionRoot, {
+  Header: TodoSectionHeader,
+  List: TodoSectionList,
+  Item: TodoSectionItem,
 });
