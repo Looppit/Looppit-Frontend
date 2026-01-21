@@ -1,1 +1,1 @@
-export * from './use-categories';
+export * from './queries';
