@@ -1,7 +1,8 @@
 'use client';
 
-import { useTodoFormSheet } from '@/domains/home/hooks/use-todo-form-sheet';
-import { TodoFormSheet } from '@/shared/ui/todo/todo-form-sheet';
+import { useTodoFormSheet } from '@/domains/home/hooks/sheets/use-todo-form-sheet';
+
+import { TodoFormSheet } from './todo-form-sheet';
 
 export const TodoFormSheetContainer = () => {
   const { isOpen, mode, categoryId, editingTodo, closeSheet } =

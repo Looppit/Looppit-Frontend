@@ -5,6 +5,7 @@ import { Chip } from '@/shared/ui/chip';
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
 } from '@/shared/ui/sheet';
@@ -37,6 +38,7 @@ export const CategorySelectSheet = ({
       >
         <SheetHeader>
           <SheetTitle>카테고리 선택</SheetTitle>
+          <SheetDescription className="sr-only" />
         </SheetHeader>
         <div className="flex flex-col gap-4">
           <div className="flex flex-wrap gap-2.5">

@@ -1,7 +1,5 @@
 import { type ReactNode } from 'react';
 
-import { type Dayjs } from 'dayjs';
-
 import { Category } from '@/domains/category/types';
 import { dayjs } from '@/shared/lib';
 import { Chip } from '@/shared/ui/chip';
@@ -10,6 +8,7 @@ import { IconButton } from '@/shared/ui/icon-button';
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
 } from '@/shared/ui/sheet';
@@ -30,8 +29,9 @@ const TodoFormSheetRoot = ({
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="bg-card rounded-t-3xl p-6">
-        <SheetHeader>
-          <SheetTitle className="sr-only">{title}</SheetTitle>
+        <SheetHeader className="sr-only">
+          <SheetTitle>{title}</SheetTitle>
+          <SheetDescription />
         </SheetHeader>
         <div className="flex flex-col gap-4">{children}</div>
       </SheetContent>
@@ -69,7 +69,7 @@ const TodoFormSheetInput = ({
 };
 
 type TodoFormSheetOptionsBarProps = {
-  date: Dayjs;
+  date: string;
   selectedCategory: Category | undefined;
   onDateClick: () => void;
   onCategoryClick: () => void;

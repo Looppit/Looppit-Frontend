@@ -37,7 +37,7 @@ export const TodoActionsSheet = ({
       <SheetContent side="bottom" className="bg-card rounded-t-3xl p-6">
         <SheetHeader className="sr-only">
           <SheetTitle>투두 메뉴</SheetTitle>
-          <SheetDescription>투두 변경 메뉴 입니다</SheetDescription>
+          <SheetDescription />
         </SheetHeader>
         <div className="flex flex-col gap-3 mt-6">
           <Button

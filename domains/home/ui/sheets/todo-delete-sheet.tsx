@@ -33,9 +33,7 @@ export const TodoDeleteSheet = ({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetHeader className="sr-only">
         <SheetTitle>투두 삭제</SheetTitle>
-        <SheetDescription>
-          삭제하면 기록이 사라지고 되돌릴 수 없어요.
-        </SheetDescription>
+        <SheetDescription />
       </SheetHeader>
       <SheetContent side="bottom" className="bg-card rounded-t-3xl p-6">
         <div className="px-6 pb-12 pt-8 flex flex-col gap-8">

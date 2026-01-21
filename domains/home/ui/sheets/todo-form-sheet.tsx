@@ -3,12 +3,12 @@
 import { useState } from 'react';
 
 import { useCategories } from '@/domains/category/hooks';
-import { useTodoForm } from '@/domains/home/hooks/use-todo-form';
 import {
   TODO_FORM_MODE,
   type TodoFormMode,
-} from '@/domains/home/hooks/use-todo-form-sheet';
-import { TodoApiResponse } from '@/domains/home/types/todo.types';
+} from '@/domains/home/hooks/sheets/use-todo-form-sheet';
+import { useTodoForm } from '@/domains/home/hooks/use-todo-form';
+import { TodoResponse } from '@/domains/home/types';
 
 import { CategorySelectSheet } from './category-select-sheet';
 import { TodoFormSheetUI } from './todo-form-sheet.ui';
@@ -18,7 +18,7 @@ type TodoFormSheetProps = {
   onOpenChange: (open: boolean) => void;
   mode: TodoFormMode;
   initialCategoryId?: number | null;
-  initialTodo?: TodoApiResponse;
+  initialTodo?: TodoResponse;
   onSuccess?: () => void;
   title?: string;
   showSuggestedTags?: boolean;
@@ -36,13 +36,14 @@ export const TodoFormSheet = ({
   showSuggestedTags = true,
   suggestedTags,
 }: TodoFormSheetProps) => {
-  const { data: categories = [] } = useCategories();
+  const { data: categories = [] } = useCategories({ enabled: open });
   const [isCategorySheetOpen, setIsCategorySheetOpen] = useState(false);
 
   const form = useTodoForm({
     mode,
     initialCategoryId,
     initialTodo,
+    categories,
     onSuccess: () => {
       onOpenChange(false);
       onSuccess?.();

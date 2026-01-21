@@ -2,10 +2,11 @@
 
 import { useMemo } from 'react';
 
-import { useTodoDeleteSheet } from '@/domains/home/hooks/use-todo-delete-sheet';
-import { useDeleteTodo } from '@/domains/home/hooks/use-todo-mutations';
-import { TodoDeleteSheet } from '@/domains/home/ui/todo-delete-sheet';
+import { useDeleteTodo } from '@/domains/home/hooks/queries/use-todo-mutations';
+import { useTodoDeleteSheet } from '@/domains/home/hooks/sheets/use-todo-delete-sheet';
 import { dayjs } from '@/shared/lib';
+
+import { TodoDeleteSheet } from './todo-delete-sheet';
 
 export const TodoDeleteSheetContainer = () => {
   const { isOpen, categoryId, todo, closeSheet } = useTodoDeleteSheet();
