@@ -23,7 +23,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'text-white bg-primary enabled:active:bg-primary/90 enabled:hover:bg-primary/90',
+          'text-white bg-primary shadow-primary/20 enabled:active:bg-primary/90 enabled:hover:bg-primary/90',
         secondary:
           'text-white bg-white/10 enabled:active:bg-white/5 enabled:hover:bg-white/5',
         destructive:
@@ -36,7 +36,7 @@ const buttonVariants = cva(
       size: {
         title: 'typography-title-medium',
         body: 'typography-body-semibold',
-        icon: 'size-6',
+        caption: 'typography-caption-bold',
       },
       align: {
         center: 'justify-center',
