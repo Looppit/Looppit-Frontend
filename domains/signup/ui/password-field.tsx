@@ -20,7 +20,7 @@ export default function PasswordField() {
       control={control}
       name="password"
       render={({ field }) => (
-        <FormItem className="flex flex-col gap-2">
+        <FormItem className="flex flex-col gap-3">
           <FormLabel>비밀번호</FormLabel>
           <FormDescription>
             비밀번호는 영어, 숫자, 특수기호를 포함하여 8~20글자로 작성해주세요.
