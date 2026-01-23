@@ -20,7 +20,7 @@ export default function RootLayout({
       <body
         className={`${wantedSans.variable} overflow-y-scroll bg-background text-white font-wanted-sans antialiased`}
       >
-        <div className="relative mx-auto min-h-screen max-w-xl items-center justify-center overflow-hidden">
+        <div className="relative mx-auto min-h-screen max-w-xl overflow-hidden">
           <Providers>{children}</Providers>
         </div>
         <Toaster position="bottom-center" offset={80} mobileOffset={80} />
