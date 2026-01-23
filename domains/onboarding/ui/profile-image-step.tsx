@@ -10,7 +10,7 @@ import { isImageFile } from '@/shared/utils';
 
 import { OnboardingFormValues } from '../onboarding.types';
 
-function ProfileStep() {
+function ProfileImageStep() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { setValue, watch } = useFormContext<OnboardingFormValues>();
@@ -76,4 +76,4 @@ function ProfileStep() {
   );
 }
 
-export { ProfileStep };
+export { ProfileImageStep };

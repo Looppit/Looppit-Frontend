@@ -15,7 +15,7 @@ import {
   OnboardingLayout,
   CompletedStep,
   NicknameStep,
-  ProfileStep,
+  ProfileImageStep,
 } from './ui';
 
 function OnboardingScreen() {
@@ -36,7 +36,7 @@ function OnboardingScreen() {
     <Form {...form}>
       <OnboardingLayout onPreviousStep={onPreviousStep} currentStep={step}>
         {step === 'nicknameStep' && <NicknameStep />}
-        {step === 'profileImageStep' && <ProfileStep />}
+        {step === 'profileImageStep' && <ProfileImageStep />}
         {step === 'completedStep' && <CompletedStep />}
         <div className="absolute bottom-0 left-0 w-full px-6 pb-12 pt-10 z-10">
           <Button onClick={onNextStep} disabled={buttonDisabled}>
