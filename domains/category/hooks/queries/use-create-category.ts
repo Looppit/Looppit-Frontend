@@ -3,13 +3,12 @@ import { toast } from 'sonner';
 
 import { createCategory } from '@/domains/category/api';
 import { categoryKeys } from '@/domains/category/category.keys';
-import { CreateCategoryRequest } from '@/domains/category/types';
 
 export const useCreateCategory = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: CreateCategoryRequest) => createCategory(data),
+    mutationFn: createCategory,
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: categoryKeys.list(),
