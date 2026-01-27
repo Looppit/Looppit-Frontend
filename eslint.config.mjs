@@ -2,6 +2,7 @@ import pluginQuery from '@tanstack/eslint-plugin-query';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
+import prettierConfig from 'eslint-config-prettier/flat';
 import importPlugin from 'eslint-plugin-import';
 import prettier from 'eslint-plugin-prettier';
 import storybookPlugin from 'eslint-plugin-storybook';
@@ -20,18 +21,12 @@ const eslintConfig = defineConfig([
     plugins: {
       prettier,
       import: importPlugin,
-    },
-    plugins: {
       '@tanstack/query': pluginQuery,
-    },
-    plugins: {
       storybook: storybookPlugin,
     },
     rules: {
       '@tanstack/query/stable-query-client': 'error',
       '@tanstack/query/no-unstable-deps': 'error',
-    },
-    rules: {
       '@typescript-eslint/no-unused-expressions': 'error',
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -90,8 +85,16 @@ const eslintConfig = defineConfig([
           },
         },
       ],
+      'prettier/prettier': [
+        'error',
+        {},
+        {
+          usePrettierrc: true,
+        },
+      ],
     },
   },
+  prettierConfig,
 ]);
 
 export default eslintConfig;
