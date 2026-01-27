@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import { ONBOARDING_STEPS } from './onboarding.constants';
-import { OnboardingStep } from './onboarding.types';
+import { ONBOARDING_STEPS } from '../onboarding.constants';
+import { OnboardingStep } from '../onboarding.types';
 
 export function useOnboardingStep() {
   const [step, setStep] = useState<OnboardingStep>('nicknameStep');

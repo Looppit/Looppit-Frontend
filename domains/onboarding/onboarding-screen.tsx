@@ -6,8 +6,8 @@ import { useSeedInitialData } from '@/domains/onboarding/hooks';
 import { Button } from '@/shared/ui/button';
 import { Form } from '@/shared/ui/form';
 
+import { useOnboardingStep } from './hooks';
 import { ONBOARDING_STEPS } from './onboarding.constants';
-import { useOnboardingStep } from './onboarding.hooks';
 import {
   onboardingFormSchema,
   OnboardingFormValues,
