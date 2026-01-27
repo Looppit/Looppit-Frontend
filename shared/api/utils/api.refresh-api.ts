@@ -25,7 +25,7 @@ export async function postReissue() {
       await applySetCookieHeader(setCookieHeaders);
     }
 
-    return createApiResponse(response.data, '토큰 재발급에 성공했습니다.');
+    return createApiResponse(response.data);
   } catch (error) {
     await removeTokensFromCookies();
 
