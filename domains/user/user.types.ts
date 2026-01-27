@@ -14,8 +14,8 @@ export type UserProfileResponse = z.infer<typeof userProfileSchema>;
 
 export const updateUserRequestSchema = z.object({
   nickname: z.string(),
-  content: z.string(),
-  imgPath: z.string(),
+  content: z.string().optional(),
+  imgPath: z.string().optional(),
 });
 
 export type UpdateUserRequest = z.infer<typeof updateUserRequestSchema>;
