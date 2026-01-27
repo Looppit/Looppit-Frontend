@@ -23,7 +23,7 @@ export const postLogin = async (formData: FormData) => {
       await applySetCookieHeader(setCookieHeaders);
     }
 
-    return createApiResponse(response.data, '로그인에 성공했습니다.');
+    return createApiResponse(response.data);
   } catch (error) {
     return createApiError(error);
   }

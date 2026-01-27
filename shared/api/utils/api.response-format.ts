@@ -6,13 +6,12 @@ import { getErrorCode } from './api.error';
 import { isErrorStatusKey } from './api.type-guard';
 
 export const createApiResponse = <T>(
-  data: T,
-  message?: string,
+  result: T,
+  responseCode = 'SUCCESS',
 ): ApiResponse<T> => {
   return {
-    data,
-    message: message || '요청이 성공했습니다.',
-    timestamp: new Date().toISOString(),
+    responseCode,
+    result,
   };
 };
 
