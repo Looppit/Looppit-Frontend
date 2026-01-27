@@ -8,6 +8,7 @@ import {
   useTodoFormSheet,
   useTodoForm,
 } from '@/domains/home/hooks';
+import { Form } from '@/shared/ui/form';
 
 import { CategorySelectSheet } from './category-select-sheet';
 import { TodoFormSheetUI } from './todo-form-sheet.ui';
@@ -19,7 +20,7 @@ export const TodoFormSheet = () => {
   const { data: categories = [] } = useCategories({ enabled: isOpen });
   const [isCategorySheetOpen, setIsCategorySheetOpen] = useState(false);
 
-  const form = useTodoForm({
+  const { form, selectedCategory, handleSubmit, isSubmitting } = useTodoForm({
     mode,
     initialCategoryId: categoryId,
     initialTodo: editingTodo,
@@ -29,16 +30,9 @@ export const TodoFormSheet = () => {
     },
   });
 
-  const {
-    todoText,
-    setTodoText,
-    selectedCategory,
-    date,
-    handleSubmit,
-    isSubmitting,
-    selectedCategoryId,
-    setSelectedCategoryId,
-  } = form;
+  const todoText = form.watch('title');
+  const selectedCategoryId = form.watch('categoryId');
+  const date = form.watch('date');
 
   const handleOpenChange = (open: boolean) => {
     if (!open) {
@@ -59,7 +53,7 @@ export const TodoFormSheet = () => {
   const disabled = !todoText.trim() || !selectedCategoryId || isSubmitting;
 
   return (
-    <>
+    <Form {...form}>
       <TodoFormSheetUI
         open={isOpen}
         onOpenChange={handleOpenChange}
@@ -67,8 +61,9 @@ export const TodoFormSheet = () => {
       >
         <TodoFormSheetUI.Input
           value={todoText}
-          onChange={setTodoText}
+          onChange={(value) => form.setValue('title', value)}
           onSubmit={handleSubmit}
+          maxLength={100}
         />
         <div className="h-px w-full bg-white/5" />
         <TodoFormSheetUI.OptionsBar
@@ -78,7 +73,9 @@ export const TodoFormSheet = () => {
           onCategoryClick={handleCategoryClick}
         />
         <div className="mt-4 flex items-center gap-4">
-          <TodoFormSheetUI.SuggestedTags onTagClick={setTodoText} />
+          <TodoFormSheetUI.SuggestedTags
+            onTagClick={(tag) => form.setValue('title', tag)}
+          />
           <TodoFormSheetUI.SubmitButton
             disabled={disabled}
             onClick={handleSubmit}
@@ -90,8 +87,8 @@ export const TodoFormSheet = () => {
         onOpenChange={setIsCategorySheetOpen}
         categories={categories}
         selectedCategoryId={selectedCategoryId}
-        onSelect={setSelectedCategoryId}
+        onSelect={(categoryId) => form.setValue('categoryId', categoryId)}
       />
-    </>
+    </Form>
   );
 };

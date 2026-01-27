@@ -9,11 +9,14 @@ export const TODO_FORM_MODE = {
 
 export type TodoFormMode = (typeof TODO_FORM_MODE)[keyof typeof TODO_FORM_MODE];
 
-export type TodoFormSheetProps = {
-  mode: TodoFormMode;
+export type EditTodoFormSheetProps = {
+  todo: TodoResponse;
   categoryId: number;
-  todo?: TodoResponse;
 };
+
+export type TodoFormSheetProps =
+  | { mode: typeof TODO_FORM_MODE.CREATE; categoryId: number }
+  | ({ mode: typeof TODO_FORM_MODE.EDIT } & EditTodoFormSheetProps);
 
 export const todoFormSheetOpenAtom = atom<boolean>(false);
 export const todoFormSheetModeAtom = atom<TodoFormMode>(TODO_FORM_MODE.CREATE);
@@ -24,10 +27,13 @@ export const todoFormSheetEditingTodoAtom = atom<TodoResponse | undefined>(
 
 export const openTodoFormSheetAtom = atom(
   null,
-  (get, set, { mode, categoryId, todo }: TodoFormSheetProps) => {
-    set(todoFormSheetModeAtom, mode);
-    set(todoFormSheetCategoryIdAtom, categoryId);
-    set(todoFormSheetEditingTodoAtom, todo);
+  (get, set, props: TodoFormSheetProps) => {
+    set(todoFormSheetModeAtom, props.mode);
+    set(todoFormSheetCategoryIdAtom, props.categoryId);
+    set(
+      todoFormSheetEditingTodoAtom,
+      props.mode === TODO_FORM_MODE.CREATE ? undefined : props.todo,
+    );
     set(todoFormSheetOpenAtom, true);
   },
 );

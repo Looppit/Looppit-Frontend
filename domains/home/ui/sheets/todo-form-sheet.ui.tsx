@@ -44,13 +44,14 @@ type TodoFormSheetInputProps = {
   onChange: (value: string) => void;
   onSubmit: () => void;
   placeholder?: string;
-};
+} & Omit<React.ComponentProps<'input'>, 'onChange' | 'onKeyDown' | 'type'>;
 
 const TodoFormSheetInput = ({
   value,
   onChange,
   onSubmit,
   placeholder = '할 일을 입력하세요',
+  ...props
 }: TodoFormSheetInputProps) => {
   return (
     <input
@@ -64,6 +65,7 @@ const TodoFormSheetInput = ({
           onSubmit();
         }
       }}
+      {...props}
     />
   );
 };

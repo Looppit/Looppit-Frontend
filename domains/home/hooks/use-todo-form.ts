@@ -1,12 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 
 import { Category } from '@/domains/category/types';
-import { useCreateTodo, useUpdateTodo } from '@/domains/home/hooks/queries';
 import {
   TODO_FORM_MODE,
   type TodoFormMode,
-} from '@/domains/home/hooks/sheets/use-todo-form-sheet';
-import { TodoResponse } from '@/domains/home/types';
+  useCreateTodo,
+  useUpdateTodo,
+} from '@/domains/home/hooks';
+import {
+  TodoResponse,
+  todoFormSchema,
+  type TodoFormValues,
+} from '@/domains/home/types';
 import { getInitialFormValues } from '@/domains/home/utils';
 import { dayjs } from '@/shared/lib';
 
@@ -19,10 +28,11 @@ type UseTodoFormProps = {
   categories: Category[];
 };
 
-const handleMutationSuccess = (reset: () => void, onSuccess?: () => void) => {
-  reset();
-  onSuccess?.();
-};
+const getDefaultFormValues = (): TodoFormValues => ({
+  title: '',
+  categoryId: null,
+  date: dayjs().format('YYYY-MM-DD'),
+});
 
 export const useTodoForm = ({
   mode,
@@ -31,107 +41,130 @@ export const useTodoForm = ({
   initialTodo,
   categories,
 }: UseTodoFormProps) => {
-  const [originalCategoryId, setOriginalCategoryId] = useState<number | null>(
-    null,
-  );
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
-    null,
-  );
-  const [todoText, setTodoText] = useState<string>('');
-  const [selectedDate, setSelectedDate] = useState<string>(() =>
-    dayjs().format('YYYY-MM-DD'),
-  );
+  const originalCategoryIdRef = useRef<number | null>(null);
+
+  const initValues = useMemo(() => {
+    const { title, categoryId, date } = getInitialFormValues({
+      initialTodo,
+      initialCategoryId,
+    });
+
+    return {
+      title,
+      categoryId,
+      date,
+    };
+  }, [initialTodo, initialCategoryId]);
+
+  const form = useForm<TodoFormValues>({
+    resolver: zodResolver(todoFormSchema),
+    defaultValues: initValues,
+    mode: 'onChange',
+  });
+
+  const resetForm = useCallback(() => {
+    form.reset(getDefaultFormValues());
+    originalCategoryIdRef.current = null;
+  }, [form]);
 
   const yearMonth = dayjs().format('YYYY-MM');
   const createTodoMutation = useCreateTodo(yearMonth);
   const updateTodoMutation = useUpdateTodo(yearMonth);
 
+  const selectedCategoryId = useWatch({
+    control: form.control,
+    name: 'categoryId',
+  });
   const selectedCategory = categories.find(
     (cat) => cat.id === selectedCategoryId,
   );
 
-  const handleCreate = () => {
-    if (!todoText.trim() || !selectedCategoryId) return;
+  const handleMutationSuccess = useCallback(() => {
+    resetForm();
+    onSuccess?.();
+  }, [resetForm, onSuccess]);
 
-    createTodoMutation.mutate(
-      {
-        categoryId: selectedCategoryId,
-        data: {
-          title: todoText.trim(),
-          date: selectedDate,
+  const handleCreate = useCallback(
+    (data: TodoFormValues) => {
+      if (!data.categoryId) return;
+
+      createTodoMutation.mutate(
+        {
+          categoryId: data.categoryId,
+          data: {
+            title: data.title.trim(),
+            date: data.date,
+          },
         },
-      },
-      {
-        onSuccess: () => handleMutationSuccess(reset, onSuccess),
-      },
-    );
-  };
-
-  const handleUpdate = () => {
-    if (!todoText.trim() || !selectedCategoryId) return;
-    if (!initialTodo || !originalCategoryId) return;
-
-    updateTodoMutation.mutate(
-      {
-        categoryId: originalCategoryId,
-        todoId: initialTodo.todoId,
-        data: {
-          title: todoText.trim(),
-          date: selectedDate,
-          updateCategory: selectedCategoryId,
+        {
+          onSuccess: handleMutationSuccess,
         },
-      },
-      {
-        onSuccess: () => handleMutationSuccess(reset, onSuccess),
-      },
-    );
-  };
+      );
+    },
+    [createTodoMutation, handleMutationSuccess],
+  );
 
-  const handleSubmit = () => {
-    if (mode === TODO_FORM_MODE.CREATE) {
-      handleCreate();
-    } else {
-      handleUpdate();
-    }
-  };
+  const handleUpdate = useCallback(
+    (data: TodoFormValues) => {
+      if (!initialTodo || !originalCategoryIdRef.current || !data.categoryId)
+        return;
 
-  const reset = () => {
-    setTodoText('');
-    setSelectedCategoryId(null);
-    setSelectedDate(dayjs().format('YYYY-MM-DD'));
-  };
+      updateTodoMutation.mutate(
+        {
+          categoryId: originalCategoryIdRef.current,
+          todoId: initialTodo.todoId,
+          data: {
+            title: data.title.trim(),
+            date: data.date,
+            updateCategory: data.categoryId,
+          },
+        },
+        {
+          onSuccess: handleMutationSuccess,
+        },
+      );
+    },
+    [updateTodoMutation, initialTodo, handleMutationSuccess],
+  );
 
-  const isSubmitting =
-    mode === TODO_FORM_MODE.CREATE
-      ? createTodoMutation.isPending
-      : updateTodoMutation.isPending;
+  const handleSubmit = useCallback(
+    (e?: React.BaseSyntheticEvent) => {
+      return form.handleSubmit(
+        (data) => {
+          if (!data.categoryId) return;
+
+          if (mode === TODO_FORM_MODE.CREATE) {
+            handleCreate(data);
+            return;
+          }
+          handleUpdate(data);
+        },
+        (errors) => {
+          const firstError = Object.values(errors)[0];
+          if (firstError?.message) {
+            toast.error(firstError.message);
+            return;
+          }
+          toast.error('입력 정보를 확인해주세요.');
+        },
+      )(e);
+    },
+    [form, mode, handleCreate, handleUpdate],
+  );
 
   useEffect(() => {
-    const newValues = getInitialFormValues({
-      initialTodo,
-      initialCategoryId,
-    });
-
-    setOriginalCategoryId(newValues.originalCategoryId);
-    setSelectedCategoryId(newValues.categoryId);
-
-    if (mode === TODO_FORM_MODE.EDIT && initialTodo) {
-      setTodoText(newValues.todoText);
-      setSelectedDate(newValues.selectedDate);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode, initialCategoryId, initialTodo?.todoId]);
+    originalCategoryIdRef.current = initValues.categoryId;
+    form.reset(initValues);
+  }, [form, initValues]);
 
   return {
-    todoText,
-    setTodoText,
-    selectedCategoryId,
-    setSelectedCategoryId,
+    form,
     selectedCategory,
-    date: selectedDate,
-    setDate: setSelectedDate,
     handleSubmit,
-    reset,
-    isSubmitting,
+    reset: resetForm,
+    isSubmitting:
+      mode === TODO_FORM_MODE.CREATE
+        ? createTodoMutation.isPending
+        : updateTodoMutation.isPending,
   };
 };

@@ -10,9 +10,9 @@ import {
   useToggleTodo,
 } from '@/domains/home/hooks';
 import {
+  EditTodoFormSheetProps,
   TodoActionSheetProps,
   TodoDeleteSheetProps,
-  TodoFormSheetProps,
 } from '@/domains/home/store';
 import { useSwipeable } from '@/shared/hooks';
 import { StrictPropsWithChildren } from '@/shared/types';
@@ -23,7 +23,7 @@ type TodoSectionHandlers = {
     todoId: number,
     checked: boolean,
   ) => void;
-  onLabelClick: (props: Omit<TodoFormSheetProps, 'mode'>) => void;
+  onLabelClick: (props: EditTodoFormSheetProps) => void;
   onOpenTodoActions: (props: TodoActionSheetProps) => void;
   onDeleteTodo: (props: TodoDeleteSheetProps) => void;
   onAddClick: (categoryId: number) => void;
@@ -60,9 +60,12 @@ const useTodoSectionHandlers = ({
   );
 
   const onLabelClick = useCallback(
-    (props: Omit<TodoFormSheetProps, 'mode'>) => {
+    (props: EditTodoFormSheetProps) => {
       if (isOpened) return;
-      openFormSheet({ mode: TODO_FORM_MODE.EDIT, ...props });
+      openFormSheet({
+        mode: TODO_FORM_MODE.EDIT,
+        ...props,
+      });
     },
     [openFormSheet, isOpened],
   );
