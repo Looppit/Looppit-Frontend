@@ -11,3 +11,11 @@ export const userProfileSchema = z.object({
 
 export type UserProfile = z.infer<typeof userProfileSchema>;
 export type UserProfileResponse = z.infer<typeof userProfileSchema>;
+
+export const updateUserRequestSchema = z.object({
+  nickname: z.string(),
+  content: z.string(),
+  imgPath: z.string(),
+});
+
+export type UpdateUserRequest = z.infer<typeof updateUserRequestSchema>;
