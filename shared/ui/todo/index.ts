@@ -1,2 +1,1 @@
-export * from './todo-item';
-export * from './todo-item-header';
+export * from './todo-card';

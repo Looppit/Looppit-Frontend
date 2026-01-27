@@ -14,9 +14,21 @@ import {
   TodoDeleteSheetProps,
   TodoFormSheetProps,
 } from '@/domains/home/store';
-import { TodoSectionHandlers } from '@/domains/home/types';
 import { useSwipeable } from '@/shared/hooks';
 import { StrictPropsWithChildren } from '@/shared/types';
+
+type TodoSectionHandlers = {
+  onTodoCheckedChange: (
+    categoryId: number,
+    todoId: number,
+    checked: boolean,
+  ) => void;
+  onLabelClick: (props: Omit<TodoFormSheetProps, 'mode'>) => void;
+  onOpenTodoActions: (props: TodoActionSheetProps) => void;
+  onDeleteTodo: (props: TodoDeleteSheetProps) => void;
+  onAddClick: (categoryId: number) => void;
+  onTitleClick: (categoryId: number) => void;
+};
 
 const TodoSectionEventContext = createContext<TodoSectionHandlers | null>(null);
 
@@ -94,10 +106,9 @@ export const TodoSectionEventProvider = ({
   yearMonth,
 }: StrictPropsWithChildren<TodoSectionEventProviderProps>) => {
   const handlers = useTodoSectionHandlers({ yearMonth });
-  const contextValue = useMemo(() => handlers, [handlers]);
 
   return (
-    <TodoSectionEventContext.Provider value={contextValue}>
+    <TodoSectionEventContext.Provider value={handlers}>
       {children}
     </TodoSectionEventContext.Provider>
   );
