@@ -12,6 +12,4 @@ export interface Category {
 export type CategoryResponse = Category[];
 
 /** API Request Types */
-export interface CreateCategoryRequest {
-  categoryName: string;
-}
+export type CreateCategoryParams = Omit<Category, 'id'>;
