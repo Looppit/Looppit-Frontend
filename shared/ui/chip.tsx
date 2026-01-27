@@ -8,7 +8,7 @@ import { cn } from '@/shared/utils';
 const chipVariants = cva(
   cn(
     'inline-flex items-center justify-center rounded-full border px-4 py-2 bg-white-softer border-white-softer w-fit whitespace-nowrap',
-    '[&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
+    '[&>svg]:size-4 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
     'overflow-hidden transition-all active:scale-95 hover:bg-white/10 shrink-0',
   ),
   {

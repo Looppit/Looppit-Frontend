@@ -15,6 +15,8 @@ import { StrictPropsWithChildren } from '@/shared/types';
 const queryClientConfig: QueryClientConfig = {
   defaultOptions: {
     queries: {
+      staleTime: 10 * 60 * 1000, // 10분
+      gcTime: 30 * 60 * 1000, // 30분
       refetchOnReconnect: true,
       refetchOnMount: true,
       retry: 1,

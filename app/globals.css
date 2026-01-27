@@ -21,6 +21,10 @@
   --positive: #4ade80;
   --action: #818cf8;
   --destructive: #ef4444;
+
+  --radius-small: 12px;
+  --radius-medium: 24px;
+  --radius-large: 32px;
 }
 
 @theme inline {
@@ -96,5 +100,15 @@
   input[type='number'] {
     appearance: textfield;
     -moz-appearance: textfield;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
