@@ -1,5 +1,9 @@
 'use client';
 
+import { useMemo } from 'react';
+
+import { useDeleteTodo, useTodoDeleteSheet } from '@/domains/home/hooks';
+import { dayjs } from '@/shared/lib';
 import { Button } from '@/shared/ui/button';
 import {
   Sheet,
@@ -9,28 +13,32 @@ import {
   SheetTitle,
 } from '@/shared/ui/sheet';
 
-type TodoActionsSheetProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onDelete: () => void;
-};
+export const TodoDeleteSheet = () => {
+  const { isOpen, categoryId, todo, closeSheet } = useTodoDeleteSheet();
 
-export const TodoDeleteSheet = ({
-  open,
-  onOpenChange,
-  onDelete,
-}: TodoActionsSheetProps) => {
-  const handleEdit = () => {
-    onOpenChange(false);
+  const yearMonth = useMemo(() => dayjs().format('YYYY-MM'), []);
+  const deleteTodoMutation = useDeleteTodo(yearMonth);
+
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      closeSheet();
+    }
+  };
+
+  const handleCancel = () => {
+    closeSheet();
   };
 
   const handleDelete = () => {
-    onDelete();
-    onOpenChange(false);
+    if (!todo || !categoryId) return;
+    deleteTodoMutation.mutate({
+      categoryId,
+      todoId: todo.todoId,
+    });
   };
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
+    <Sheet open={isOpen} onOpenChange={handleOpenChange}>
       <SheetHeader className="sr-only">
         <SheetTitle>투두 삭제</SheetTitle>
         <SheetDescription />
@@ -46,7 +54,11 @@ export const TodoDeleteSheet = ({
             </p>
           </div>
           <div className="flex gap-3">
-            <Button variant="secondary" className="w-full" onClick={handleEdit}>
+            <Button
+              variant="secondary"
+              className="w-full"
+              onClick={handleCancel}
+            >
               취소
             </Button>
             <Button

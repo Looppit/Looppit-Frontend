@@ -1,5 +1,10 @@
 'use client';
 
+import { useMemo } from 'react';
+
+import { useCreateTodo, useUpdateTodo } from '@/domains/home/hooks';
+import { useTodoActionsSheet } from '@/domains/home/hooks/sheets';
+import { dayjs } from '@/shared/lib';
 import { Button } from '@/shared/ui/button';
 import {
   Sheet,
@@ -9,31 +14,57 @@ import {
   SheetTitle,
 } from '@/shared/ui/sheet';
 
-type TodoActionsSheetProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onRescheduleTodoToTomorrow: () => void;
-  onAddTodoForTomorrow: () => void;
-};
+export const TodoActionsSheet = () => {
+  const { isOpen, todo, categoryId, closeSheet } = useTodoActionsSheet();
 
-export const TodoActionsSheet = ({
-  open,
-  onOpenChange,
-  onRescheduleTodoToTomorrow,
-  onAddTodoForTomorrow,
-}: TodoActionsSheetProps) => {
+  const yearMonth = useMemo(() => dayjs().format('YYYY-MM'), []);
+  const updateTodoMutation = useUpdateTodo(yearMonth);
+  const createTodoMutation = useCreateTodo(yearMonth);
+
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      closeSheet();
+    }
+  };
+
   const handleRescheduleTodoToTomorrow = () => {
-    onRescheduleTodoToTomorrow();
-    onOpenChange(false);
+    if (!todo || !categoryId) return;
+
+    updateTodoMutation.mutate(
+      {
+        categoryId,
+        todoId: todo.todoId,
+        data: {
+          title: todo.title,
+          date: dayjs(todo.date).add(1, 'day').format('YYYY-MM-DD'),
+          updateCategory: categoryId,
+        },
+      },
+      {
+        onSuccess: () => closeSheet(),
+      },
+    );
   };
 
   const handleAddTodoForTomorrow = () => {
-    onAddTodoForTomorrow();
-    onOpenChange(false);
+    if (!todo || !categoryId) return;
+
+    createTodoMutation.mutate(
+      {
+        categoryId,
+        data: {
+          title: todo.title,
+          date: dayjs(todo.date).add(1, 'day').format('YYYY-MM-DD'),
+        },
+      },
+      {
+        onSuccess: () => closeSheet(),
+      },
+    );
   };
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
+    <Sheet open={isOpen} onOpenChange={handleOpenChange}>
       <SheetContent side="bottom" className="bg-card rounded-t-3xl p-6">
         <SheetHeader className="sr-only">
           <SheetTitle>투두 메뉴</SheetTitle>

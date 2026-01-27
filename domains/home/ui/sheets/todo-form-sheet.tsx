@@ -5,48 +5,27 @@ import { useState } from 'react';
 import { useCategories } from '@/domains/category/hooks';
 import {
   TODO_FORM_MODE,
-  type TodoFormMode,
-} from '@/domains/home/hooks/sheets/use-todo-form-sheet';
-import { useTodoForm } from '@/domains/home/hooks/use-todo-form';
-import { TodoResponse } from '@/domains/home/types';
+  useTodoFormSheet,
+  useTodoForm,
+} from '@/domains/home/hooks';
 
 import { CategorySelectSheet } from './category-select-sheet';
 import { TodoFormSheetUI } from './todo-form-sheet.ui';
 
-type TodoFormSheetProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  mode: TodoFormMode;
-  initialCategoryId?: number | null;
-  initialTodo?: TodoResponse;
-  onSuccess?: () => void;
-  title?: string;
-  showSuggestedTags?: boolean;
-  suggestedTags?: readonly string[];
-};
+export const TodoFormSheet = () => {
+  const { isOpen, mode, categoryId, editingTodo, closeSheet } =
+    useTodoFormSheet();
 
-export const TodoFormSheet = ({
-  open,
-  onOpenChange,
-  mode,
-  initialCategoryId,
-  initialTodo,
-  onSuccess,
-  title,
-  showSuggestedTags = true,
-  suggestedTags,
-}: TodoFormSheetProps) => {
-  const { data: categories = [] } = useCategories({ enabled: open });
+  const { data: categories = [] } = useCategories({ enabled: isOpen });
   const [isCategorySheetOpen, setIsCategorySheetOpen] = useState(false);
 
   const form = useTodoForm({
     mode,
-    initialCategoryId,
-    initialTodo,
+    initialCategoryId: categoryId,
+    initialTodo: editingTodo,
     categories,
     onSuccess: () => {
-      onOpenChange(false);
-      onSuccess?.();
+      closeSheet();
     },
   });
 
@@ -61,6 +40,12 @@ export const TodoFormSheet = ({
     setSelectedCategoryId,
   } = form;
 
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      closeSheet();
+    }
+  };
+
   const handleCategoryClick = () => {
     setIsCategorySheetOpen(true);
   };
@@ -70,14 +55,14 @@ export const TodoFormSheet = ({
   };
 
   const displayTitle =
-    title ?? (mode === TODO_FORM_MODE.CREATE ? '투두 추가' : '투두 수정');
+    mode === TODO_FORM_MODE.CREATE ? '투두 추가' : '투두 수정';
   const disabled = !todoText.trim() || !selectedCategoryId || isSubmitting;
 
   return (
     <>
       <TodoFormSheetUI
-        open={open}
-        onOpenChange={onOpenChange}
+        open={isOpen}
+        onOpenChange={handleOpenChange}
         title={displayTitle}
       >
         <TodoFormSheetUI.Input
@@ -92,18 +77,13 @@ export const TodoFormSheet = ({
           onDateClick={handleDateClick}
           onCategoryClick={handleCategoryClick}
         />
-        {showSuggestedTags && (
-          <div className="mt-4 flex items-center gap-4">
-            <TodoFormSheetUI.SuggestedTags
-              onTagClick={setTodoText}
-              tags={suggestedTags}
-            />
-            <TodoFormSheetUI.SubmitButton
-              disabled={disabled}
-              onClick={handleSubmit}
-            />
-          </div>
-        )}
+        <div className="mt-4 flex items-center gap-4">
+          <TodoFormSheetUI.SuggestedTags onTagClick={setTodoText} />
+          <TodoFormSheetUI.SubmitButton
+            disabled={disabled}
+            onClick={handleSubmit}
+          />
+        </div>
       </TodoFormSheetUI>
       <CategorySelectSheet
         open={isCategorySheetOpen}
