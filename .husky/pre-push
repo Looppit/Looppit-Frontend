@@ -1,6 +1,11 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+if [ -n "$SKIP_PRE_PUSH" ]; then
+  echo "⏭️  pre-push push hook을 스킵합니다."
+  exit 0
+fi
+
 echo "🧹 이전 빌드 캐시 삭제 중..."
 rm -rf .next
 
