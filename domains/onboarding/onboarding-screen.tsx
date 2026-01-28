@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -28,8 +28,8 @@ function OnboardingScreen() {
     },
     mode: 'onChange',
   });
-  const buttonDisabled = !OnboardingStepSchema[step].safeParse(form.getValues())
-    .success;
+  const watch = useWatch({ control: form.control });
+  const buttonDisabled = !OnboardingStepSchema[step].safeParse(watch).success;
   const isLastStep = step === 'completedStep';
 
   return (
