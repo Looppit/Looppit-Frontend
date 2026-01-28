@@ -1,5 +1,3 @@
-
-
 import { Container } from '@/shared/stories/components';
 
 import { TodoCalendar } from './todo-calendar';
@@ -13,9 +11,10 @@ const meta = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Looppit의 TodoCalendar 컴포넌트는 투두리스트 도메인이 들어갔을 때의 캘린더를 표시합니다.' +
-        '해당일의 카테고리 안에 있는 투두리스트를 모두 완료했을 경우 해당 날짜에 완료 동그라미를 표시합니다.' +
-        '완료 동그라미의 색상은 카테고리의 색상을 사용합니다.'
+        component:
+          'Looppit의 TodoCalendar 컴포넌트는 투두리스트 도메인이 들어갔을 때의 캘린더를 표시합니다.' +
+          '해당일의 카테고리 안에 있는 투두리스트를 모두 완료했을 경우 해당 날짜에 완료 동그라미를 표시합니다.' +
+          '완료 동그라미의 색상은 카테고리의 색상을 사용합니다.',
       },
     },
   },
@@ -67,6 +66,14 @@ export const Default: Story = {
     type: 'weekly',
     selected: new Date(),
     onSelect: () => {},
-    completedColors: [{ color: 'rgb(139, 92, 246)', id: '1' }, { color: 'rgb(239, 68, 68)', id: '2' }, { color: 'rgb(234, 179, 8)', id: '3' }, { color: 'rgb(34, 197, 94)', id: '4' }, { color: 'rgb(59, 130, 246)', id: '5' }, { color: 'rgb(16, 185, 129)', id: '6' }, { color: 'rgb(229, 231, 235)', id: '7' }],
+    completedColors: [
+      { color: 'rgb(139, 92, 246)', id: '1' },
+      { color: 'rgb(239, 68, 68)', id: '2' },
+      { color: 'rgb(234, 179, 8)', id: '3' },
+      { color: 'rgb(34, 197, 94)', id: '4' },
+      { color: 'rgb(59, 130, 246)', id: '5' },
+      { color: 'rgb(16, 185, 129)', id: '6' },
+      { color: 'rgb(229, 231, 235)', id: '7' },
+    ],
   },
 };

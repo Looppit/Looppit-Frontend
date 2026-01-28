@@ -13,9 +13,10 @@ const meta = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Looppit의 Calendar 컴포넌트는 캘린더를 표시합니다.' + 
-        'type에 따라 주단위 캘린더인 **WeeklyCalendar**와 월단위 캘린더인 **MonthlyCalendar** 컴포넌트를 제공합니다.' +
-        '현재 프로젝트 기획에 따라 캘린더의 모드를 single로 제한시켜 놓은 상태입니다.'
+        component:
+          'Looppit의 Calendar 컴포넌트는 캘린더를 표시합니다.' +
+          'type에 따라 주단위 캘린더인 **WeeklyCalendar**와 월단위 캘린더인 **MonthlyCalendar** 컴포넌트를 제공합니다.' +
+          '현재 프로젝트 기획에 따라 캘린더의 모드를 single로 제한시켜 놓은 상태입니다.',
       },
     },
   },

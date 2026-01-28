@@ -1,6 +1,4 @@
-import { DayPicker } from "react-day-picker";
-
-import { Button } from "../button";
+import { DayPicker } from 'react-day-picker';
 
 export type DayPickerSingleProps = Omit<
   React.ComponentProps<typeof DayPicker>,

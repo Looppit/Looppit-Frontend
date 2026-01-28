@@ -1,6 +1,5 @@
 'use client';
 
-
 import { Calendar } from '@/shared/ui/calendar';
 import { CalendarProps } from '@/shared/ui/calendar';
 
@@ -10,10 +9,18 @@ type TodoCalendarProps = CalendarProps & {
   completedColors: { color: string; id: string }[];
 };
 
-function TodoCalendar({ type = 'monthly', completedColors, ...props }: TodoCalendarProps) {
+function TodoCalendar({
+  type = 'monthly',
+  completedColors,
+  ...props
+}: TodoCalendarProps) {
   return (
-    <Calendar type={type} SubDayComponent={<TodoCalendarCompletedDots colors={completedColors} />} {...props} />
-  )
+    <Calendar
+      type={type}
+      SubDayComponent={<TodoCalendarCompletedDots colors={completedColors} />}
+      {...props}
+    />
+  );
 }
 
 export { TodoCalendar };
