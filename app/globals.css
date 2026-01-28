@@ -36,6 +36,7 @@
   --color-background: #161022;
   --color-primary: #5b13ec;
   --color-secondary: #a492c9;
+  --color-secondary-muted: #a492c926;
 
   --color-white-soft: var(--white-soft);
   --color-white-softer: var(--white-softer);
