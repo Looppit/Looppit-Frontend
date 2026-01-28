@@ -3,15 +3,15 @@ import { type ReactNode } from 'react';
 import { Category } from '@/domains/category/types';
 import { dayjs } from '@/shared/lib';
 import { Chip } from '@/shared/ui/chip';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from '@/shared/ui/drawer';
 import { Icon } from '@/shared/ui/icon';
 import { IconButton } from '@/shared/ui/icon-button';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from '@/shared/ui/sheet';
 
 type TodoFormSheetRootProps = {
   open: boolean;
@@ -27,15 +27,15 @@ const TodoFormSheetRoot = ({
   children,
 }: TodoFormSheetRootProps) => {
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="bg-card rounded-t-3xl p-6">
-        <SheetHeader className="sr-only">
-          <SheetTitle>{title}</SheetTitle>
-          <SheetDescription />
-        </SheetHeader>
+    <Drawer open={open} onOpenChange={onOpenChange}>
+      <DrawerContent className="bg-card rounded-t-3xl p-6">
+        <DrawerHeader className="sr-only">
+          <DrawerTitle>{title}</DrawerTitle>
+          <DrawerDescription />
+        </DrawerHeader>
         <div className="flex flex-col gap-4">{children}</div>
-      </SheetContent>
-    </Sheet>
+      </DrawerContent>
+    </Drawer>
   );
 };
 

@@ -3,12 +3,12 @@
 import { Category } from '@/domains/category/types';
 import { Chip } from '@/shared/ui/chip';
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from '@/shared/ui/sheet';
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from '@/shared/ui/drawer';
 
 type CategorySelectSheetProps = {
   open: boolean;
@@ -31,15 +31,12 @@ export const CategorySelectSheet = ({
   };
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent
-        side="bottom"
-        className="bg-card rounded-t-3xl p-6 z-60 [&+div]:z-60"
-      >
-        <SheetHeader>
-          <SheetTitle>카테고리 선택</SheetTitle>
-          <SheetDescription className="sr-only" />
-        </SheetHeader>
+    <Drawer open={open} onOpenChange={onOpenChange}>
+      <DrawerContent className="bg-card rounded-t-3xl p-6 z-60 [&+div]:z-60">
+        <DrawerHeader>
+          <DrawerTitle>카테고리 선택</DrawerTitle>
+          <DrawerDescription className="sr-only" />
+        </DrawerHeader>
         <div className="flex flex-col gap-4">
           <div className="flex flex-wrap gap-2.5">
             {categories.map((category) => {
@@ -77,7 +74,7 @@ export const CategorySelectSheet = ({
             })}
           </div>
         </div>
-      </SheetContent>
-    </Sheet>
+      </DrawerContent>
+    </Drawer>
   );
 };

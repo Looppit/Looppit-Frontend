@@ -10,12 +10,13 @@ import {
 import { dayjs } from '@/shared/lib';
 import { Button } from '@/shared/ui/button';
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from '@/shared/ui/sheet';
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from '@/shared/ui/drawer';
 
 export const TodoActionsSheet = ({
   props,
@@ -68,13 +69,13 @@ export const TodoActionsSheet = ({
   };
 
   return (
-    <Sheet open={true} onOpenChange={handleOpenChange}>
-      <SheetContent side="bottom" className="bg-card rounded-t-3xl p-6">
-        <SheetHeader className="sr-only">
-          <SheetTitle>투두 메뉴</SheetTitle>
-          <SheetDescription />
-        </SheetHeader>
-        <div className="flex flex-col gap-3 mt-6">
+    <Drawer open={true} onOpenChange={handleOpenChange}>
+      <DrawerContent className="bg-card rounded-t-3xl p-6">
+        <DrawerHeader className="sr-only">
+          <DrawerTitle>투두 메뉴</DrawerTitle>
+          <DrawerDescription />
+        </DrawerHeader>
+        <div className="flex flex-col gap-3">
           <Button
             variant="outline"
             size="body"
@@ -102,7 +103,8 @@ export const TodoActionsSheet = ({
             내일도 추가하기
           </Button>
         </div>
-      </SheetContent>
-    </Sheet>
+        <DrawerClose>닫기</DrawerClose>
+      </DrawerContent>
+    </Drawer>
   );
 };

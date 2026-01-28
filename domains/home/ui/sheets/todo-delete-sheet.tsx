@@ -10,12 +10,12 @@ import {
 import { dayjs } from '@/shared/lib';
 import { Button } from '@/shared/ui/button';
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from '@/shared/ui/sheet';
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from '@/shared/ui/drawer';
 
 export const TodoDeleteSheet = ({
   props,
@@ -44,14 +44,14 @@ export const TodoDeleteSheet = ({
   };
 
   return (
-    <Sheet open={true} onOpenChange={handleOpenChange}>
-      <SheetHeader className="sr-only">
-        <SheetTitle>투두 삭제</SheetTitle>
-        <SheetDescription />
-      </SheetHeader>
-      <SheetContent side="bottom" className="bg-card rounded-t-3xl p-6">
-        <div className="px-6 pb-12 pt-8 flex flex-col gap-8">
-          <div className="text-center space-y-3">
+    <Drawer open={true} onOpenChange={handleOpenChange}>
+      <DrawerHeader className="sr-only">
+        <DrawerTitle>투두 삭제</DrawerTitle>
+        <DrawerDescription />
+      </DrawerHeader>
+      <DrawerContent className="bg-card rounded-t-3xl p-6">
+        <div className="px-6 py-4 flex flex-col gap-6">
+          <div className="text-center space-y-2">
             <h3 className="text-white typography-title-lg">
               정말 삭제하시겠어요?
             </h3>
@@ -76,7 +76,7 @@ export const TodoDeleteSheet = ({
             </Button>
           </div>
         </div>
-      </SheetContent>
-    </Sheet>
+      </DrawerContent>
+    </Drawer>
   );
 };
