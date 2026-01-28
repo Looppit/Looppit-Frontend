@@ -2,9 +2,7 @@
 
 import {
   HabitStreakCard,
-  TodoActionsSheet,
-  TodoDeleteSheet,
-  TodoFormSheet,
+  HomeSheets,
   TodoSections,
   UserGreeting,
 } from '@/domains/home/ui';
@@ -18,10 +16,7 @@ export const HomeScreen = () => {
       />
       <HabitStreakCard />
       <TodoSections />
-      {/* Sheet */}
-      <TodoFormSheet />
-      <TodoActionsSheet />
-      <TodoDeleteSheet />
+      <HomeSheets />
     </div>
   );
 };

@@ -1,24 +1,26 @@
 'use client';
 
-import { useTodoSectionEvents } from '@/domains/home/contexts';
 import { TodoResponse } from '@/domains/home/types';
 import SwipeableContainer from '@/shared/ui/swipeable-container';
 import { TodoCard } from '@/shared/ui/todo';
 
 type TodoItemListProps = {
   todos: TodoResponse[];
-  categoryId: number;
   categoryColor: string;
+  onLabelClick: (todo: TodoResponse) => void;
+  onOpenActions: (todo: TodoResponse) => void;
+  onDelete: (todo: TodoResponse) => void;
+  onToggle: (todoId: number, checked: boolean) => void;
 };
 
 export const TodoItemList = ({
   todos,
-  categoryId,
   categoryColor,
+  onLabelClick,
+  onOpenActions,
+  onDelete,
+  onToggle,
 }: TodoItemListProps) => {
-  const { onLabelClick, onOpenTodoActions, onDeleteTodo, onTodoCheckedChange } =
-    useTodoSectionEvents();
-
   return (
     <TodoCard.ItemGroup>
       {todos.map((todo) => (
@@ -26,8 +28,8 @@ export const TodoItemList = ({
           key={todo.todoId}
           actions={
             <TodoCard.ActionButton
-              onOpenTodoActions={() => onOpenTodoActions({ todo, categoryId })}
-              onDeleteTodo={() => onDeleteTodo({ todo, categoryId })}
+              onOpenTodoActions={() => onOpenActions(todo)}
+              onDeleteTodo={() => onDelete(todo)}
             />
           }
         >
@@ -35,10 +37,8 @@ export const TodoItemList = ({
             label={todo.title}
             isChecked={todo.completed}
             categoryColor={categoryColor}
-            onCheckedChange={(checked) =>
-              onTodoCheckedChange(categoryId, todo.todoId, checked)
-            }
-            onLabelClick={() => onLabelClick({ todo, categoryId })}
+            onCheckedChange={(checked) => onToggle(todo.todoId, checked)}
+            onLabelClick={() => onLabelClick(todo)}
           />
         </SwipeableContainer>
       ))}

@@ -3,7 +3,10 @@
 import { useMemo } from 'react';
 
 import { useCreateTodo, useUpdateTodo } from '@/domains/home/hooks';
-import { useTodoActionsSheet } from '@/domains/home/hooks/sheets';
+import {
+  SheetComponentProps,
+  TodoActionsSheetProps,
+} from '@/domains/home/types';
 import { dayjs } from '@/shared/lib';
 import { Button } from '@/shared/ui/button';
 import {
@@ -14,8 +17,11 @@ import {
   SheetTitle,
 } from '@/shared/ui/sheet';
 
-export const TodoActionsSheet = () => {
-  const { isOpen, todo, categoryId, closeSheet } = useTodoActionsSheet();
+export const TodoActionsSheet = ({
+  props,
+  onClose,
+}: SheetComponentProps<TodoActionsSheetProps>) => {
+  const { todo, categoryId } = props;
 
   const yearMonth = useMemo(() => dayjs().format('YYYY-MM'), []);
   const updateTodoMutation = useUpdateTodo(yearMonth);
@@ -23,7 +29,7 @@ export const TodoActionsSheet = () => {
 
   const handleOpenChange = (open: boolean) => {
     if (!open) {
-      closeSheet();
+      onClose();
     }
   };
 
@@ -41,14 +47,12 @@ export const TodoActionsSheet = () => {
         },
       },
       {
-        onSuccess: () => closeSheet(),
+        onSuccess: () => onClose(),
       },
     );
   };
 
   const handleAddTodoForTomorrow = () => {
-    if (!todo || !categoryId) return;
-
     createTodoMutation.mutate(
       {
         categoryId,
@@ -58,13 +62,13 @@ export const TodoActionsSheet = () => {
         },
       },
       {
-        onSuccess: () => closeSheet(),
+        onSuccess: () => onClose(),
       },
     );
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={handleOpenChange}>
+    <Sheet open={true} onOpenChange={handleOpenChange}>
       <SheetContent side="bottom" className="bg-card rounded-t-3xl p-6">
         <SheetHeader className="sr-only">
           <SheetTitle>투두 메뉴</SheetTitle>

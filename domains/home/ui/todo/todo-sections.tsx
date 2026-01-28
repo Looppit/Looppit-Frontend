@@ -1,6 +1,5 @@
 'use client';
 
-import { TodoSectionEventProvider } from '@/domains/home/contexts';
 import { useMergedTodos, useTodosAndCategories } from '@/domains/home/hooks';
 import { HomeEmpty, HomeLoading } from '@/domains/home/ui';
 import { dayjs } from '@/shared/lib';
@@ -37,9 +36,7 @@ export const TodoSections = () => {
 
   return (
     <QueryErrorBoundary loadingFallback={<HomeLoading />}>
-      <TodoSectionEventProvider yearMonth={yearMonth}>
-        <TodoSectionsContent yearMonth={yearMonth} />
-      </TodoSectionEventProvider>
+      <TodoSectionsContent yearMonth={yearMonth} />
     </QueryErrorBoundary>
   );
 };

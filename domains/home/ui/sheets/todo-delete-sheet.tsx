@@ -2,7 +2,11 @@
 
 import { useMemo } from 'react';
 
-import { useDeleteTodo, useTodoDeleteSheet } from '@/domains/home/hooks';
+import { useDeleteTodo } from '@/domains/home/hooks';
+import {
+  SheetComponentProps,
+  TodoDeleteSheetProps,
+} from '@/domains/home/types';
 import { dayjs } from '@/shared/lib';
 import { Button } from '@/shared/ui/button';
 import {
@@ -13,24 +17,26 @@ import {
   SheetTitle,
 } from '@/shared/ui/sheet';
 
-export const TodoDeleteSheet = () => {
-  const { isOpen, categoryId, todo, closeSheet } = useTodoDeleteSheet();
+export const TodoDeleteSheet = ({
+  props,
+  onClose,
+}: SheetComponentProps<TodoDeleteSheetProps>) => {
+  const { todo, categoryId } = props;
 
   const yearMonth = useMemo(() => dayjs().format('YYYY-MM'), []);
   const deleteTodoMutation = useDeleteTodo(yearMonth);
 
   const handleOpenChange = (open: boolean) => {
     if (!open) {
-      closeSheet();
+      onClose();
     }
   };
 
   const handleCancel = () => {
-    closeSheet();
+    onClose();
   };
 
   const handleDelete = () => {
-    if (!todo || !categoryId) return;
     deleteTodoMutation.mutate({
       categoryId,
       todoId: todo.todoId,
@@ -38,7 +44,7 @@ export const TodoDeleteSheet = () => {
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={handleOpenChange}>
+    <Sheet open={true} onOpenChange={handleOpenChange}>
       <SheetHeader className="sr-only">
         <SheetTitle>투두 삭제</SheetTitle>
         <SheetDescription />

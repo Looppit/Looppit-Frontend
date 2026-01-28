@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 
 import { CategoryColor } from '@/domains/category/constants';
-import { useTodoSectionEvents } from '@/domains/home/contexts';
+import { useTodoSection } from '@/domains/home/hooks';
 import { TodoResponse } from '@/domains/home/types';
 import { IconName } from '@/shared/ui/icon';
 import { TodoCard } from '@/shared/ui/todo';
@@ -27,7 +27,7 @@ export const TodoSection = ({
   categoryIconName,
   todos,
 }: TodoSectionProps) => {
-  const { onAddClick, onTitleClick } = useTodoSectionEvents();
+  const handlers = useTodoSection({ categoryId });
   const progressValue = useMemo(() => calculateProgress(todos), [todos]);
 
   return (
@@ -36,8 +36,8 @@ export const TodoSection = ({
         title={categoryName}
         color={categoryColor}
         icon={categoryIconName}
-        onTitleClick={() => onTitleClick(categoryId)}
-        onAddClick={() => onAddClick(categoryId)}
+        onTitleClick={handlers.onTitleClick}
+        onAddClick={handlers.onAddClick}
       />
       <TodoCard.Progress
         value={progressValue}
@@ -45,8 +45,11 @@ export const TodoSection = ({
       />
       <TodoItemList
         todos={todos}
-        categoryId={categoryId}
         categoryColor={categoryColor}
+        onLabelClick={handlers.onLabelClick}
+        onOpenActions={handlers.onOpenActions}
+        onDelete={handlers.onDelete}
+        onToggle={handlers.onToggle}
       />
     </TodoCard>
   );

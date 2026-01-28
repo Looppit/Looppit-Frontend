@@ -3,21 +3,22 @@
 import { useState } from 'react';
 
 import { useCategories } from '@/domains/category/hooks';
-import {
-  TODO_FORM_MODE,
-  useTodoFormSheet,
-  useTodoForm,
-} from '@/domains/home/hooks';
+import { TODO_FORM_MODE } from '@/domains/home/constants';
+import { useTodoForm } from '@/domains/home/hooks';
+import { SheetComponentProps, TodoFormSheetProps } from '@/domains/home/types';
 import { Form } from '@/shared/ui/form';
 
 import { CategorySelectSheet } from './category-select-sheet';
 import { TodoFormSheetUI } from './todo-form-sheet.ui';
 
-export const TodoFormSheet = () => {
-  const { isOpen, mode, categoryId, editingTodo, closeSheet } =
-    useTodoFormSheet();
+export const TodoFormSheet = ({
+  props,
+  onClose,
+}: SheetComponentProps<TodoFormSheetProps>) => {
+  const { mode, categoryId } = props;
+  const editingTodo = props.mode === 'edit' ? props.todo : undefined;
 
-  const { data: categories = [] } = useCategories({ enabled: isOpen });
+  const { data: categories = [] } = useCategories();
   const [isCategorySheetOpen, setIsCategorySheetOpen] = useState(false);
 
   const { form, selectedCategory, handleSubmit, isSubmitting } = useTodoForm({
@@ -26,7 +27,7 @@ export const TodoFormSheet = () => {
     initialTodo: editingTodo,
     categories,
     onSuccess: () => {
-      closeSheet();
+      onClose();
     },
   });
 
@@ -36,7 +37,7 @@ export const TodoFormSheet = () => {
 
   const handleOpenChange = (open: boolean) => {
     if (!open) {
-      closeSheet();
+      onClose();
     }
   };
 
@@ -55,7 +56,7 @@ export const TodoFormSheet = () => {
   return (
     <Form {...form}>
       <TodoFormSheetUI
-        open={isOpen}
+        open={true}
         onOpenChange={handleOpenChange}
         title={displayTitle}
       >
