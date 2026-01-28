@@ -20,3 +20,5 @@ export { default as ic_local_fire_department_fill } from './local_fire_departmen
 export { default as ic_logout } from './logout.svg';
 export { default as ic_more_horiz } from './more_horiz.svg';
 export { default as ic_schedule } from './schedule.svg';
+export { default as ic_kakao } from './kakao.svg';
+export { default as ic_naver } from './naver.svg';

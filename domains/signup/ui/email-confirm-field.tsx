@@ -52,7 +52,7 @@ export default function EmailConfirmField({
   };
 
   return (
-    <FormItem className="flex flex-col gap-2">
+    <FormItem className="flex flex-col gap-3">
       <FormLabel>이메일</FormLabel>
       <FormControl>
         <div className="flex items-center gap-2">
@@ -67,16 +67,17 @@ export default function EmailConfirmField({
               <InputGroupText className="text-xs text-gray-500">
                 {time}
               </InputGroupText>
+              <Button
+                size="caption"
+                variant="ghost"
+                className="w-[84px]"
+                disabled={isCertificationDisabled}
+                onClick={handleConfirm}
+              >
+                인증하기
+              </Button>
             </InputGroupAddon>
           </InputGroup>
-          <Button
-            className="w-[84px]"
-            disabled={isCertificationDisabled}
-            variant="outline"
-            onClick={handleConfirm}
-          >
-            인증하기
-          </Button>
         </div>
       </FormControl>
       {certificationError && (

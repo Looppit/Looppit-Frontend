@@ -8,7 +8,11 @@ import { useTimer } from '@/shared/hooks';
 import { Button } from '@/shared/ui/button';
 import { FieldError } from '@/shared/ui/field';
 import { FormControl, FormField, FormItem, FormLabel } from '@/shared/ui/form';
-import { Input } from '@/shared/ui/input';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from '@/shared/ui/input-group';
 
 import { useEmailCertificationMutation, useEmailSendMutation } from '../hooks';
 
@@ -61,20 +65,26 @@ export default function EmailField({ onEmailSendSuccess }: EmailFieldProps) {
       control={control}
       name="email"
       render={({ field }) => (
-        <FormItem className="flex flex-col gap-2">
+        <FormItem className="flex flex-col gap-3">
           <FormLabel>이메일</FormLabel>
           <FormControl>
-            <div className="flex items-center gap-2">
-              <Input {...field} placeholder="이메일을 입력해주세요." />
-              <Button
-                className="w-[84px]"
-                disabled={isCertificationDisabled}
-                variant="outline"
-                onClick={handleVerifyEmail}
-              >
-                {isEmailSendSuccess ? '재발송' : '인증하기'}
-              </Button>
-            </div>
+            <InputGroup>
+              <InputGroupInput
+                {...field}
+                placeholder="이메일을 입력해주세요."
+              />
+              <InputGroupAddon align="inline-end">
+                <Button
+                  variant="ghost"
+                  size="caption"
+                  className="w-[84px]"
+                  disabled={isCertificationDisabled}
+                  onClick={handleVerifyEmail}
+                >
+                  {isEmailSendSuccess ? '재발송' : '인증하기'}
+                </Button>
+              </InputGroupAddon>
+            </InputGroup>
           </FormControl>
           <FieldError errors={error ? [error] : undefined} />
         </FormItem>

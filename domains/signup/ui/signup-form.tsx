@@ -74,8 +74,6 @@ export default function SignupForm() {
         <div className="flex flex-col">
           <Spacing size={108} />
           <Button
-            className="w-full"
-            type="button"
             onClick={form.handleSubmit(onSubmit)}
             disabled={submitDisabled}
           >

@@ -28,7 +28,7 @@ export default function PasswordConfirmField({
   };
 
   return (
-    <FormItem className="flex flex-col gap-2">
+    <FormItem className="flex flex-col gap-3">
       <FormLabel>비밀번호 확인</FormLabel>
       <FormControl>
         <Input

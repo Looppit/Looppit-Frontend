@@ -40,7 +40,6 @@ export default function LoginForm() {
           >
             {isLoginPending ? '로그인 중...' : '로그인'}
           </Button>
-          <span className="text-sm text-gray-500">비밀번호 찾기</span>
         </div>
       </form>
     </Form>

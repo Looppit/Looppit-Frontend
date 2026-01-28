@@ -7,7 +7,7 @@ import {
 } from '@/domains/auth/oauth';
 import { handleKakaoLogin, handleNaverLogin } from '@/domains/auth/oauth';
 import { Button } from '@/shared/ui/button';
-import { Separator } from '@/shared/ui/separator';
+import { Icon } from '@/shared/ui/icon';
 
 import { getSocialProviderStyles } from '../social-login.utils';
 
@@ -21,23 +21,22 @@ const SOCIAL_LOGIN_HANDLERS: Record<SocialProvider, () => Promise<void>> = {
   [SOCIAL_PROVIDER_NAVER]: handleNaverLogin,
 };
 
+const SOCIAL_LOGIN_ICONS: Record<SocialProvider, 'ic_kakao' | 'ic_naver'> = {
+  [SOCIAL_PROVIDER_KAKAO]: 'ic_kakao',
+  [SOCIAL_PROVIDER_NAVER]: 'ic_naver',
+};
+
 export default function SocialLoginButtons() {
   return (
-    <div className="flex flex-col gap-3">
-      <div className="relative flex items-center justify-center">
-        <Separator className="w-full" />
-        <span className="absolute bg-white px-2 text-sm text-gray-500 dark:bg-black dark:text-gray-400">
-          또는
-        </span>
-      </div>
-      <div className="flex flex-col gap-2">
+    <div className="w-full flex flex-col gap-3">
+      <div className="w-full flex flex-col gap-2">
         <SocialLoginButton
           provider={SOCIAL_PROVIDER_KAKAO}
-          label="카카오로 로그인"
+          label="카카오로 시작하기"
         />
         <SocialLoginButton
           provider={SOCIAL_PROVIDER_NAVER}
-          label="네이버로 로그인"
+          label="네이버로 시작하기"
         />
       </div>
     </div>
@@ -56,6 +55,7 @@ const SocialLoginButton = ({ provider, label }: SocialLoginButtonProps) => {
       className={`w-full ${getSocialProviderStyles(provider)}`}
       onClick={handleSocialLogin}
     >
+      <Icon icon={SOCIAL_LOGIN_ICONS[provider]} />
       {label}
     </Button>
   );

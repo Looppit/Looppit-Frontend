@@ -6,7 +6,7 @@ import { cn } from '@/shared/utils';
 
 const inputVariants = cva(
   cn(
-    'w-full h-14 px-5 outline-none transition-colors typography-title-medium rounded-small border border-white/5',
+    'w-full h-14 px-5 placeholder:text-secondary/20 outline-none transition-colors typography-body-semibold rounded-small border border-white/5',
     '[&[type="password"]:not(:placeholder-shown)]:font-[Verdana]',
     '[&[type="number"]:not(:placeholder-shown)]:tracking-[4px]',
   ),
