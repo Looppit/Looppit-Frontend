@@ -3,13 +3,11 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { useOAuthError } from '@/domains/auth/oauth';
 import SocialLoginButtons from '@/domains/login/ui/social-login-buttons';
 import { Button } from '@/shared/ui/button';
 import { Spacing } from '@/shared/ui/spacing';
 
 export default function LandingScreen() {
-  useOAuthError();
   const router = useRouter();
 
   return (
