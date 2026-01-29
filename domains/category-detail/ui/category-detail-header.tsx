@@ -4,7 +4,11 @@ import { useRouter } from 'next/navigation';
 
 import { DetailHeader } from '@/shared/ui/detail-header';
 
-export const CategoryDetailHeader = () => {
+export const CategoryDetailHeader = ({
+  onRightClick,
+}: {
+  onRightClick: () => void;
+}) => {
   const router = useRouter();
 
   return (
@@ -12,6 +16,7 @@ export const CategoryDetailHeader = () => {
       title="상세 정보"
       onLeftClick={() => router.back()}
       rightIcon="ic_more_horiz"
+      onRightClick={onRightClick}
     />
   );
 };
