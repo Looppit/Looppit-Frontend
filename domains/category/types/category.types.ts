@@ -1,10 +1,9 @@
-import { CategoryColor } from '@/domains/category/constants';
-import { IconName } from '@/shared/ui/icon';
+import { CategoryColor, CategoryIconName } from '@/domains/category/constants';
 
 export interface Category {
   id: number;
   categoryName: string;
-  categoryIconName: IconName;
+  categoryIconName: CategoryIconName;
   categoryColor: CategoryColor;
 }
 

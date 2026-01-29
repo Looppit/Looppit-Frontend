@@ -7,7 +7,7 @@ type GetInitialFormValuesParams = {
   initialCategoryId?: number | null;
 };
 
-export type InitialFormValues = {
+type InitialFormValues = {
   categoryId: number | null;
   title: string;
   date: string;
