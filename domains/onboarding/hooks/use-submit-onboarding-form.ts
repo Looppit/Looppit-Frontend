@@ -10,12 +10,12 @@ type UpdateFormData = Pick<UpdateUserRequest, 'nickname'> & {
 export const useSubmitOnboardingForm = () => {
   const { updateProfile } = useUpdateProfile();
 
-  const submitForm = useCallback(
-    async (data: UpdateFormData) => {
-      await updateProfile(data);
+  const submitOnboardingForm = useCallback(
+    async (data: UpdateFormData, onSuccess?: () => void) => {
+      await updateProfile({ form: data, onSuccess });
     },
     [updateProfile],
   );
 
-  return { submitForm };
+  return { submitOnboardingForm };
 };

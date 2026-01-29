@@ -1,15 +1,17 @@
 import { useCallback } from 'react';
 
-import { useQueryClient } from '@tanstack/react-query';
-
 import { useCreatePresignedUrl } from '@/domains/s3/s3.hooks';
 
 import { useUpdateUser } from './use-user-query';
-import { userKeys } from '../user.keys';
 import { UpdateUserRequest } from '../user.types';
 
-type UpdateFormData = Omit<UpdateUserRequest, 'imgPath'> & {
+type UpdateProfileForm = Omit<UpdateUserRequest, 'imgPath'> & {
   imageFile?: File;
+};
+
+type UpdateProfileOptions = {
+  form: UpdateProfileForm;
+  onSuccess?: () => void;
 };
 
 /**
@@ -19,13 +21,13 @@ type UpdateFormData = Omit<UpdateUserRequest, 'imgPath'> & {
 export const useUpdateProfile = () => {
   const { mutateAsync: createPresignedUrlMutation } = useCreatePresignedUrl();
   const { mutate: updateUserMutation } = useUpdateUser();
-  const queryClient = useQueryClient();
 
   const updateProfile = useCallback(
-    async (data: UpdateFormData) => {
-      const { imageFile, ...rest } = data;
+    async ({ form, onSuccess }: UpdateProfileOptions) => {
+      const { imageFile } = form;
       const requestData: UpdateUserRequest = {
-        ...rest,
+        ...form,
+        imgPath: undefined,
       };
 
       if (imageFile) {
@@ -35,13 +37,9 @@ export const useUpdateProfile = () => {
         requestData.imgPath = url;
       }
 
-      updateUserMutation(requestData, {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: userKeys.base });
-        },
-      });
+      updateUserMutation(requestData, { onSuccess });
     },
-    [createPresignedUrlMutation, updateUserMutation, queryClient],
+    [createPresignedUrlMutation, updateUserMutation],
   );
 
   return { updateProfile };
