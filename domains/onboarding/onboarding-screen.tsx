@@ -21,7 +21,6 @@ import {
 } from './ui';
 
 function OnboardingScreen() {
-  const { step, onNextStep, onPreviousStep } = useOnboardingStep();
   const form = useForm<OnboardingFormValues>({
     resolver: zodResolver(onboardingFormSchema),
     defaultValues: {
@@ -30,8 +29,11 @@ function OnboardingScreen() {
     },
     mode: 'onChange',
   });
+  const { step, onNextStep, onPreviousStep } = useOnboardingStep({ form });
+
   const watch = useWatch({ control: form.control });
   const buttonDisabled = !OnboardingStepSchema[step].safeParse(watch).success;
+
   const isLastStep = step === ONBOARDING_STEPS[ONBOARDING_STEPS.length - 1];
 
   useSeedInitialData();
