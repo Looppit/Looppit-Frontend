@@ -15,3 +15,7 @@ export const createCategory = async (
 ): Promise<void> => {
   await apiClient.post<ApiResponse<void>>('/category', data);
 };
+
+export const deleteCategory = async (categoryId: string): Promise<void> => {
+  await apiClient.delete<ApiResponse<void>>(`/category/${categoryId}`);
+};

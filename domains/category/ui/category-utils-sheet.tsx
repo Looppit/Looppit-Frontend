@@ -3,7 +3,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 
-import { useDeleteCategory } from '@/domains/category-detail/hooks';
+import { useDeleteCategory } from '@/domains/category/hooks';
 import { Button } from '@/shared/ui/button';
 import {
   Drawer,

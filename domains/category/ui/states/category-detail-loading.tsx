@@ -1,7 +1,7 @@
 import {
   CategoryDetailHeaderFallback,
   CategoryDetailInfo,
-} from '@/domains/category-detail/ui';
+} from '@/domains/category/ui';
 import { Skeleton } from '@/shared/ui/skeleton';
 
 const CategoryDetailLoadingIconSection = () => {

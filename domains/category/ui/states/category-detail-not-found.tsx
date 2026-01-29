@@ -1,4 +1,4 @@
-import { CategoryDetailHeaderFallback } from '@/domains/category-detail/ui';
+import { CategoryDetailHeaderFallback } from '@/domains/category/ui';
 
 export const CategoryDetailNotFound = () => {
   return (

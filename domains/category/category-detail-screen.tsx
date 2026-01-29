@@ -10,8 +10,8 @@ import {
   CategoryDetailLoading,
   CategoryDetailNotFound,
   CategoryDetailHeader,
-} from '@/domains/category-detail/ui';
-import { CategoryUtilsSheet } from '@/domains/category-detail/ui';
+  CategoryUtilsSheet,
+} from '@/domains/category/ui';
 import { QueryErrorBoundary } from '@/shared/ui/async-boundary';
 import { ConditionalRender } from '@/shared/ui/condition-render';
 
