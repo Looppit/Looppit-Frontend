@@ -5,7 +5,7 @@ export const userProfileSchema = z.object({
   email: z.string(),
   nickname: z.string(),
   content: z.string(),
-  imagePath: z.string(),
+  imgPath: z.string(),
   provider: z.unknown(),
 });
 
@@ -17,10 +17,11 @@ export const UserProfileResponseSchema = z.object({
 export type UserProfile = z.infer<typeof userProfileSchema>;
 export type UserProfileResponse = z.infer<typeof UserProfileResponseSchema>;
 
-export const updateUserRequestSchema = z.object({
+export const userProfileFormSchema = z.object({
   nickname: z.string(),
   content: z.string().optional(),
-  imgPath: z.string().optional(),
+  imgPath: z.string().nullable(),
 });
 
-export type UpdateUserRequest = z.infer<typeof updateUserRequestSchema>;
+export type UserProfileFormValues = z.infer<typeof userProfileFormSchema>;
+export type UpdateUserProfileRequest = UserProfileFormValues;
