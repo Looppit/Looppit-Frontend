@@ -62,16 +62,16 @@ function ProfileImageStep() {
           accept="image/*"
           onChange={handleFileChange}
         />
-        <div className="w-[108px] h-[108px] rounded-full overflow-hidden border-2 border-primary/20 shadow-xl flex items-center justify-center">
+        <div className="size-[108px] rounded-full overflow-hidden border-2 border-primary/20 shadow-xl flex items-center justify-center">
           <Image
             width={128}
             height={128}
-            className="w-full h-full object-cover"
+            className="object-cover"
             alt="Profile"
             src={imageUrl}
           />
         </div>
-        <button className="cursor-pointer absolute bottom-1 right-1 w-8 h-8 bg-[#1E182A] border border-white/10 rounded-full flex items-center justify-center text-white shadow-lg active:scale-90 transition-all">
+        <button className="cursor-pointer absolute bottom-1 right-1 size-8 bg-[#1E182A] border border-white/10 rounded-full flex items-center justify-center text-white shadow-lg active:scale-90 transition-all">
           <Icon icon="ic_edit" className="w-4 h-4 fill-white" />
         </button>
       </div>
