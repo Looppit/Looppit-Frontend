@@ -2,9 +2,9 @@ import { apiClient } from '@/shared/api/api.client';
 import { ApiResponse } from '@/shared/api/api.types';
 
 import {
-  CategoryFormValues,
   CategoryResponse,
   CreateCategoryParams,
+  UpdateCategoryParams,
 } from '../types';
 
 export const getCategories = async (): Promise<CategoryResponse> => {
@@ -23,10 +23,7 @@ export const createCategory = async (
 export const updateCategory = async ({
   categoryId,
   data,
-}: {
-  categoryId: string;
-  data: CategoryFormValues;
-}): Promise<void> => {
+}: UpdateCategoryParams): Promise<void> => {
   await apiClient.put<ApiResponse<void>>(`/category/${categoryId}`, data);
 };
 
