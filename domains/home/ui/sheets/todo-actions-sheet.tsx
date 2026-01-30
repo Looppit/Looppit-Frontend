@@ -84,7 +84,7 @@ export const TodoActionsSheet = ({
           >
             <Button.OutlineIcon
               icon="ic_schedule"
-              bgColor="bg-green-500/15"
+              className="bg-green-500/15"
               iconClassName="fill-green-400"
             />
             내일로 미루기
@@ -97,7 +97,7 @@ export const TodoActionsSheet = ({
           >
             <Button.OutlineIcon
               icon="ic_event_repeat"
-              bgColor="bg-indigo-500/10"
+              className="bg-indigo-500/10"
               iconClassName="fill-indigo-500"
             />
             내일도 추가하기
