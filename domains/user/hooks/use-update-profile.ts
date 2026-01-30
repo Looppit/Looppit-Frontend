@@ -27,7 +27,7 @@ export const useUpdateProfile = () => {
       const { imageFile } = form;
       const requestData: UpdateUserRequest = {
         ...form,
-        imgPath: undefined,
+        imgPath: null,
       };
 
       if (imageFile) {
