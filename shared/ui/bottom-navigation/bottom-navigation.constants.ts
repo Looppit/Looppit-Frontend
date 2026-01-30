@@ -17,7 +17,7 @@ export const NAV_ITEMS: NavItem[] = [
   },
   {
     label: '더보기',
-    href: '/settings',
+    href: '/setting',
     iconName: 'ic_more_horiz',
     activeIconName: 'ic_more_horiz',
     strategy: 'prefix',
