@@ -19,10 +19,16 @@ type UpdateProfileOptions = {
  * 발급받은 presigned url을 사용하여 이미지를 업로드 하고, 유저 프로필을 업데이트 과정을 동기적으로 진행하는 훅
  */
 export const useUpdateProfile = () => {
-  const { mutateAsync: createPresignedUrlMutation } = useCreatePresignedUrl();
-  const { mutateAsync: uploadFileWithPresignedUrlMutation } =
-    useUploadFileWithPresignedUrl();
-  const { mutate: updateUserMutation } = useUpdateUser();
+  const {
+    mutateAsync: createPresignedUrlMutation,
+    isPending: isCreatingPresignedUrl,
+  } = useCreatePresignedUrl();
+  const {
+    mutateAsync: uploadFileWithPresignedUrlMutation,
+    isPending: isUploadingFile,
+  } = useUploadFileWithPresignedUrl();
+  const { mutate: updateUserMutation, isPending: isUpdatingUser } =
+    useUpdateUser();
 
   const uploadFile = useCallback(
     async (imgPath: File) => {
@@ -61,5 +67,8 @@ export const useUpdateProfile = () => {
     [uploadFile, updateUserMutation],
   );
 
-  return { updateProfile };
+  return {
+    updateProfile,
+    isPending: isCreatingPresignedUrl || isUploadingFile || isUpdatingUser,
+  };
 };
