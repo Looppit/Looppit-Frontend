@@ -1,9 +1,8 @@
+import { UserProfileCard } from '@/domains/home/ui';
 import { useUserProfileWithSuspense } from '@/domains/user/user.hooks';
 import { QueryErrorBoundary } from '@/shared/ui/async-boundary';
 
-import { UserProfileCard } from './user-profile-card';
-
-export const UserGreetingContent = () => {
+export const UserGreetingSectionContent = () => {
   const { data } = useUserProfileWithSuspense();
 
   return (
@@ -17,13 +16,13 @@ export const UserGreetingContent = () => {
   );
 };
 
-export const UserGreeting = () => {
+export const UserGreetingSection = () => {
   return (
     <QueryErrorBoundary
       loadingFallback={<UserProfileCard.Skeleton />}
       errorFallback={<UserProfileCard.Skeleton />}
     >
-      <UserGreetingContent />
+      <UserGreetingSectionContent />
     </QueryErrorBoundary>
   );
 };

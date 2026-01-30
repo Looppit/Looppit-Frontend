@@ -1,6 +1,10 @@
 import { useMemo } from 'react';
 
-import { useQuery, useSuspenseQueries, useSuspenseQuery } from '@tanstack/react-query';
+import {
+  useQuery,
+  useSuspenseQueries,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 
 import { categoriesQueryOptions } from '@/domains/category/utils';
 import { todosQueryOptions } from '@/domains/home/utils';
