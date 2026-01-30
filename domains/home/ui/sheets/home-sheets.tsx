@@ -11,12 +11,14 @@ import {
   TodoActionsSheet,
   TodoDeleteSheet,
   TodoFormSheet,
+  CategoryUtilsSheetContainer,
 } from '@/domains/home/ui/sheets';
 
 export const SHEET_COMPONENTS = {
   [SHEET_TYPE.TODO_FORM]: TodoFormSheet,
   [SHEET_TYPE.TODO_ACTIONS]: TodoActionsSheet,
   [SHEET_TYPE.TODO_DELETE]: TodoDeleteSheet,
+  [SHEET_TYPE.TODO_CATEGORY_UTILS]: CategoryUtilsSheetContainer,
 } as const;
 
 export const HomeSheets = () => {

@@ -26,3 +26,7 @@ export type TodoDeleteSheetProps = {
   todo: TodoResponse;
   categoryId: number;
 };
+
+export type TodoCategoryUtilsSheetProps = {
+  categoryId: number;
+};

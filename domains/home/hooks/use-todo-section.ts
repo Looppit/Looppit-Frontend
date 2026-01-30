@@ -37,10 +37,6 @@ export const useTodoSection = ({
     });
   }, [openSheet, categoryId]);
 
-  const onTitleClick = useCallback(() => {
-    // TODO
-  }, []);
-
   const onLabelClick = useCallback(
     (todo: TodoResponse) => {
       if (isOpened) return;
@@ -55,6 +51,16 @@ export const useTodoSection = ({
     },
     [isOpened, openSheet, categoryId],
   );
+
+  const onTitleClick = useCallback(() => {
+    if (isOpened) return;
+    openSheet({
+      type: SHEET_TYPE.TODO_CATEGORY_UTILS,
+      props: {
+        categoryId,
+      },
+    });
+  }, [isOpened, openSheet, categoryId]);
 
   const onOpenActions = useCallback(
     (todo: TodoResponse) => {

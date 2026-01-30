@@ -1,7 +1,5 @@
-import type { Dispatch, SetStateAction } from 'react';
-
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { useDeleteCategory } from '@/domains/category/hooks';
 import { Button } from '@/shared/ui/button';
@@ -16,15 +14,16 @@ import {
 
 type CategoryUtilsSheetProps = {
   open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpen: (open: boolean) => void;
+  categoryId: string;
 };
 
 export const CategoryUtilsSheet = ({
   open,
   setOpen,
+  categoryId,
 }: CategoryUtilsSheetProps) => {
   const router = useRouter();
-  const { id: categoryId } = useParams<{ id: string }>();
   const deleteTodoMutation = useDeleteCategory(categoryId);
 
   const handleDelete = async () => {

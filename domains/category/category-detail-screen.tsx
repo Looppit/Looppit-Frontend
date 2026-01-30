@@ -26,7 +26,11 @@ const CategoryDetailContent = () => {
     <ConditionalRender when={!!category} fallback={<CategoryDetailNotFound />}>
       <CategoryDetailHeader onRightClick={() => setIsOpen(true)} />
       <CategoryDetailInfo category={category!} />
-      <CategoryUtilsSheet open={isOpen} setOpen={setIsOpen} />
+      <CategoryUtilsSheet
+        open={isOpen}
+        setOpen={setIsOpen}
+        categoryId={categoryId}
+      />
     </ConditionalRender>
   );
 };
