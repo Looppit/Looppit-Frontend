@@ -1,21 +1,41 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
 import Image from 'next/image';
 
 import { Icon } from '../icon';
 
 type InputProfileImageProps = {
-  imageUrl: string | null;
+  imageFile: string | null | File;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export function InputProfileImage({
-  imageUrl,
+  imageFile,
   handleFileChange,
 }: InputProfileImageProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const imageUrl = useMemo(() => {
+    if (!imageFile) return null;
+    if (imageFile instanceof File) {
+      return URL.createObjectURL(imageFile);
+    }
+    return imageFile;
+  }, [imageFile]);
+
+  /**
+   * 이미지 URL이 blob URL인 경우 메모리 누수 방지용 코드
+   * 이전 이미지 URL을 참조하는 객체가 없어지면 메모리 누수가 발생할 수 있음
+   */
+  useEffect(() => {
+    const url = imageUrl;
+    return () => {
+      if (url && url.startsWith('blob:')) {
+        URL.revokeObjectURL(url);
+      }
+    };
+  }, [imageUrl]);
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center py-6">
