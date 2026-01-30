@@ -8,7 +8,7 @@ export function ProfileImageField() {
   const { control } = useFormContext<UserProfileFormValues>();
 
   return (
-    <div className="flex flex-col items-center mb-10">
+    <div className="flex flex-col items-center">
       <Controller
         control={control}
         name="imgPath"

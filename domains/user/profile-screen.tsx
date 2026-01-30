@@ -12,6 +12,7 @@ import {
   ProfileImageField,
   ContentField,
 } from './ui/profile';
+import { ProfileHeader } from './ui/profile/profile-header';
 import { UserProfileFormValues, userProfileFormSchema } from './user.types';
 
 export function ProfileScreen() {
@@ -27,18 +28,21 @@ export function ProfileScreen() {
   });
 
   return (
-    <Form {...form}>
-      <div className="flex-1 overflow-y-auto px-6 pt-10 pb-40 no-scrollbar">
-        <ProfileImageField />
-        <div className="space-y-6">
-          <EmailField email={user?.email ?? ''} />
-          <NicknameField />
-          <ContentField />
+    <div className="flex flex-col h-full overflow-hidden relative">
+      <ProfileHeader />
+      <Form {...form}>
+        <div className="flex-1 overflow-y-auto px-6 pt-10 pb-40 no-scrollbar">
+          <ProfileImageField />
+          <div className="space-y-6">
+            <EmailField email={user?.email ?? ''} />
+            <NicknameField />
+            <ContentField />
+          </div>
         </div>
-      </div>
-      <Button className="absolute bottom-0 left-0 w-full p-6 flex justify-center z-30 pointer-events-none">
-        저장하기
-      </Button>
-    </Form>
+        <div className="absolute bottom-0 left-0 w-full p-6 pt-16 flex justify-center pointer-events-none">
+          <Button>저장하기</Button>
+        </div>
+      </Form>
+    </div>
   );
 }
