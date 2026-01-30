@@ -4,16 +4,20 @@ import { useEffect, useMemo, useRef } from 'react';
 
 import Image from 'next/image';
 
+import { toast } from 'sonner';
+
+import { getImageFileValidatorError } from '@/shared/utils';
+
 import { Icon } from '../icon';
 
 type InputProfileImageProps = {
   imageFile: string | null | File;
-  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFileChange: (file?: File) => void;
 };
 
 export function InputProfileImage({
   imageFile,
-  handleFileChange,
+  onFileChange,
 }: InputProfileImageProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const imageUrl = useMemo(() => {
@@ -23,6 +27,17 @@ export function InputProfileImage({
     }
     return imageFile;
   }, [imageFile]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    const error = getImageFileValidatorError(file);
+    if (error) {
+      toast.error(error);
+      return;
+    }
+
+    onFileChange(file);
+  };
 
   /**
    * 이미지 URL이 blob URL인 경우 메모리 누수 방지용 코드
