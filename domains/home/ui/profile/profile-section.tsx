@@ -9,12 +9,11 @@ export function ProfileSection() {
   const { data: user } = useGetUser();
 
   return (
-    <div>
-      <UserGreeting
-        name={user?.nickname ?? ''}
-        imgPath={user?.imagePath ?? null}
-        onClick={() => router.push('/profile')}
-      />
-    </div>
+    <UserGreeting
+      name={user?.nickname ?? ''}
+      imgPath={user?.imgPath ?? null}
+      content={user?.content ?? null}
+      onClick={() => router.push('/profile')}
+    />
   );
 }
