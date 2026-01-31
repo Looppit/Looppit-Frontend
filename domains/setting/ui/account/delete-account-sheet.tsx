@@ -1,3 +1,4 @@
+import { useDeleteUser } from '@/domains/user/hooks';
 import { Button } from '@/shared/ui/button';
 import {
   Drawer,
@@ -14,10 +15,23 @@ interface DeleteAccountSheetProps {
 }
 
 export function DeleteAccountSheet({ open, onClose }: DeleteAccountSheetProps) {
+  const { mutate: deleteUser } = useDeleteUser();
+
   const handleOpenChange = (open: boolean) => {
     if (!open) {
       onClose();
     }
+  };
+
+  const handleClickDelete = () => {
+    deleteUser(
+      { password: 'test' },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      },
+    );
   };
 
   return (
@@ -35,7 +49,7 @@ export function DeleteAccountSheet({ open, onClose }: DeleteAccountSheetProps) {
           <Button variant="secondary" onClick={onClose}>
             취소
           </Button>
-          <Button variant="destructive" onClick={onClose}>
+          <Button variant="destructive" onClick={handleClickDelete}>
             회원탈퇴
           </Button>
         </DrawerFooter>

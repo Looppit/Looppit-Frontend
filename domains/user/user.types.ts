@@ -32,3 +32,9 @@ export const updateUserRequestSchema = z.object({
 });
 
 export type UpdateUserRequest = z.infer<typeof updateUserRequestSchema>;
+
+export const DeleteUserRequestSchema = z.object({
+  password: z.string(),
+});
+
+export type DeleteUserRequest = z.infer<typeof DeleteUserRequestSchema>;

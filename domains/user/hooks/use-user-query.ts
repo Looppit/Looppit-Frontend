@@ -1,3 +1,5 @@
+import { useRouter } from 'next/navigation';
+
 import {
   queryOptions,
   useSuspenseQuery,
@@ -9,7 +11,7 @@ import { toast } from 'sonner';
 
 import { isApiError } from '@/shared/guard';
 
-import { getUserProfile, updateUser } from '../user.api';
+import { deleteUser, getUserProfile, updateUser } from '../user.api';
 import { userKeys } from '../user.keys';
 import { User, GetUserResponse } from '../user.types';
 
@@ -55,6 +57,21 @@ export const useUpdateUser = () => {
       toast.error(
         '프로필을 업데이트 하는 도중 오류가 발생했어요. 다시 시도해주세요.',
       );
+    },
+  });
+};
+
+export const useDeleteUser = () => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: userKeys.base });
+
+      toast.success('회원탈퇴가 완료되었어요.');
+      router.push('/');
     },
   });
 };
