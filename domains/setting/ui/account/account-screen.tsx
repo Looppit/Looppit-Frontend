@@ -7,10 +7,11 @@ import { Button } from '@/shared/ui/button';
 import { AccountCardItem } from '../setting-card-item';
 import { SettingHeader } from '../setting-header';
 import { DeleteAccountSheet } from './delete-account-sheet';
+import { LogoutSheet } from './logout-sheet';
 
 export function AccountScreen() {
   const router = useRouter();
-  const [openSheet, setOpenSheet] = useState(false);
+  const [openSheet, setOpenSheet] = useState<'delete' | 'logout' | null>(null);
 
   return (
     <div>
@@ -27,7 +28,11 @@ export function AccountScreen() {
             icon="ic_edit"
           />
         </AccountCardItem>
-        <AccountCardItem label="로그아웃" variant="outline">
+        <AccountCardItem
+          label="로그아웃"
+          variant="outline"
+          onClick={() => setOpenSheet('logout')}
+        >
           <AccountCardItem.LeftIcon
             className="bg-destructive/10"
             iconClassName="fill-destructive"
@@ -35,15 +40,19 @@ export function AccountScreen() {
           />
         </AccountCardItem>
         <Button
-          onClick={() => setOpenSheet(true)}
+          onClick={() => setOpenSheet('delete')}
           variant="ghost"
           className="typography-caption-medium text-secondary/40 underline underline-offset-4 hover:text-secondary/60 transition-colors py-2 px-4"
         >
           회원탈퇴
         </Button>
+        <LogoutSheet
+          open={openSheet === 'logout'}
+          onClose={() => setOpenSheet(null)}
+        />
         <DeleteAccountSheet
-          open={openSheet}
-          onClose={() => setOpenSheet(false)}
+          open={openSheet === 'delete'}
+          onClose={() => setOpenSheet(null)}
         />
       </div>
     </div>
