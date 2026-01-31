@@ -1,8 +1,8 @@
 import { useRouter } from 'next/navigation';
 
-import { Button } from '@/shared/ui/button';
-import { IconButton } from '@/shared/ui/icon-button';
 import { cn } from '@/shared/utils';
+
+import { SettingCardItem } from './setting-card-item';
 
 import type { SettingGroup } from '../constants';
 
@@ -18,33 +18,19 @@ export function SettingGroup({ label, childrens }: SettingGroupProps) {
       </h3>
       <div className="bg-card rounded-small border border-white/10 overflow-hidden shadow-lg divide-y divide-white/5">
         {childrens.map((child) => (
-          <div
-            className="pr-4 flex items-center justify-between"
+          <SettingCardItem
             key={child.href}
+            label={child.label}
+            onClick={() => router.push(child.href)}
           >
-            <Button
-              variant="ghost"
-              onClick={() => router.push(child.href)}
-              align="start"
-              className="typography-caption-medium gap-2 text-white/90"
-            >
-              <Button.OutlineIcon
-                icon={child.icon.name}
-                iconClassName={cn(
-                  child.icon.noneFill ? '' : 'fill-secondary opacity-40',
-                  'text-secondary opacity-40',
-                )}
-                className="bg-white/5 size-8"
-              />
-              {child.label}
-            </Button>
-            <IconButton
-              className="border-none"
-              icon="ic_chevron_right"
-              size="28"
-              iconClassName="fill-secondary opacity-40"
+            <SettingCardItem.LeftIcon
+              icon={child.icon.name}
+              iconClassName={cn(
+                child.icon.noneFill ? '' : 'fill-secondary',
+                'text-secondary',
+              )}
             />
-          </div>
+          </SettingCardItem>
         ))}
       </div>
     </section>

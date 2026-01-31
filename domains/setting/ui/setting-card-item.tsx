@@ -3,17 +3,17 @@ import { IconName } from '@/shared/ui/icon';
 import { IconButton } from '@/shared/ui/icon-button';
 import { cn } from '@/shared/utils';
 
-interface AccountCardLeftIconProps {
+interface SettingCardLeftIconProps {
   icon: IconName;
   className?: string;
   iconClassName?: string;
 }
 
-function AccountCardLeftIcon({
+function SettingCardLeftIcon({
   icon,
   className,
   iconClassName,
-}: AccountCardLeftIconProps) {
+}: SettingCardLeftIconProps) {
   return (
     <Button.OutlineIcon
       icon={icon}
@@ -23,19 +23,19 @@ function AccountCardLeftIcon({
   );
 }
 
-interface AccountCardItemRootProps {
+interface SettingCardItemRootProps {
   label: string;
   variant?: 'ghost' | 'outline';
   onClick?: () => void;
   children?: React.ReactNode;
 }
 
-function AccountCardItemRoot({
+function SettingCardItemRoot({
   label,
   variant = 'ghost',
   onClick,
   children,
-}: AccountCardItemRootProps) {
+}: SettingCardItemRootProps) {
   return (
     <div
       onClick={onClick}
@@ -63,8 +63,8 @@ function AccountCardItemRoot({
   );
 }
 
-const AccountCardItem = Object.assign(AccountCardItemRoot, {
-  LeftIcon: AccountCardLeftIcon,
+const SettingCardItem = Object.assign(SettingCardItemRoot, {
+  LeftIcon: SettingCardLeftIcon,
 });
 
-export { AccountCardItem };
+export { SettingCardItem };
