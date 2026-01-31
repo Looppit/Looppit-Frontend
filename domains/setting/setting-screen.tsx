@@ -1,8 +1,6 @@
-import { SETTING_GROUP_LIST } from './setting.constants';
+import { SETTING_GROUP_LIST } from './constants';
+import { SettingGroup, SettingHeader, SettingUserPreview } from './ui';
 import { useGetUser } from '../user/hooks';
-import { SettingGroup } from './ui/setting-group';
-import { SettingHeader } from './ui/setting-header';
-import { SettingUserPreview } from './ui/setting-user-preview';
 
 export function SettingScreen() {
   const { data: user } = useGetUser();
