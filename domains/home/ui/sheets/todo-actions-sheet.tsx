@@ -5,10 +5,8 @@ import { useAtomValue } from 'jotai';
 
 import { useCreateTodo, useUpdateTodo } from '@/domains/home/hooks';
 import { todoYearMonthAtom } from '@/domains/home/store';
-import {
-  SheetComponentProps,
-  TodoActionsSheetProps,
-} from '@/domains/home/types';
+import { TodoActionsSheetProps } from '@/domains/home/types';
+import { SheetComponentProps } from '@/shared/types';
 import { Button } from '@/shared/ui/button';
 import {
   Drawer,
