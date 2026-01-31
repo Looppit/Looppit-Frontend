@@ -4,7 +4,7 @@ import { Button } from '@/shared/ui/button';
 import { IconButton } from '@/shared/ui/icon-button';
 import { cn } from '@/shared/utils';
 
-import type { SettingGroup } from '../setting.constants';
+import type { SettingGroup } from '../constants';
 
 type SettingGroupProps = SettingGroup;
 
