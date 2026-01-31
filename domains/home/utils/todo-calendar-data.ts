@@ -19,23 +19,16 @@ export const getCompletedCategoryData = (
 ): CompletedCategoryData => {
   const completedCategoryData: CompletedCategoryData = {};
 
-  todos.forEach((category) => {
-    const { categoryId, categoryColor, todo } = category;
-
+  todos.forEach(({ categoryId, categoryColor, todo }) => {
+    const categoryKey = String(categoryId);
     todo.forEach(({ date, completed }) => {
-      const categoryIdString = categoryId.toString();
-
-      if (!completedCategoryData[date]) {
-        completedCategoryData[date] = {};
-      }
-      if (!completedCategoryData[date][categoryIdString]) {
-        completedCategoryData[date][categoryIdString] = {
-          color: categoryColor,
-          completed: completed,
-        };
-      }
-      completedCategoryData[date][categoryIdString].completed =
-        completedCategoryData[date][categoryIdString].completed && completed;
+      const byDate = (completedCategoryData[date] ||= {});
+      const entry = (byDate[categoryKey] ||= {
+        color: categoryColor,
+        completed: true,
+      });
+      if (!entry.completed) return;
+      entry.completed = completed;
     });
   });
 
