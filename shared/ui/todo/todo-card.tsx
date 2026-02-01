@@ -189,4 +189,4 @@ const TodoCard = Object.assign(TodoCardRoot, {
   Progress,
 });
 
-export { TodoCard, TodoItem };
+export { TodoCard };

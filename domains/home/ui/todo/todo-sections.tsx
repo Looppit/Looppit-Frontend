@@ -1,7 +1,7 @@
 'use client';
 
 import { useMergedTodos, useTodosAndCategories } from '@/domains/home/hooks';
-import { HomeEmpty, HomeLoading } from '@/domains/home/ui';
+import { HomeTodoEmpty, HomeTodoLoading } from '@/domains/home/ui';
 import { dayjs } from '@/shared/lib';
 import { QueryErrorBoundary } from '@/shared/ui/async-boundary';
 import { ConditionalRender } from '@/shared/ui/condition-render';
@@ -16,7 +16,10 @@ const TodoSectionsContent = ({ yearMonth }: TodoSectionListContentProps) => {
   const mergedTodos = useMergedTodos(todosData, categories);
 
   return (
-    <ConditionalRender when={mergedTodos.length !== 0} fallback={<HomeEmpty />}>
+    <ConditionalRender
+      when={mergedTodos.length !== 0}
+      fallback={<HomeTodoEmpty />}
+    >
       {mergedTodos.map((section) => (
         <TodoSection
           key={section.categoryId}
@@ -35,7 +38,7 @@ export const TodoSections = () => {
   const yearMonth = dayjs().format('YYYY-MM');
 
   return (
-    <QueryErrorBoundary loadingFallback={<HomeLoading />}>
+    <QueryErrorBoundary loadingFallback={<HomeTodoLoading />}>
       <TodoSectionsContent yearMonth={yearMonth} />
     </QueryErrorBoundary>
   );

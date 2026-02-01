@@ -6,6 +6,7 @@ import prettierConfig from 'eslint-config-prettier/flat';
 import importPlugin from 'eslint-plugin-import';
 import prettier from 'eslint-plugin-prettier';
 import storybookPlugin from 'eslint-plugin-storybook';
+import unusedImports from 'eslint-plugin-unused-imports';
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -23,12 +24,15 @@ const eslintConfig = defineConfig([
       import: importPlugin,
       '@tanstack/query': pluginQuery,
       storybook: storybookPlugin,
+      'unused-imports': unusedImports,
     },
     rules: {
       '@tanstack/query/stable-query-client': 'error',
       '@tanstack/query/no-unstable-deps': 'error',
       '@typescript-eslint/no-unused-expressions': 'error',
-      '@typescript-eslint/no-unused-vars': [
+      '@typescript-eslint/no-unused-vars': 'off',
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
         'error',
         {
           argsIgnorePattern: '^_',

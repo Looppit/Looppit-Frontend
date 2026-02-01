@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { createCategory } from '@/domains/category/api';
+import { createCategory } from '@/domains/category/api/category.api';
 import { categoryKeys } from '@/domains/category/category.keys';
 
 export const useCreateCategory = () => {

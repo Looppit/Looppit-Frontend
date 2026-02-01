@@ -1,7 +1,7 @@
-export const HomeEmpty = () => {
+export const HomeTodoLoading = () => {
   return (
     <div className="text-secondary text-center typography-body-semibold py-8">
-      습관이 없어요 🥹
+      불러오는 중 💬
     </div>
   );
 };
