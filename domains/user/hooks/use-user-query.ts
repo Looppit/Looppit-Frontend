@@ -5,12 +5,15 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
+import { toast } from 'sonner';
+
+import { isApiError } from '@/shared/guard';
 
 import { getUserProfile, updateUser } from '../user.api';
 import { userKeys } from '../user.keys';
 import { User, GetUserResponse } from '../user.types';
 
-const profileQueryOption = queryOptions<UserProfileResponse>({
+const profileQueryOption = queryOptions<GetUserResponse>({
   queryKey: ['user-profile'],
   queryFn: getUserProfile,
   retry: false,
@@ -20,7 +23,7 @@ const profileQueryOption = queryOptions<UserProfileResponse>({
 });
 
 export const useUserProfile = () => {
-  return useQuery<UserProfileResponse>(profileQueryOption);
+  return useQuery<GetUserResponse>(profileQueryOption);
 };
 
 export const useUserProfileWithSuspense = () => {
@@ -42,6 +45,16 @@ export const useUpdateUser = () => {
     mutationFn: updateUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: userKeys.base });
+    },
+    onError: (error) => {
+      console.error(error);
+      if (isApiError(error)) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error(
+        '프로필을 업데이트 하는 도중 오류가 발생했어요. 다시 시도해주세요.',
+      );
     },
   });
 };
