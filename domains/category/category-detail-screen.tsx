@@ -6,10 +6,10 @@ import { useParams } from 'next/navigation';
 
 import { useCategoriesWithSuspense } from '@/domains/category/hooks';
 import {
-  CategoryDetailInfo,
+  CategoryDetailHeader,
   CategoryDetailLoading,
   CategoryDetailNotFound,
-  CategoryDetailHeader,
+  CategoryDetailSummary,
   CategoryUtilsSheet,
 } from '@/domains/category/ui';
 import { QueryErrorBoundary } from '@/shared/ui/async-boundary';
@@ -25,7 +25,7 @@ const CategoryDetailContent = () => {
   return (
     <ConditionalRender when={!!category} fallback={<CategoryDetailNotFound />}>
       <CategoryDetailHeader onRightClick={() => setIsOpen(true)} />
-      <CategoryDetailInfo category={category!} />
+      <CategoryDetailSummary category={category!} />
       <CategoryUtilsSheet open={isOpen} setOpen={setIsOpen} />
     </ConditionalRender>
   );

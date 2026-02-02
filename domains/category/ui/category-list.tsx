@@ -1,8 +1,11 @@
 'use client';
 
 import { useCategoriesWithSuspense } from '@/domains/category/hooks';
-import { CategoryCard } from '@/domains/category/ui';
-import { CategoryEmpty, CategoryLoading } from '@/domains/category/ui/states';
+import {
+  CategoryCard,
+  CategoryEmpty,
+  CategoryLoading,
+} from '@/domains/category/ui';
 import { QueryErrorBoundary } from '@/shared/ui/async-boundary';
 import { ConditionalRender } from '@/shared/ui/condition-render';
 
