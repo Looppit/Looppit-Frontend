@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 
 import { getImageFileValidatorError } from '@/shared/utils';
 
-import { Icon } from '../icon';
+import { IconButton } from '../icon-button';
 
 type InputProfileImageProps = {
   imageFile: string | null | File;
@@ -74,9 +74,12 @@ export function InputProfileImage({
             src={imageUrl ?? '/default-image.png'}
           />
         </div>
-        <button className="absolute bottom-1 right-1 w-8 h-8 bg-[#1E182A] border border-white/10 rounded-full flex items-center justify-center text-white shadow-lg active:scale-90 transition-all">
-          <Icon icon="ic_edit" className="w-4 h-4 fill-white" />
-        </button>
+        <IconButton
+          icon="ic_edit"
+          size="28"
+          iconClassName="fill-white w-4 h-4"
+          className="absolute bottom-1 right-1 bg-[#1E182A]"
+        />
       </div>
     </div>
   );
