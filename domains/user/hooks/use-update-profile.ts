@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 
+import { uploadFileWithPresignedUrl } from '@/domains/s3/s3.api';
 import { useCreatePresignedUrl } from '@/domains/s3/s3.hooks';
 import { getImageContentType } from '@/domains/s3/s3.utils';
 
@@ -19,6 +20,22 @@ export const useUpdateProfile = () => {
   const { mutateAsync: createPresignedUrlMutation } = useCreatePresignedUrl();
   const { mutate: updateUserMutation } = useUpdateUser();
 
+  const uploadFile = useCallback(
+    async (imgPath: File) => {
+      const contentType = getImageContentType(imgPath);
+      const {
+        result: { url, key },
+      } = await createPresignedUrlMutation({
+        fileName: imgPath.name,
+        contentType,
+      });
+
+      await uploadFileWithPresignedUrl(url, imgPath);
+      return key;
+    },
+    [createPresignedUrlMutation],
+  );
+
   const updateProfile = useCallback(
     async ({ form, onSuccess }: UpdateProfileOptions) => {
       try {
@@ -28,12 +45,8 @@ export const useUpdateProfile = () => {
           imgPath: null,
         };
         if (imgPath instanceof File) {
-          const contentType = getImageContentType(imgPath);
-          const { url } = await createPresignedUrlMutation({
-            fileName: imgPath.name,
-            contentType,
-          });
-          requestData.imgPath = url;
+          const key = await uploadFile(imgPath);
+          requestData.imgPath = key;
         }
 
         updateUserMutation(requestData, { onSuccess });
@@ -41,7 +54,7 @@ export const useUpdateProfile = () => {
         console.error(error);
       }
     },
-    [createPresignedUrlMutation, updateUserMutation],
+    [uploadFile, updateUserMutation],
   );
 
   return { updateProfile };

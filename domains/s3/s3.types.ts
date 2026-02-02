@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { ApiResponse } from '@/shared/api/api.types';
+
 export const imageContentTypeSchema = z.enum(['JPG', 'PNG', 'JPEG']);
 
 export type ImageContentType = z.infer<typeof imageContentTypeSchema>;
@@ -15,6 +17,9 @@ export type CreatePresignedUrlRequest = z.infer<
 
 export const presignedUrlSchema = z.object({
   url: z.string(),
+  key: z.string(),
 });
 
-export type PresignedUrlResponse = z.infer<typeof presignedUrlSchema>;
+export type PresignedUrlResponse = ApiResponse<
+  z.infer<typeof presignedUrlSchema>
+>;
