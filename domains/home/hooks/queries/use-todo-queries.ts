@@ -1,6 +1,10 @@
 import { useMemo } from 'react';
 
-import { useQuery, useSuspenseQueries } from '@tanstack/react-query';
+import {
+  useQuery,
+  useSuspenseQueries,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 
 import { categoriesQueryOptions } from '@/domains/category/utils';
 import { todosQueryOptions } from '@/domains/home/utils';
@@ -21,4 +25,10 @@ export const useTodosAndCategories = (yearMonth: string) => {
 
 export const useTodosByDate = (date: string) => {
   return useQuery(todosQueryOptions(date));
+};
+
+export const useTodosWithSuspense = (yearMonth: string) => {
+  return useSuspenseQuery({
+    ...todosQueryOptions(yearMonth),
+  });
 };

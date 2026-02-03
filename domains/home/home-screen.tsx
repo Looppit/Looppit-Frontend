@@ -5,10 +5,10 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 
 import {
-  HabitStreakCard,
+  HabitStreakSection,
   HomeSheets,
   TodoSections,
-  UserGreeting,
+  UserGreetingSection,
 } from '@/domains/home/ui';
 
 import { CalendarSection } from './ui/calendar-section';
@@ -19,8 +19,8 @@ export const HomeScreen = () => {
 
   return (
     <div className="pt-9 px-5 min-h-screen flex flex-col gap-5">
-      <UserGreeting />
-      <HabitStreakCard />
+      <UserGreetingSection />
+      <HabitStreakSection />
       <CalendarSection
         todoYearMonth={todoYearMonth}
         selectedDate={todoDate}
