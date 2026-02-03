@@ -9,6 +9,7 @@ import {
 import { categoryKeys } from '@/domains/category/category.keys';
 import { UpdateCategoryParams } from '@/domains/category/types';
 import type { ApiError } from '@/shared/api/api.types';
+import { trackEvent } from '@/shared/lib/posthog';
 
 type UseCreateCategory = {
   showSuccessToast?: boolean;
@@ -21,6 +22,7 @@ export const useCreateCategory = (options: UseCreateCategory = {}) => {
   return useMutation({
     mutationFn: createCategory,
     onSuccess: async () => {
+      trackEvent('category_created');
       await queryClient.invalidateQueries({
         queryKey: categoryKeys.list(),
         refetchType: 'all',
@@ -45,6 +47,7 @@ export const useUpdateCategory = () => {
   return useMutation<void, ApiError, UpdateCategoryParams>({
     mutationFn: updateCategory,
     onSuccess: async () => {
+      trackEvent('category_updated');
       await queryClient.invalidateQueries({
         queryKey: categoryKeys.list(),
         refetchType: 'all',
@@ -68,6 +71,7 @@ export const useDeleteCategory = (categoryId: string) => {
   return useMutation({
     mutationFn: () => deleteCategory(categoryId),
     onSuccess: async () => {
+      trackEvent('category_deleted');
       await queryClient.invalidateQueries({
         queryKey: categoryKeys.list(),
         refetchType: 'all',
