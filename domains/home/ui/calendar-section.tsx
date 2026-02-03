@@ -1,22 +1,19 @@
 import { useMemo } from 'react';
 
+import { useAtomValue, useSetAtom } from 'jotai';
+
 import { TodoCalendar } from '@/domains/todo/ui';
 
 import { useTodosByDate } from '../hooks';
+import { todoDateAtom, todoYearMonthAtom } from '../store';
 import { getCompletedCategoryData } from '../utils';
 import { MonthlyCalendarSheet } from './sheets';
 
-interface CalendarSectionProps {
-  todoYearMonth: string;
-  selectedDate: Date;
-  setSelectedDate: (date: Date) => void;
-}
+export const CalendarSection = () => {
+  const todoYearMonth = useAtomValue(todoYearMonthAtom);
+  const selectedDate = useAtomValue(todoDateAtom);
+  const setSelectedDate = useSetAtom(todoDateAtom);
 
-export const CalendarSection = ({
-  todoYearMonth,
-  selectedDate,
-  setSelectedDate,
-}: CalendarSectionProps) => {
   const { data: todos } = useTodosByDate(todoYearMonth);
   const completedCategoryData = useMemo(() => {
     if (!todos) return {};

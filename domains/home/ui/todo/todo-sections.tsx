@@ -1,8 +1,13 @@
 'use client';
 
-import { useMergedTodos, useTodosAndCategories } from '@/domains/home/hooks';
+import { useAtomValue } from 'jotai';
+
+import {
+  useTodoSectionsByDate,
+  useTodosAndCategories,
+} from '@/domains/home/hooks';
+import { todoDateAtom, todoYearMonthAtom } from '@/domains/home/store';
 import { HomeTodoEmpty, HomeTodoLoading } from '@/domains/home/ui';
-import { dayjs } from '@/shared/lib';
 import { QueryErrorBoundary } from '@/shared/ui/async-boundary';
 import { ConditionalRender } from '@/shared/ui/condition-render';
 
@@ -10,17 +15,25 @@ import { TodoSection } from './todo-section';
 
 type TodoSectionListContentProps = {
   yearMonth: string;
+  selectedDate: Date;
 };
-const TodoSectionsContent = ({ yearMonth }: TodoSectionListContentProps) => {
+const TodoSectionsContent = ({
+  yearMonth,
+  selectedDate,
+}: TodoSectionListContentProps) => {
   const { todosData, categories } = useTodosAndCategories(yearMonth);
-  const mergedTodos = useMergedTodos(todosData, categories);
+  const todoSectionsByDate = useTodoSectionsByDate(
+    todosData,
+    categories,
+    selectedDate,
+  );
 
   return (
     <ConditionalRender
-      when={mergedTodos.length !== 0}
+      when={todoSectionsByDate.length !== 0}
       fallback={<HomeTodoEmpty />}
     >
-      {mergedTodos.map((section) => (
+      {todoSectionsByDate.map((section) => (
         <TodoSection
           key={section.categoryId}
           categoryId={section.categoryId}
@@ -35,11 +48,12 @@ const TodoSectionsContent = ({ yearMonth }: TodoSectionListContentProps) => {
 };
 
 export const TodoSections = () => {
-  const yearMonth = dayjs().format('YYYY-MM');
+  const selectedDate = useAtomValue(todoDateAtom);
+  const yearMonth = useAtomValue(todoYearMonthAtom);
 
   return (
     <QueryErrorBoundary loadingFallback={<HomeTodoLoading />}>
-      <TodoSectionsContent yearMonth={yearMonth} />
+      <TodoSectionsContent yearMonth={yearMonth} selectedDate={selectedDate} />
     </QueryErrorBoundary>
   );
 };

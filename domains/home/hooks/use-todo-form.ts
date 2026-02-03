@@ -2,11 +2,13 @@ import { useCallback, useMemo } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useAtomValue } from 'jotai';
 import { toast } from 'sonner';
 
 import { Category } from '@/domains/category/types';
 import { TODO_FORM_MODE } from '@/domains/home/constants';
 import { useCreateTodo, useUpdateTodo } from '@/domains/home/hooks';
+import { todoYearMonthAtom } from '@/domains/home/store';
 import {
   TodoFormMode,
   TodoResponse,
@@ -14,34 +16,31 @@ import {
   type TodoFormValues,
 } from '@/domains/home/types';
 import { getInitialFormValues } from '@/domains/home/utils';
-import { dayjs } from '@/shared/lib';
 
 type UseTodoFormProps = {
   mode: TodoFormMode;
   onSuccess?: () => void;
   initialCategoryId?: number | null;
   initialTodo?: TodoResponse;
+  /** 생성 모드일 때 폼 초기 날짜 (캘린더 선택일 등) */
+  initialSelectedDate?: Date;
   enabled?: boolean;
   categories: Category[];
 };
-
-const getDefaultFormValues = (): TodoFormValues => ({
-  title: '',
-  categoryId: null,
-  date: dayjs().format('YYYY-MM-DD'),
-});
 
 export const useTodoForm = ({
   mode,
   onSuccess,
   initialCategoryId,
   initialTodo,
+  initialSelectedDate,
   categories,
 }: UseTodoFormProps) => {
   const initValues = useMemo(() => {
     const { title, categoryId, date } = getInitialFormValues({
       initialTodo,
       initialCategoryId,
+      initialSelectedDate,
     });
 
     return {
@@ -49,7 +48,7 @@ export const useTodoForm = ({
       categoryId,
       date,
     };
-  }, [initialTodo, initialCategoryId]);
+  }, [initialTodo, initialCategoryId, initialSelectedDate]);
 
   const form = useForm<TodoFormValues>({
     resolver: zodResolver(todoFormSchema),
@@ -58,10 +57,10 @@ export const useTodoForm = ({
   });
 
   const resetForm = useCallback(() => {
-    form.reset(getDefaultFormValues());
+    form.reset(getInitialFormValues({}));
   }, [form]);
 
-  const yearMonth = dayjs().format('YYYY-MM');
+  const yearMonth = useAtomValue(todoYearMonthAtom);
   const createTodoMutation = useCreateTodo(yearMonth);
   const updateTodoMutation = useUpdateTodo(yearMonth);
 

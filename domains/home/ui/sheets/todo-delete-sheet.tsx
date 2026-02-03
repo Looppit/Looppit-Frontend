@@ -1,13 +1,13 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useAtomValue } from 'jotai';
 
 import { useDeleteTodo } from '@/domains/home/hooks';
+import { todoYearMonthAtom } from '@/domains/home/store';
 import {
   SheetComponentProps,
   TodoDeleteSheetProps,
 } from '@/domains/home/types';
-import { dayjs } from '@/shared/lib';
 import { Button } from '@/shared/ui/button';
 import {
   Drawer,
@@ -22,8 +22,7 @@ export const TodoDeleteSheet = ({
   onClose,
 }: SheetComponentProps<TodoDeleteSheetProps>) => {
   const { todo, categoryId } = props;
-
-  const yearMonth = useMemo(() => dayjs().format('YYYY-MM'), []);
+  const yearMonth = useAtomValue(todoYearMonthAtom);
   const deleteTodoMutation = useDeleteTodo(yearMonth);
 
   const handleOpenChange = (open: boolean) => {

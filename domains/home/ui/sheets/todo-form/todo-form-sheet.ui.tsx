@@ -1,7 +1,9 @@
 import { type ReactNode } from 'react';
 
+import { format, parseISO } from 'date-fns';
+import { ko } from 'date-fns/locale';
+
 import { Category } from '@/domains/category/types';
-import { dayjs } from '@/shared/lib';
 import { Chip } from '@/shared/ui/chip';
 import {
   Drawer,
@@ -92,7 +94,7 @@ const TodoFormSheetOptionsBar = ({
           className="typography-body-semibold text-white"
         >
           <Icon icon="ic_calendar_month" size="16" className="fill-current" />
-          {dayjs(date).format('M. D. (ddd)')}
+          {format(parseISO(date), 'M. d. (EEE)', { locale: ko })}
         </button>
       </Chip>
       <Chip asChild onClick={onCategoryClick} size="md">

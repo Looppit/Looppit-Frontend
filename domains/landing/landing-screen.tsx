@@ -17,7 +17,7 @@ export default function LandingScreen() {
           <div className="relative w-[120px] h-[120px] rounded-full overflow-hidden bg-white/4 backdrop-blur-xl border border-white/10 flex items-center justify-center shadow-2xl">
             <Image
               className="w-full h-full object-cover opacity-50 mix-blend-screen scale-110 z-1"
-              src="/login-logo.png"
+              src="/assets/login-logo.png"
               alt="Looppit Logo"
               width={120}
               height={120}

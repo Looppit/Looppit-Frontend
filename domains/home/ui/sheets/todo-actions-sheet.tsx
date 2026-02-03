@@ -1,13 +1,14 @@
 'use client';
 
-import { useMemo } from 'react';
+import { addDays, format, parseISO } from 'date-fns';
+import { useAtomValue } from 'jotai';
 
 import { useCreateTodo, useUpdateTodo } from '@/domains/home/hooks';
+import { todoYearMonthAtom } from '@/domains/home/store';
 import {
   SheetComponentProps,
   TodoActionsSheetProps,
 } from '@/domains/home/types';
-import { dayjs } from '@/shared/lib';
 import { Button } from '@/shared/ui/button';
 import {
   Drawer,
@@ -23,8 +24,7 @@ export const TodoActionsSheet = ({
   onClose,
 }: SheetComponentProps<TodoActionsSheetProps>) => {
   const { todo, categoryId } = props;
-
-  const yearMonth = useMemo(() => dayjs().format('YYYY-MM'), []);
+  const yearMonth = useAtomValue(todoYearMonthAtom);
   const updateTodoMutation = useUpdateTodo(yearMonth);
   const createTodoMutation = useCreateTodo(yearMonth);
 
@@ -43,7 +43,7 @@ export const TodoActionsSheet = ({
         todoId: todo.todoId,
         data: {
           title: todo.title,
-          date: dayjs(todo.date).add(1, 'day').format('YYYY-MM-DD'),
+          date: format(addDays(parseISO(todo.date), 1), 'yyyy-MM-dd'),
           updateCategory: categoryId,
         },
       },
@@ -59,7 +59,7 @@ export const TodoActionsSheet = ({
         categoryId,
         data: {
           title: todo.title,
-          date: dayjs(todo.date).add(1, 'day').format('YYYY-MM-DD'),
+          date: format(addDays(parseISO(todo.date), 1), 'yyyy-MM-dd'),
         },
       },
       {

@@ -17,7 +17,7 @@ function ProfileImageStep() {
   const profileImage = watch('profileImage');
 
   const imageUrl = (() => {
-    if (!profileImage) return '/login-logo.png';
+    if (!profileImage) return '/assets/login-logo.png';
     if (profileImage instanceof File) {
       return URL.createObjectURL(profileImage);
     }

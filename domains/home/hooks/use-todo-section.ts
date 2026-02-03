@@ -1,13 +1,12 @@
 import { useCallback, useMemo } from 'react';
 
-import { useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 
 import { SHEET_TYPE, TODO_FORM_MODE } from '@/domains/home/constants';
 import { useToggleTodo } from '@/domains/home/hooks/queries';
-import { openSheetAtom } from '@/domains/home/store';
+import { openSheetAtom, todoYearMonthAtom } from '@/domains/home/store';
 import { TodoResponse } from '@/domains/home/types';
 import { useSwipeable } from '@/shared/hooks';
-import { dayjs } from '@/shared/lib';
 
 type UseTodoSectionProps = {
   categoryId: number;
@@ -27,7 +26,7 @@ export const useTodoSection = ({
 }: UseTodoSectionProps): TodoSectionHandlers => {
   const openSheet = useSetAtom(openSheetAtom);
   const { isOpened } = useSwipeable();
-  const yearMonth = dayjs().format('YYYY-MM');
+  const yearMonth = useAtomValue(todoYearMonthAtom);
   const toggleTodoMutation = useToggleTodo(yearMonth);
 
   const onAddClick = useCallback(() => {
