@@ -18,7 +18,7 @@ export const SETTING_GROUP_LIST: Record<string, SettingGroup> = {
     childrens: [
       {
         label: '계정 관리',
-        href: '/setting/account',
+        href: '/settings/account',
         icon: {
           name: 'ic_user_cog',
           noneFill: true,
@@ -31,14 +31,14 @@ export const SETTING_GROUP_LIST: Record<string, SettingGroup> = {
     childrens: [
       {
         label: '앱 정보',
-        href: '/setting/information',
+        href: '/settings/information',
         icon: {
           name: 'ic_info',
         },
       },
       {
         label: '도움말 및 지원',
-        href: '/setting/help',
+        href: '/settings/help',
         icon: {
           name: 'ic_help',
         },

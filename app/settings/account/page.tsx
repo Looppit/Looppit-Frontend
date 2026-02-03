@@ -1,6 +1,6 @@
 'use client';
 
-import { AccountScreen } from '@/domains/setting/ui';
+import { AccountScreen } from '@/domains/settings/ui';
 
 export default function AccountPage() {
   return <AccountScreen />;
