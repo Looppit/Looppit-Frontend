@@ -88,7 +88,7 @@ export const OutlineWithIcon: Story = {
       <Button variant="outline" size="body" align="start">
         <Button.OutlineIcon
           icon="ic_schedule"
-          bgColor="bg-green-500/15"
+          className="bg-green-500/15"
           iconClassName="fill-green-400"
         />
         내일로 미루기
@@ -106,7 +106,7 @@ export const AllVariants: Story = {
       <Button variant="outline" size="body" align="start">
         <Button.OutlineIcon
           icon="ic_edit"
-          bgColor="bg-gray-500/15"
+          className="bg-gray-500/15"
           iconClassName="fill-gray-400"
         />
         수정하기
@@ -114,7 +114,7 @@ export const AllVariants: Story = {
       <Button variant="outline" size="body" align="start">
         <Button.OutlineIcon
           icon="ic_schedule"
-          bgColor="bg-green-500/15"
+          className="bg-green-500/15"
           iconClassName="fill-green-400"
         />
         내일로 미루기
@@ -122,7 +122,7 @@ export const AllVariants: Story = {
       <Button variant="outline" size="body" align="start">
         <Button.OutlineIcon
           icon="ic_delete"
-          bgColor="bg-destructive/10"
+          className="bg-destructive/10"
           iconClassName="fill-destructive"
         />
         삭제하기

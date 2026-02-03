@@ -32,7 +32,7 @@ function DrawerClose({
     <DrawerPrimitive.Close
       data-slot="drawer-close"
       className={cn(
-        'w-full text-secondary/60 text-[14px] font-black py-4 mt-2 transition-colors hover:text-white',
+        'w-full text-secondary/60 text-[14px] font-black py-4 transition-colors hover:text-white',
         className,
       )}
       {...props}

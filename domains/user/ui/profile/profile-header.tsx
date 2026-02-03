@@ -7,7 +7,7 @@ export function ProfileHeader() {
 
   return (
     <DetailHeader
-      onLeftClick={() => router.push('/')}
+      onLeftClick={() => router.back()}
       leftIcon="ic_arrow_back_ios_new"
       title="프로필 수정"
       leftIconClassName="cursor-pointer"
