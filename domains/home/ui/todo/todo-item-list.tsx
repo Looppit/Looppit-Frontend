@@ -1,12 +1,13 @@
 'use client';
 
+import { Category } from '@/domains/category/types';
 import { TodoResponse } from '@/domains/home/types';
 import SwipeableContainer from '@/shared/ui/swipeable-container';
 import { TodoCard } from '@/shared/ui/todo';
 
 type TodoItemListProps = {
   todos: TodoResponse[];
-  categoryColor: string;
+  categoryColor: Category['categoryColor'];
   onLabelClick: (todo: TodoResponse) => void;
   onOpenActions: (todo: TodoResponse) => void;
   onDelete: (todo: TodoResponse) => void;

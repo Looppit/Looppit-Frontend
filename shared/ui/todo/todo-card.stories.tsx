@@ -36,7 +36,7 @@ export const Default: Story = {
         <TodoCard.Header
           title="업무"
           color="#2563eb"
-          icon="ic_category"
+          icon="ic_book"
           onTitleClick={() => {}}
           onAddClick={() => {}}
         />

@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation';
 
 import {
   CATEGORY_COLORS,
-  CATEGORY_ICONS,
   CATEGORY_FORM_MODE,
+  CATEGORY_ICON_PREVIEW,
   CategoryFormMode,
 } from '@/domains/category/constants';
 import {
@@ -60,7 +60,7 @@ const CategoryFormScreenContent = ({ mode }: CategoryFormScreenProps) => {
             error={categoryNameError}
           />
           <CategoryForm.IconSelector
-            icons={CATEGORY_ICONS}
+            icons={CATEGORY_ICON_PREVIEW}
             selectedIcon={selectedIcon}
             onIconChange={(icon) => form.setValue('categoryIconName', icon)}
             onMoreOpen={() => setIsOpen(true)}

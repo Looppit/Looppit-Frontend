@@ -2,10 +2,9 @@
 
 import { useMemo } from 'react';
 
-import { CategoryColor } from '@/domains/category/constants';
+import { Category } from '@/domains/category/types';
 import { useTodoSection } from '@/domains/home/hooks';
 import { TodoResponse } from '@/domains/home/types';
-import { IconName } from '@/shared/ui/icon';
 import { TodoCard } from '@/shared/ui/todo';
 import { getGradient } from '@/shared/utils';
 
@@ -14,11 +13,8 @@ import { calculateProgress } from './todo-section.utils';
 
 type TodoSectionProps = {
   categoryId: number;
-  categoryColor: CategoryColor;
-  categoryName: string;
-  categoryIconName: IconName;
   todos: TodoResponse[];
-};
+} & Pick<Category, 'categoryColor' | 'categoryIconName' | 'categoryName'>;
 
 export const TodoSection = ({
   categoryId,

@@ -1,5 +1,6 @@
-import { CategoryColor, CategoryIconName } from '@/domains/category/constants';
+import { CategoryColor } from '@/domains/category/constants';
 import { CategoryFormValues } from '@/domains/category/types/schema';
+import { CategoryIconName } from '@/shared/ui/icon';
 
 export interface Category {
   id: number;

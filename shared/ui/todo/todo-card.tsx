@@ -2,10 +2,10 @@
 
 import type React from 'react';
 
-import { CategoryColor } from '@/domains/category/constants';
+import { Category } from '@/domains/category/types';
 import { StrictPropsWithChildren } from '@/shared/types';
 import { Checkbox } from '@/shared/ui/checkbox';
-import { Icon, IconName } from '@/shared/ui/icon';
+import { Icon } from '@/shared/ui/icon';
 import { IconButton } from '@/shared/ui/icon-button';
 import { Progress } from '@/shared/ui/progress';
 import { cn, getGradient } from '@/shared/utils';
@@ -20,18 +20,18 @@ const TodoCardRoot = ({ className, children, ...props }: TodoCardRootProps) => {
   );
 };
 
-interface TodoCardHeaderProps {
+type TodoCardHeaderProps = {
   /** 투두 카테고리 제목 */
   title: string;
   /** 투두 카테고리 색상 */
-  color: CategoryColor;
+  color: Category['categoryColor'];
   /** 투두 카테고리 아이콘 */
-  icon: IconName;
+  icon: Category['categoryIconName'];
   /** 타이틀 클릭시 실행 될 함수 */
   onTitleClick?: () => void;
   /** 추가 버튼 클릭시 실행 될 함수 */
   onAddClick?: () => void;
-}
+};
 
 const TodoCardHeader = ({
   title,
@@ -90,7 +90,7 @@ interface TodoItemProps {
   /** 추가 CSS 클래스 */
   className?: string;
   /** 카테고리 컬러 */
-  categoryColor?: string;
+  categoryColor?: Category['categoryColor'];
 }
 
 const TodoItem = ({

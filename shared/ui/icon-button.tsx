@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Slot } from '@radix-ui/react-slot';
 
-import { Icon, IconName, IconSize } from '@/shared/ui/icon';
+import { Icon, IconProps, IconSize } from '@/shared/ui/icon';
 import { cn } from '@/shared/utils';
 
 export type IconButtonSize = '28' | '36' | '40';
@@ -27,7 +27,7 @@ const iconButtonVariants: Record<
 
 type ButtonProps = React.ComponentProps<'button'> & {
   asChild?: boolean;
-  icon: IconName;
+  icon: IconProps['icon'];
   iconClassName?: string;
   size: IconButtonSize;
 };

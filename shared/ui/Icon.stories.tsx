@@ -1,9 +1,10 @@
-import * as icons from '@/shared/assets/icons';
-import { Icon, type IconName, type IconSize } from '@/shared/ui/icon';
+import { allIcons, Icon, IconProps, type IconSize } from '@/shared/ui/icon';
 
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 const ICON_SIZES: IconSize[] = ['12', '14', '16', '18', '20', '24', '30', '36'];
+
+const allIconKeys = Object.keys(allIcons) as IconProps['icon'][];
 
 const meta = {
   title: 'Components/Icon',
@@ -21,7 +22,7 @@ const meta = {
   argTypes: {
     icon: {
       control: 'select',
-      options: Object.keys(icons) as IconName[],
+      options: allIconKeys,
       description: '표시할 아이콘을 선택하세요',
     },
     size: {
@@ -81,11 +82,9 @@ export const Colors: Story = {
 
 export const Gallery: Story = {
   render: () => {
-    const iconNames = Object.keys(icons) as IconName[];
-
     return (
       <div className="grid grid-cols-6 gap-6 p-4">
-        {iconNames.map((iconName) => (
+        {allIconKeys.map((iconName) => (
           <div
             key={iconName}
             className="flex flex-col items-center gap-2 p-4 border border-slate-200 rounded-lg hover:bg-gray-50 transition-colors"

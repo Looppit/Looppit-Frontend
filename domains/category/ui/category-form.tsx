@@ -1,14 +1,10 @@
 import { type ReactNode } from 'react';
 
-import {
-  CategoryColor,
-  CategoryIconName,
-  MORE_ICON_NAME,
-} from '@/domains/category/constants';
+import { CategoryColor } from '@/domains/category/constants';
 import { getIconOptionButtonClassName } from '@/domains/category/utils';
 import { Button } from '@/shared/ui/button';
 import { FieldError, FieldLabel } from '@/shared/ui/field';
-import { Icon, IconName } from '@/shared/ui/icon';
+import { CategoryIconName, Icon } from '@/shared/ui/icon';
 import { IconButton } from '@/shared/ui/icon-button';
 import { Input } from '@/shared/ui/input';
 import { cn, getGradient } from '@/shared/utils';
@@ -26,7 +22,7 @@ const CategoryFormRoot = ({ children }: CategoryFormRootProps) => {
 };
 
 type CategoryFormPreviewProps = {
-  icon: IconName;
+  icon: CategoryIconName;
   color: CategoryColor;
 };
 
@@ -72,7 +68,7 @@ const CategoryFormInput = ({
 };
 
 type CategoryFormIconSelectorProps = {
-  icons: readonly CategoryIconName[];
+  icons: CategoryIconName[];
   selectedIcon?: CategoryIconName;
   onIconChange: (icon: CategoryIconName) => void;
   onMoreOpen: () => void;
@@ -88,9 +84,8 @@ const CategoryFormIconSelector = ({
     <div className="space-y-3.5">
       <FieldLabel>아이콘 선택</FieldLabel>
       <div className="grid grid-cols-5 gap-3">
-        {[...icons.slice(0, 9), MORE_ICON_NAME].map((icon, index) => {
+        {icons.map((icon) => {
           const isSelected = selectedIcon === icon;
-          const isLastButton = index === 9;
 
           return (
             <IconButton
@@ -98,12 +93,21 @@ const CategoryFormIconSelector = ({
               icon={icon}
               size="36"
               type="button"
-              onClick={isLastButton ? onMoreOpen : () => onIconChange(icon)}
+              onClick={() => onIconChange(icon)}
               className={getIconOptionButtonClassName(isSelected)}
               iconClassName="fill-current"
             />
           );
         })}
+        <IconButton
+          key="ic_more_horiz"
+          icon="ic_more_horiz"
+          size="36"
+          type="button"
+          onClick={onMoreOpen}
+          className={getIconOptionButtonClassName(false)}
+          iconClassName="fill-current"
+        />
       </div>
     </div>
   );
