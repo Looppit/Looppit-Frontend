@@ -1,7 +1,19 @@
+import { cookies } from 'next/headers';
+
+import { HydrationBoundary } from '@tanstack/react-query';
+
 import CategoryFormScreen from '@/domains/category/category-form-screen';
+import { getCategoryDehydratedState } from '@/domains/category/utils';
 
-export const dynamic = 'force-dynamic';
+export default async function CategoryAddPage() {
+  const cookieStore = await cookies();
+  const cookieHeader = cookieStore.toString();
 
-export default function CategoryAddPage() {
-  return <CategoryFormScreen mode="create" />;
+  const dehydratedState = await getCategoryDehydratedState(cookieHeader);
+
+  return (
+    <HydrationBoundary state={dehydratedState}>
+      <CategoryFormScreen mode="create" />
+    </HydrationBoundary>
+  );
 }
