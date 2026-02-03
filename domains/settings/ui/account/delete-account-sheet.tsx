@@ -1,4 +1,5 @@
 import { useDeleteUser } from '@/domains/user/hooks';
+import { StrictPropsWithChildren } from '@/shared/types';
 import { Button } from '@/shared/ui/button';
 import {
   Drawer,
@@ -7,35 +8,31 @@ import {
   DrawerTitle,
   DrawerDescription,
   DrawerFooter,
+  DrawerTrigger,
+  DrawerClose,
 } from '@/shared/ui/drawer';
 
-interface DeleteAccountSheetProps {
-  open: boolean;
-  onClose: () => void;
-}
+type DeleteAccountSheetTriggerProps = StrictPropsWithChildren<{
+  children: React.ReactNode;
+}>;
 
-export function DeleteAccountSheet({ open, onClose }: DeleteAccountSheetProps) {
+export function DeleteAccountSheetTrigger({
+  children,
+}: DeleteAccountSheetTriggerProps) {
   const { mutate: deleteUser } = useDeleteUser();
-
-  const handleOpenChange = (open: boolean) => {
-    if (!open) {
-      onClose();
-    }
-  };
 
   const handleClickDelete = () => {
     deleteUser(
       { password: 'test' },
       {
-        onSuccess: () => {
-          onClose();
-        },
+        onSuccess: () => {},
       },
     );
   };
 
   return (
-    <Drawer open={open} onOpenChange={handleOpenChange}>
+    <Drawer>
+      <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContent className="bg-card rounded-t-3xl p-6">
         <DrawerHeader>
           <DrawerTitle className="typography-title-lg">
@@ -46,9 +43,9 @@ export function DeleteAccountSheet({ open, onClose }: DeleteAccountSheetProps) {
           탈퇴하면 모든 습관과 데이터가 사라지고 되돌릴 수 없어요.
         </DrawerDescription>
         <DrawerFooter className="flex-row gap-2">
-          <Button variant="secondary" onClick={onClose}>
-            취소
-          </Button>
+          <DrawerClose asChild>
+            <Button variant="secondary">취소</Button>
+          </DrawerClose>
           <Button variant="destructive" onClick={handleClickDelete}>
             회원탈퇴
           </Button>

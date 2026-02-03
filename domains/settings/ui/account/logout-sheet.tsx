@@ -1,5 +1,6 @@
 import { useRouter } from 'next/navigation';
 
+import { StrictPropsWithChildren } from '@/shared/types';
 import { Button } from '@/shared/ui/button';
 import {
   Drawer,
@@ -7,32 +8,27 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerFooter,
+  DrawerTrigger,
+  DrawerClose,
 } from '@/shared/ui/drawer';
 import { removeTokensFromCookies } from '@/shared/utils';
 
-interface LogoutSheetProps {
-  open: boolean;
-  onClose: () => void;
-}
+type LogoutSheetTriggerProps = StrictPropsWithChildren<{
+  children: React.ReactNode;
+}>;
 
-export function LogoutSheet({ open, onClose }: LogoutSheetProps) {
+export function LogoutSheetTrigger({ children }: LogoutSheetTriggerProps) {
   const router = useRouter();
-
-  const handleOpenChange = (open: boolean) => {
-    if (!open) {
-      onClose();
-    }
-  };
 
   const handleClickLogout = async () => {
     removeTokensFromCookies().then(() => {
       router.push('/');
-      onClose();
     });
   };
 
   return (
-    <Drawer open={open} onOpenChange={handleOpenChange}>
+    <Drawer>
+      <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContent className="bg-card rounded-t-3xl p-6">
         <DrawerHeader>
           <DrawerTitle className="typography-title-lg">
@@ -40,9 +36,9 @@ export function LogoutSheet({ open, onClose }: LogoutSheetProps) {
           </DrawerTitle>
         </DrawerHeader>
         <DrawerFooter className="flex-row gap-2">
-          <Button variant="secondary" onClick={onClose}>
-            취소
-          </Button>
+          <DrawerClose asChild>
+            <Button variant="secondary">취소</Button>
+          </DrawerClose>
           <Button variant="default" onClick={handleClickLogout}>
             확인
           </Button>

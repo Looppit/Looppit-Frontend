@@ -1,17 +1,14 @@
-import { useState } from 'react';
-
 import { useRouter } from 'next/navigation';
 
 import { Button } from '@/shared/ui/button';
 
 import { SettingCardItem } from '../setting-card-item';
 import { SettingHeader } from '../setting-header';
-import { DeleteAccountSheet } from './delete-account-sheet';
-import { LogoutSheet } from './logout-sheet';
+import { DeleteAccountSheetTrigger } from './delete-account-sheet';
+import { LogoutSheetTrigger } from './logout-sheet';
 
 export function AccountScreen() {
   const router = useRouter();
-  const [openSheet, setOpenSheet] = useState<'delete' | 'logout' | null>(null);
 
   return (
     <div>
@@ -28,32 +25,23 @@ export function AccountScreen() {
             icon="ic_edit"
           />
         </SettingCardItem>
-        <SettingCardItem
-          label="로그아웃"
-          variant="outline"
-          onClick={() => setOpenSheet('logout')}
-        >
-          <SettingCardItem.LeftIcon
-            className="bg-destructive/10"
-            iconClassName="fill-destructive"
-            icon="ic_logout"
-          />
-        </SettingCardItem>
-        <Button
-          onClick={() => setOpenSheet('delete')}
-          variant="ghost"
-          className="typography-caption-medium text-secondary/40 underline underline-offset-4 hover:text-secondary/60 transition-colors py-2 px-4"
-        >
-          회원탈퇴
-        </Button>
-        <LogoutSheet
-          open={openSheet === 'logout'}
-          onClose={() => setOpenSheet(null)}
-        />
-        <DeleteAccountSheet
-          open={openSheet === 'delete'}
-          onClose={() => setOpenSheet(null)}
-        />
+        <LogoutSheetTrigger>
+          <SettingCardItem label="로그아웃" variant="outline">
+            <SettingCardItem.LeftIcon
+              className="bg-destructive/10"
+              iconClassName="fill-destructive"
+              icon="ic_logout"
+            />
+          </SettingCardItem>
+        </LogoutSheetTrigger>
+        <DeleteAccountSheetTrigger>
+          <Button
+            variant="ghost"
+            className="typography-caption-medium text-secondary/40 underline underline-offset-4 hover:text-secondary/60 transition-colors py-2 px-4"
+          >
+            회원탈퇴
+          </Button>
+        </DeleteAccountSheetTrigger>
       </div>
     </div>
   );
