@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -24,7 +24,7 @@ export const useCategoryForm = ({
 }: UseCategoryFormProps) => {
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categoryFormSchema),
-    defaultValues: initCategoryValues,
+    values: initCategoryValues,
     mode: 'onChange',
   });
 
@@ -57,7 +57,7 @@ export const useCategoryForm = ({
   );
 
   const handleUpdate = useCallback(
-    (_data: CategoryFormValues) => {
+    (data: CategoryFormValues) => {
       if (!initCategoryValues || !initialCategoryId) {
         toast.error('카테고리 정보를 불러올 수 없어요.');
         return;
@@ -66,7 +66,7 @@ export const useCategoryForm = ({
       updateCategoryMutation.mutate(
         {
           categoryId: initialCategoryId,
-          data: toCategoryPayload(_data),
+          data: toCategoryPayload(data),
         },
         {
           onSuccess: handleMutationSuccess,
@@ -104,11 +104,6 @@ export const useCategoryForm = ({
     },
     [form, mode, handleCreate, handleUpdate],
   );
-
-  useEffect(() => {
-    form.reset(initCategoryValues);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initCategoryValues]);
 
   return {
     form,

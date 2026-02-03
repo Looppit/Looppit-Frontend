@@ -3,11 +3,7 @@ import {
   CategoryFormMode,
   DEFAULT_VALUE,
 } from '@/domains/category/constants';
-import {
-  Category,
-  CategoryFormValues,
-  UseCategoryFormProps,
-} from '@/domains/category/types';
+import { Category, CategoryFormValues } from '@/domains/category/types';
 import { cn } from '@/shared/utils';
 
 export const toCategoryPayload = ({
@@ -32,24 +28,20 @@ export const getInitialFormValues = (initialData?: CategoryFormValues) => {
   };
 };
 
-type getCategoryFormParamsProps = Pick<
-  UseCategoryFormProps,
-  'onSuccess' | 'initialCategoryId'
-> & {
+type GetCategoryFormParamsProps = {
   mode: CategoryFormMode;
   category?: Category;
+  initialCategoryId?: string;
 };
 
 export const getCategoryFormParams = ({
   mode,
-  onSuccess,
   category,
   initialCategoryId,
-}: getCategoryFormParamsProps) => {
+}: GetCategoryFormParamsProps) => {
   if (mode === CATEGORY_FORM_MODE.EDIT) {
     return {
       mode,
-      onSuccess,
       initCategoryValues: getInitialFormValues(category),
       initialCategoryId: initialCategoryId!,
     };
@@ -57,7 +49,6 @@ export const getCategoryFormParams = ({
   return {
     mode,
     initCategoryValues: getInitialFormValues(),
-    onSuccess,
   };
 };
 

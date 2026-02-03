@@ -21,14 +21,14 @@ export const useCategoryFormParams = (mode: CategoryFormMode) => {
 
   const onSuccess = useCallback(() => router.back(), [router]);
 
-  return useMemo(
-    () =>
-      getCategoryFormParams({
+  return useMemo(() => {
+    return {
+      ...getCategoryFormParams({
         mode,
-        onSuccess,
         category,
         initialCategoryId: params.id,
       }),
-    [mode, onSuccess, category, params.id],
-  );
+      onSuccess,
+    };
+  }, [mode, onSuccess, category, params.id]);
 };
