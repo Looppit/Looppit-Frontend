@@ -1,4 +1,4 @@
-import { CategoryCard } from '@/domains/category/ui';
+import { CategoryCard } from './category-card';
 
 const SKELETON_ITEM_COUNT = 6;
 
@@ -9,5 +9,13 @@ export const CategoryLoading = () => {
         <CategoryCard.SkeletonItem key={index} />
       ))}
     </CategoryCard.Root>
+  );
+};
+
+export const CategoryEmpty = () => {
+  return (
+    <div className="text-secondary text-center typography-body-semibold py-8">
+      카테고리가 없어요 🥹
+    </div>
   );
 };
