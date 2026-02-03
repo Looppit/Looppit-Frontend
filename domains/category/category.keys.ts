@@ -1,4 +1,4 @@
-import { createQueryKey } from '@/shared/api/utils/api.query-key';
+import { createQueryKey } from '@/shared/lib/query';
 
 const categoriesBase = createQueryKey(['categories']);
 
