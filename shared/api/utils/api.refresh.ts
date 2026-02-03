@@ -64,6 +64,10 @@ class RefreshTokenHandler {
     error: AxiosError,
   ) {
     try {
+      if (typeof window === 'undefined') {
+        return Promise.reject(error);
+      }
+
       const originalRequest = error.config;
 
       if (!originalRequest || originalRequest._retry) {

@@ -29,6 +29,6 @@ export async function postReissue() {
   } catch (error) {
     await removeTokensFromCookies();
 
-    return createApiError(error);
+    throw createApiError(error);
   }
 }
