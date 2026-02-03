@@ -73,7 +73,7 @@ class ErrorBoundaryComponent extends Component<
             <Button onClick={this.reset} variant="secondary">
               다시 시도 하기
             </Button>
-            <Button asChild onClick={this.reset} variant="outline">
+            <Button asChild variant="outline">
               <Link href="/">홈으로</Link>
             </Button>
           </div>

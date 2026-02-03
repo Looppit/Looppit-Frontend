@@ -28,6 +28,7 @@ const Icon = ({ icon, size = '24', className, style, ...rest }: IconProps) => {
   if (!icon) return null;
 
   const SVGIcon = allIcons[icon];
+  if (!SVGIcon) return null;
 
   return (
     <SVGIcon
