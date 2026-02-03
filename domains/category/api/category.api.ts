@@ -1,5 +1,6 @@
 import { apiClient } from '@/shared/api/api.client';
-import { ApiResponse } from '@/shared/api/api.types';
+import { ApiResponse, ServerFetchOptions } from '@/shared/api/api.types';
+import { toRequestHeadersFromOptions } from '@/shared/api/utils/api.headers';
 
 import {
   CategoryResponse,
@@ -7,9 +8,14 @@ import {
   UpdateCategoryParams,
 } from '../types';
 
-export const getCategories = async (): Promise<CategoryResponse> => {
-  const response =
-    await apiClient.get<ApiResponse<CategoryResponse>>('/categories');
+export const getCategories = async (
+  options?: ServerFetchOptions,
+): Promise<CategoryResponse> => {
+  const headers = toRequestHeadersFromOptions(options);
+  const response = await apiClient.get<ApiResponse<CategoryResponse>>(
+    '/categories',
+    headers,
+  );
 
   return response.result || [];
 };

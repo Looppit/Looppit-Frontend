@@ -38,4 +38,9 @@ export type RequestConfig = {
   body?: unknown;
 };
 
+/** 서버 prefetch 시 쿠키 헤더를 넘길 때 사용 */
+export type ServerFetchOptions = {
+  cookieHeader?: string;
+};
+
 export type QueryValue = string | number | boolean | null | undefined;

@@ -7,7 +7,7 @@ import { CategoryResponse } from '../types/category.types';
 export const categoriesQueryOptions = () => {
   return queryOptions<CategoryResponse>({
     queryKey: categoryKeys.list(),
-    queryFn: getCategories,
+    queryFn: () => getCategories(),
     retry: false,
     refetchOnMount: false,
     refetchOnWindowFocus: false,

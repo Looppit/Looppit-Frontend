@@ -7,9 +7,9 @@ import {
 import { getUserProfile } from './user.api';
 import { UserProfileResponse } from './user.types';
 
-const profileQueryOption = queryOptions<UserProfileResponse>({
+export const profileQueryOption = queryOptions<UserProfileResponse>({
   queryKey: ['user-profile'],
-  queryFn: getUserProfile,
+  queryFn: () => getUserProfile(),
   retry: false,
   refetchOnMount: false,
   refetchOnWindowFocus: false,
