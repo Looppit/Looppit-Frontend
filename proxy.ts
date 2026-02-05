@@ -3,6 +3,10 @@ import { NextResponse, NextRequest } from 'next/server';
 import { guardRules } from '@/shared/proxy/proxy.guard';
 
 const proxy = (request: NextRequest) => {
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    return NextResponse.next();
+  }
+
   const matchedRule = guardRules.find((rule) => rule.when(request));
 
   if (matchedRule) {

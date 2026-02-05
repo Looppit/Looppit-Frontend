@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 
+import { trackEvent } from '@/shared/lib/posthog';
 import { Button } from '@/shared/ui/button';
 import { Form } from '@/shared/ui/form';
 
@@ -20,6 +21,8 @@ export default function LoginForm() {
   const submitDisabled = isLoginPending;
 
   const handleSubmitForm = async (data: LoginFormValues) => {
+    trackEvent('login_started', { method: 'email' });
+
     const formData = new FormData();
     formData.append('email', data.email);
     formData.append('password', data.password);

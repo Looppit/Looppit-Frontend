@@ -1,3 +1,8 @@
+/**
+ * Provider 식별자 규칙
+ * - 소문자 ('kakao', 'naver'): 클라이언트/next-auth/URL/트래킹용 (SocialProvider)
+ * - 대문자 ('KAKAO', 'NAVER'): 서버·API·비즈니스용 (AccountProvider)
+ */
 export const ACCOUNT_PROVIDERS = ['KAKAO', 'NAVER'] as const;
 
 /** next-auth provider id (소문자) */

@@ -6,6 +6,7 @@ import {
   SOCIAL_PROVIDER_NAVER,
 } from '@/domains/auth/oauth';
 import { handleKakaoLogin, handleNaverLogin } from '@/domains/auth/oauth';
+import { trackEvent } from '@/shared/lib/posthog';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 
@@ -45,6 +46,9 @@ export default function SocialLoginButtons() {
 
 const SocialLoginButton = ({ provider, label }: SocialLoginButtonProps) => {
   const handleSocialLogin = async () => {
+    trackEvent('login_started', {
+      method: provider,
+    });
     await SOCIAL_LOGIN_HANDLERS[provider]();
   };
 

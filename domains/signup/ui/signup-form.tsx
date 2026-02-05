@@ -1,14 +1,10 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useRouter } from 'next/navigation';
-
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'sonner';
 
 import { useSignup } from '@/domains/signup/hooks';
 import { signupFormSchema, SignupFormValues } from '@/domains/signup/types';
-import { isApiError } from '@/shared/guard';
 import { useTimer } from '@/shared/hooks';
 import { Button } from '@/shared/ui/button';
 import { Form } from '@/shared/ui/form';
@@ -20,7 +16,6 @@ import PasswordConfirmField from './password-confirm-field';
 import PasswordField from './password-field';
 
 export default function SignupForm() {
-  const router = useRouter();
   const form = useForm<SignupFormValues>({
     resolver: zodResolver(signupFormSchema),
     mode: 'onChange',
@@ -29,7 +24,7 @@ export default function SignupForm() {
       password: '',
     },
   });
-  const { mutateAsync: signup, isPending: isSignupPending } = useSignup();
+  const { mutate: signup, isPending: isSignupPending } = useSignup();
   const {
     startTimer: startEmailCertificationTimer,
     endTimer: endEmailCertificationTimer,
@@ -39,18 +34,9 @@ export default function SignupForm() {
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
   const submitDisabled = isSignupPending || !isPasswordConfirmed;
 
-  const onSubmit = async (data: SignupFormValues) => {
+  const onSubmit = (data: SignupFormValues) => {
     if (submitDisabled) return;
-
-    try {
-      await signup(data);
-      toast.success('회원가입이 완료되었습니다!');
-      router.push('/login');
-    } catch (error) {
-      if (isApiError(error)) {
-        toast.error(error?.message);
-      }
-    }
+    signup(data);
   };
 
   return (

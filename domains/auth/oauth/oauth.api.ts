@@ -13,9 +13,18 @@ const oAuthProviderInfoSchema = z.object({
   email: z.string(),
 });
 
-export type OAuthSignupRequest = z.infer<typeof oAuthProviderInfoSchema>;
+const oAuthSignupResponseSchema = z.object({
+  result: z.object({
+    isNewMember: z.boolean(),
+  }),
+});
 
-export const postOAuthSignupRequest = async (data: OAuthSignupRequest) => {
+export type OAuthSignupRequest = z.infer<typeof oAuthProviderInfoSchema>;
+export type OAuthSignupResponse = z.infer<typeof oAuthSignupResponseSchema>;
+
+export const postOAuthSignupRequest = async (
+  data: OAuthSignupRequest,
+): Promise<OAuthSignupResponse> => {
   const parsedData = oAuthProviderInfoSchema.parse(data);
 
   const response = await apiServerClient.requestRaw('/auth/signup', {
@@ -28,5 +37,5 @@ export const postOAuthSignupRequest = async (data: OAuthSignupRequest) => {
     await applySetCookieHeader(setCookieHeader);
   }
 
-  return response.data;
+  return oAuthSignupResponseSchema.parse(response.data);
 };

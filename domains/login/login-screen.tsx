@@ -2,13 +2,11 @@
 
 import { useRouter } from 'next/navigation';
 
-import { useOAuthError } from '@/domains/auth/oauth';
 import { Button } from '@/shared/ui/button';
 
 import { LoginForm } from './ui';
 
 export default function LoginScreen() {
-  useOAuthError();
   const router = useRouter();
 
   return (

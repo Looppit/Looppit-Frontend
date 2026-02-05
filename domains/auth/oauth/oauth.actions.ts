@@ -11,7 +11,6 @@ import { bridgeRequest, platformHandler } from '@/shared/utils';
 
 import { BRIDGE_REQUEST_OPTIONS, KAKAO_ERROR_CODE } from './kakao.constants';
 import {
-  OAUTH_REDIRECT,
   SOCIAL_PROVIDER_KAKAO,
   SOCIAL_PROVIDER_NAVER,
 } from './oauth.constants';
@@ -20,8 +19,9 @@ import type { KakaoLoginResponse } from './oauth.types';
 
 export const ACTION_TYPE = 'USER_ACTION' as const;
 
+/** 실제 리다이렉트 URL은 processOAuthLogin 반환값으로 결정됨 */
 const NEXT_AUTH_OPTIONS = {
-  callbackUrl: OAUTH_REDIRECT.SUCCESS,
+  callbackUrl: '/',
 } as const;
 
 /**

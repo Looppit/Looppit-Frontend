@@ -1,12 +1,14 @@
 import { z } from 'zod';
 
+export const USER_PROVIDERS = ['GOOGLE', 'KAKAO', 'NAVER', 'DEFAULT'];
+
 export const userSchema = z.object({
   id: z.number(),
   email: z.string(),
   nickname: z.string(),
   content: z.string().nullable(),
   imgPath: z.string().nullable(),
-  provider: z.unknown(),
+  provider: z.enum(USER_PROVIDERS),
 });
 
 export const GetUserResponseSchema = z.object({

@@ -19,6 +19,7 @@ import {
   invalidateTodoListQueries,
   updateTodoInCategory,
 } from '@/domains/home/utils';
+import { trackEvent } from '@/shared/lib/posthog';
 
 export const useCreateTodo = (yearMonth: string) => {
   const queryClient = useQueryClient();
@@ -27,6 +28,7 @@ export const useCreateTodo = (yearMonth: string) => {
     mutationFn: ({ data, categoryId }: CreateTodoParams) =>
       createTodo({ data, categoryId }),
     onSuccess: () => {
+      trackEvent('todo_created');
       invalidateTodoListQueries(queryClient, yearMonth);
       toast.success('투두가 생성되었어요');
     },
@@ -70,7 +72,8 @@ export const useToggleTodo = (yearMonth: string) => {
       console.error('투두 토글 오류:', error);
     },
 
-    onSettled: () => {
+    onSettled: (_, __, variables) => {
+      trackEvent('todo_toggled', { completed: variables.completed });
       invalidateTodoListQueries(queryClient, yearMonth);
     },
   });
@@ -83,6 +86,7 @@ export const useUpdateTodo = (yearMonth: string) => {
     mutationFn: ({ categoryId, todoId, data }: UpdateTodoParams) =>
       updateTodo({ categoryId, todoId, data }),
     onSuccess: () => {
+      trackEvent('todo_updated');
       invalidateTodoListQueries(queryClient, yearMonth);
       toast.success('투두가 수정되었어요');
     },
@@ -100,6 +104,7 @@ export const useDeleteTodo = (yearMonth: string) => {
     mutationFn: ({ categoryId, todoId }: DeleteTodoParams) =>
       deleteTodo({ categoryId, todoId }),
     onSuccess: () => {
+      trackEvent('todo_deleted');
       invalidateTodoListQueries(queryClient, yearMonth);
       toast.success('투두가 삭제되었어요');
     },
