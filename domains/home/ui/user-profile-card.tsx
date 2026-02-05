@@ -18,15 +18,9 @@ const UserProfileCardRow = ({ children }: StrictPropsWithChildren) => {
   return <div className="flex-1">{children}</div>;
 };
 
-type UserProfileCardItemProps = Pick<
-  User,
-  'nickname' | 'imgPath' | 'content'
-> & {
-  userId: number;
-};
+type UserProfileCardItemProps = Pick<User, 'nickname' | 'imgPath' | 'content'>;
 
 const UserProfileCardItem = ({
-  userId,
   nickname,
   imgPath,
   content,
@@ -34,7 +28,7 @@ const UserProfileCardItem = ({
   return (
     <>
       <Link
-        href={`/profile/${userId}`}
+        href="/profile"
         className="size-9 rounded-full overflow-hidden border border-white/10 active:scale-95 transition-transform"
       >
         <Image
@@ -50,7 +44,9 @@ const UserProfileCardItem = ({
         <h1 className="typography-title-medium">
           {nickname}님, 오늘도 반가워요
         </h1>
-        <p className="text-secondary/80 typography-caption-medium">{content}</p>
+        <p className="text-secondary/80 typography-caption-medium">
+          {content ?? '작은 성취가 모여 큰 변화를 만들어요'}
+        </p>
       </UserProfileCardRow>
     </>
   );

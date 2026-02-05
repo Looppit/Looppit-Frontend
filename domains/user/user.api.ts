@@ -1,5 +1,5 @@
 import { apiClient } from '@/shared/api/api.client';
-import { ApiResponse, ServerFetchOptions } from '@/shared/api/api.types';
+import { ServerFetchOptions } from '@/shared/api/api.types';
 import { toRequestHeadersFromOptions } from '@/shared/api/utils';
 
 import {
@@ -8,15 +8,9 @@ import {
   DeleteUserRequest,
 } from './user.types';
 
-export const getUserProfile = async (
-  options?: ServerFetchOptions,
-): Promise<GetUserResponse> => {
+export const getUser = async (options?: ServerFetchOptions) => {
   const headers = toRequestHeadersFromOptions(options);
-  const response = await apiClient.get<ApiResponse<GetUserResponse>>(
-    '/user',
-    headers,
-  );
-  return response.result;
+  return await apiClient.get<GetUserResponse>('/user', headers);
 };
 
 export const updateUser = async (data: UpdateUserRequest) => {

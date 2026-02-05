@@ -1,5 +1,3 @@
-'use client';
-
 import {
   queryOptions,
   useSuspenseQuery,
@@ -11,34 +9,29 @@ import { toast } from 'sonner';
 
 import { isApiError } from '@/shared/guard';
 
-import { deleteUser, getUserProfile, updateUser } from '../user.api';
+import { deleteUser, updateUser, getUser } from '../user.api';
 import { userKeys } from '../user.keys';
 import { User, GetUserResponse } from '../user.types';
 
 export const profileQueryOption = queryOptions<GetUserResponse>({
-  queryKey: ['user-profile'],
-  queryFn: () => getUserProfile(),
+  queryKey: userKeys.base,
+  queryFn: () => getUser(),
   retry: false,
   refetchOnMount: false,
   refetchOnWindowFocus: false,
   refetchOnReconnect: false,
 });
 
-export const useUserProfile = () => {
-  return useQuery<GetUserResponse>(profileQueryOption);
-};
-
-export const useUserProfileWithSuspense = () => {
-  return useSuspenseQuery({
+export const useGetUser = () => {
+  return useQuery<GetUserResponse, Error, User>({
     ...profileQueryOption,
     select: (data) => data.result,
   });
 };
 
-export const useGetUser = () => {
-  return useQuery<GetUserResponse, Error, User>({
-    queryKey: userKeys.base,
-    queryFn: () => getUserProfile(),
+export const useGetUserWithSuspense = () => {
+  return useSuspenseQuery({
+    ...profileQueryOption,
     select: (data) => data.result,
   });
 };
