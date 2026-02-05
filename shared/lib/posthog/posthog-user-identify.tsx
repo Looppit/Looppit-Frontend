@@ -2,12 +2,12 @@
 
 import { useEffect } from 'react';
 
-import { useUserProfile } from '@/domains/user/user.hooks';
+import { useGetUser } from '@/domains/user/hooks';
 
 import { identifyUser } from './identify';
 
 export const usePostHogUserIdentify = () => {
-  const { data } = useUserProfile();
+  const { data } = useGetUser();
 
   useEffect(() => {
     if (data) {

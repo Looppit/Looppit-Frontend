@@ -1,17 +1,15 @@
-import type { UserProfile } from '@/domains/user/user.types';
+import { User } from '@/domains/user/user.types';
 
 import { isPostHogReady, posthogClient } from './posthog';
 
 export interface UserIdentifyProperties extends Pick<
-  UserProfile,
+  User,
   'nickname' | 'provider'
 > {
-  user_id: UserProfile['id'];
+  user_id: User['id'];
 }
 
-const extractIdentifyProperties = (
-  user: UserProfile,
-): UserIdentifyProperties => {
+const extractIdentifyProperties = (user: User): UserIdentifyProperties => {
   return {
     nickname: user.nickname,
     provider: user.provider,
@@ -19,7 +17,7 @@ const extractIdentifyProperties = (
   };
 };
 
-export const identifyUser = (user: UserProfile): void => {
+export const identifyUser = (user: User): void => {
   if (!isPostHogReady()) {
     return;
   }
