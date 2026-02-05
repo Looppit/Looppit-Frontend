@@ -13,7 +13,7 @@ type ButtonProps = React.ComponentProps<'button'> &
 
 type OutlineIconProps = {
   icon: IconName;
-  bgColor: string;
+  className: string;
   iconClassName?: string;
 };
 
@@ -72,12 +72,12 @@ const Button = ({
   );
 };
 
-const OutlineIcon = ({ icon, iconClassName, bgColor }: OutlineIconProps) => {
+const OutlineIcon = ({ icon, iconClassName, className }: OutlineIconProps) => {
   return (
     <div
       className={cn(
         'w-9 h-9 rounded-full flex items-center justify-center shrink-0',
-        bgColor,
+        className,
       )}
     >
       <Icon icon={icon} className={iconClassName} size="16" />

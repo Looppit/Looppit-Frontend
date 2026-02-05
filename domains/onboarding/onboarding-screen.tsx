@@ -6,8 +6,8 @@ import { trackEvent } from '@/shared/lib/posthog';
 import { Button } from '@/shared/ui/button';
 import { Form } from '@/shared/ui/form';
 
+import { useOnboardingStep } from './hooks';
 import { ONBOARDING_STEPS } from './onboarding.constants';
-import { useOnboardingStep } from './onboarding.hooks';
 import {
   onboardingFormSchema,
   OnboardingFormValues,
@@ -21,17 +21,19 @@ import {
 } from './ui';
 
 function OnboardingScreen() {
-  const { step, onNextStep, onPreviousStep } = useOnboardingStep();
   const form = useForm<OnboardingFormValues>({
     resolver: zodResolver(onboardingFormSchema),
     defaultValues: {
       nickname: '',
-      profileImage: null,
+      imgPath: null,
     },
     mode: 'onChange',
   });
+  const { step, onNextStep, onPreviousStep } = useOnboardingStep({ form });
+
   const watch = useWatch({ control: form.control });
   const buttonDisabled = !OnboardingStepSchema[step].safeParse(watch).success;
+
   const isLastStep = step === ONBOARDING_STEPS[ONBOARDING_STEPS.length - 1];
 
   const handleNextStep = () => {

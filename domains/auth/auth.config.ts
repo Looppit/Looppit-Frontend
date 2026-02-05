@@ -28,6 +28,7 @@ export const authConfig = {
   pages: {
     signIn: '/login',
     error: '/login',
+    newUser: '/onboarding',
   },
   callbacks: {
     async signIn({ user, account }) {

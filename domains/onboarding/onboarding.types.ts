@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const onboardingFormSchema = z.object({
   nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }),
-  profileImage: z.instanceof(File).nullable(),
+  imgPath: z.instanceof(File).nullable(),
 });
 
 export type OnboardingFormValues = z.infer<typeof onboardingFormSchema>;
@@ -12,7 +12,7 @@ export const nicknameStepSchema = z.object({
 });
 
 export const profileImageStepSchema = z.object({
-  profileImage: z.instanceof(File).nullable(),
+  imgPath: z.instanceof(File).nullable(),
 });
 
 export const OnboardingStepSchema: Record<

@@ -16,6 +16,10 @@ export type DetailHeaderProps = {
   onRightClick?: () => void;
   /** 추가 CSS 클래스 */
   className?: string;
+  /** 왼쪽 버튼 아이콘 클래스 */
+  leftIconClassName?: string;
+  /** 오른쪽 버튼 아이콘 클래스 */
+  rightIconClassName?: string;
 };
 
 /**
@@ -29,6 +33,8 @@ export const DetailHeader = ({
   onLeftClick,
   onRightClick,
   className,
+  leftIconClassName,
+  rightIconClassName,
 }: DetailHeaderProps) => {
   return (
     <header
@@ -41,7 +47,10 @@ export const DetailHeader = ({
         <button
           type="button"
           onClick={onLeftClick}
-          className="w-8 h-8 flex items-center justify-center rounded-full text-white active:scale-90 transition-all"
+          className={cn(
+            'w-8 h-8 flex items-center justify-center rounded-full text-white active:scale-90 transition-all',
+            leftIconClassName,
+          )}
         >
           <Icon icon={leftIcon} size="20" className="fill-current" />
         </button>
@@ -54,7 +63,10 @@ export const DetailHeader = ({
           <button
             type="button"
             onClick={onRightClick}
-            className="w-8 h-8 flex items-center justify-center rounded-full text-white active:scale-90 transition-all"
+            className={cn(
+              'w-8 h-8 flex items-center justify-center rounded-full text-white active:scale-90 transition-all',
+              rightIconClassName,
+            )}
           >
             <Icon icon={rightIcon} size="24" className="fill-current" />
           </button>

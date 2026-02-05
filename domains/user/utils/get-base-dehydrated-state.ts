@@ -2,8 +2,8 @@ import { cache } from 'react';
 
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
-import { getUserProfile } from '@/domains/user/user.api';
-import { profileQueryOption } from '@/domains/user/user.hooks';
+import { profileQueryOption } from '@/domains/user/hooks';
+import { getUser } from '@/domains/user/user.api';
 import { prefetchWithCookies } from '@/shared/lib/query';
 
 /**
@@ -16,7 +16,7 @@ export const getBaseDehydratedState = cache(
     await prefetchWithCookies(queryClient, cookieHeader, [
       {
         queryOptions: profileQueryOption,
-        fetcher: (header) => getUserProfile({ cookieHeader: header }),
+        fetcher: (header) => getUser({ cookieHeader: header }),
       },
     ]);
     return dehydrate(queryClient);

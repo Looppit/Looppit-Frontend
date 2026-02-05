@@ -23,3 +23,4 @@ export { default as ic_schedule } from './schedule.svg';
 export { default as ic_kakao } from './kakao.svg';
 export { default as ic_naver } from './naver.svg';
 export { default as ic_wand } from './wand.svg';
+export { default as ic_user_cog } from './user_cog.svg';

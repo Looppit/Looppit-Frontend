@@ -17,7 +17,7 @@ function NicknameStep() {
       render={({ field }) => (
         <FormItem className="w-full flex flex-col gap-2">
           <FormControl>
-            <Input {...field} placeholder="이메일을 입력해주세요." />
+            <Input {...field} placeholder="닉네임을 입력해주세요." />
           </FormControl>
           <FieldError errors={error ? [error] : undefined} />
         </FormItem>

@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { UserProfile } from '@/domains/user/user.types';
+import { User } from '@/domains/user/user.types';
+import { ASSET_URL } from '@/shared/constants';
 import { StrictPropsWithChildren } from '@/shared/types';
 import { Skeleton } from '@/shared/ui/skeleton';
 
@@ -17,25 +18,23 @@ const UserProfileCardRow = ({ children }: StrictPropsWithChildren) => {
   return <div className="flex-1">{children}</div>;
 };
 
-type UserProfileCardItemProps = Pick<UserProfile, 'nickname' | 'imagePath'> & {
-  userId: number;
-};
+type UserProfileCardItemProps = Pick<User, 'nickname' | 'imgPath' | 'content'>;
 
 const UserProfileCardItem = ({
-  userId,
   nickname,
-  imagePath,
+  imgPath,
+  content,
 }: UserProfileCardItemProps) => {
   return (
     <>
       <Link
-        href={`/profile/${userId}`}
+        href="/profile"
         className="size-9 rounded-full overflow-hidden border border-white/10 active:scale-95 transition-transform"
       >
         <Image
           className="w-full h-full object-cover"
           alt="Avatar"
-          src={imagePath || '/assets/login-logo.png'}
+          src={imgPath || ASSET_URL.DEFAULT_IMAGE}
           unoptimized
           width={36}
           height={36}
@@ -46,7 +45,7 @@ const UserProfileCardItem = ({
           {nickname}님, 오늘도 반가워요
         </h1>
         <p className="text-secondary/80 typography-caption-medium">
-          작은 성취가 모여 큰 변화를 만들어요
+          {content ?? '작은 성취가 모여 큰 변화를 만들어요'}
         </p>
       </UserProfileCardRow>
     </>

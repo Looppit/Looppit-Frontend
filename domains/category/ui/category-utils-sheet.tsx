@@ -46,7 +46,7 @@ export const CategoryUtilsSheet = ({
             <Link href={`/category/${categoryId}/edit`}>
               <Button.OutlineIcon
                 icon="ic_edit"
-                bgColor="bg-gray-500/15"
+                className="bg-gray-500/15"
                 iconClassName="fill-gray-400"
               />
               수정하기
@@ -60,7 +60,7 @@ export const CategoryUtilsSheet = ({
           >
             <Button.OutlineIcon
               icon="ic_delete"
-              bgColor="bg-destructive/10"
+              className="bg-destructive/10"
               iconClassName="fill-destructive"
             />
             <span className="text-destructive">삭제하기</span>
