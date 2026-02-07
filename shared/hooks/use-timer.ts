@@ -2,7 +2,7 @@
  * 타이머를 세팅하고, 시간을 반환하는 훅
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import { formatTime } from '@/shared/utils/time-format';
 
@@ -10,7 +10,6 @@ export function useTimer(
   initialTime: number = 60,
   format: 'mm:ss' | 'ss' = 'mm:ss',
 ) {
-  const initialTimeRef = useRef<number>(initialTime);
   const [time, setTime] = useState<number>(initialTime);
   const [isRunning, setIsRunning] = useState<boolean>(false);
 
@@ -21,10 +20,10 @@ export function useTimer(
     if (timerRef.current) {
       clearInterval(timerRef.current);
       setIsRunning(false);
-      setTime(initialTimeRef.current);
-      timeRef.current = initialTimeRef.current;
+      setTime(initialTime);
+      timeRef.current = initialTime;
     }
-  }, [initialTimeRef]);
+  }, [initialTime]);
 
   const startTimer = useCallback(() => {
     clearTimer();
@@ -47,10 +46,6 @@ export function useTimer(
   const endTimer = useCallback(() => {
     clearTimer();
   }, [clearTimer]);
-
-  useEffect(() => {
-    initialTimeRef.current = initialTime;
-  }, [initialTime]);
 
   return {
     time,
