@@ -188,15 +188,17 @@ function WeeklyCalendar({
           Day: ({ children, ...props }) => {
             return (
               <div {...props}>
-                <button
-                  className={cn(
-                    'grow shrink-0 cursor-pointer w-[50px] h-[50px] flex items-center justify-center rounded-full text-[14px] font-medium text-secondary hover:bg-white/5 in-data-[selected=true]:hover:bg-primary',
-                    'data-[today=true]:text-primary data-[today=true]:opacity-100',
-                    defaultClassNames.day,
-                  )}
-                >
-                  {children}
-                </button>
+                <div className="grow shrink-0 flex items-center justify-center">
+                  <button
+                    className={cn(
+                      'cursor-pointer h-8 flex items-center justify-center rounded-full text-[14px] font-medium text-secondary hover:bg-white/5 in-data-[selected=true]:hover:bg-primary',
+                      'data-[today=true]:text-primary data-[today=true]:opacity-100',
+                      defaultClassNames.day,
+                    )}
+                  >
+                    {children}
+                  </button>
+                </div>
                 {SubDayComponent && SubDayComponent({ day: props.day })}
               </div>
             );
