@@ -2,11 +2,13 @@
 
 import * as React from 'react';
 import {
+  CaptionLabel,
   DayPicker,
   getDefaultClassNames,
   type DayButton,
 } from 'react-day-picker';
 
+import { format } from 'date-fns';
 import { ko } from 'react-day-picker/locale';
 
 import { useSwipe } from '@/shared/hooks';
@@ -112,13 +114,6 @@ function WeeklyCalendar({
             'absolute bg-popover inset-0 opacity-0',
             defaultClassNames.dropdown,
           ),
-          caption_label: cn(
-            'select-none font-bold text-white',
-            captionLayout === 'label'
-              ? 'text-base'
-              : 'rounded-md pl-2 pr-1 flex items-center gap-1 text-sm h-8 [&>svg]:text-muted-foreground [&>svg]:size-3.5',
-            defaultClassNames.caption_label,
-          ),
           table: 'w-full border-collapse',
           weekdays: cn('flex', defaultClassNames.weekdays),
           weekday: cn(
@@ -189,6 +184,14 @@ function WeeklyCalendar({
               </td>
             );
           },
+          CaptionLabel: ({ ...props }) => {
+            return (
+              <CalendarCaptionLabel
+                {...props}
+                selected={selected ?? new Date()}
+              />
+            );
+          },
           Day: ({ children, ...props }) => {
             return (
               <div {...props}>
@@ -211,6 +214,29 @@ function WeeklyCalendar({
         }}
         {...props}
       />
+    </div>
+  );
+}
+
+function CalendarCaptionLabel({
+  ...props
+}: React.ComponentProps<typeof CaptionLabel> & {
+  selected: Date | undefined;
+}) {
+  const { selected, className, ...rest } = props;
+  const defaultClassNames = getDefaultClassNames();
+  const displayMonth = selected ? format(selected, 'yyyy년 MM월') : '';
+
+  return (
+    <div
+      className={cn(
+        'select-none font-bold text-white',
+        defaultClassNames.caption_label,
+        className,
+      )}
+      {...rest}
+    >
+      {displayMonth}
     </div>
   );
 }
