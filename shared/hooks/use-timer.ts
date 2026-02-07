@@ -16,10 +16,17 @@ export function useTimer(
   const timeRef = useRef<number>(time);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const startTimer = useCallback(() => {
+  const clearTimer = useCallback(() => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
+      setIsRunning(false);
+      setTime(initialTime);
+      timeRef.current = initialTime;
     }
+  }, [initialTime]);
+
+  const startTimer = useCallback(() => {
+    clearTimer();
 
     timerRef.current = setInterval(() => {
       if (timeRef.current <= 0) {
@@ -34,17 +41,11 @@ export function useTimer(
       setTime((prev) => prev - 1);
     }, 1000);
     setIsRunning(true);
-  }, []);
+  }, [clearTimer]);
 
   const endTimer = useCallback(() => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      setIsRunning(false);
-      setTime(initialTime);
-
-      timeRef.current = initialTime;
-    }
-  }, [initialTime]);
+    clearTimer();
+  }, [clearTimer]);
 
   return {
     time,

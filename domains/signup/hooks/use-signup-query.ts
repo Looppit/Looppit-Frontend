@@ -16,8 +16,7 @@ export const useSignup = () => {
     onSuccess: () => {
       trackEvent('signup_completed', { method: 'email' });
       toast.success('회원가입이 완료되었어요.');
-      //TODO!
-      router.push('/login');
+      router.push('/onboarding');
     },
     onError: (error) => {
       trackEvent('signup_failed', {
