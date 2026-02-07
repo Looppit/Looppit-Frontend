@@ -45,10 +45,10 @@ export default function SignupForm() {
         className="flex flex-col gap-4"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <EmailField onEmailSendSuccess={() => startEmailCertificationTimer()} />
+        <EmailField onEmailSendSuccess={startEmailCertificationTimer} />
         <EmailConfirmField
           time={formattedEmailCertificationTime}
-          onEmailCertificationSuccess={() => endEmailCertificationTimer()}
+          onEmailCertificationSuccess={endEmailCertificationTimer}
         />
         <PasswordField />
         <PasswordConfirmField
