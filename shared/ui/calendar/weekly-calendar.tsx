@@ -47,7 +47,7 @@ function WeeklyCalendar({
   });
 
   return (
-    <div className="w-full" ref={swipeAreaRef}>
+    <div className="w-full overflow-x-auto" ref={swipeAreaRef}>
       <DayPicker
         selected={selected}
         onSelect={onSelect}
@@ -58,7 +58,7 @@ function WeeklyCalendar({
         onMonthChange={setMonth}
         hidden={isNotCurrentWeek}
         className={cn(
-          'w-full bg-background group/calendar [--cell-size:--spacing(8)] in-data-[slot=card-content]:bg-transparentt in-data-[slot=popover-content]:bg-transparent',
+          'min-w-fit min-h-fit w-full bg-background group/calendar [--cell-size:--spacing(8)] in-data-[slot=card-content]:bg-transparentt in-data-[slot=popover-content]:bg-transparent',
           String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
           String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
           className,
@@ -132,7 +132,7 @@ function WeeklyCalendar({
             defaultClassNames.week_number,
           ),
           day: cn(
-            'relative w-full h-full p-0 text-center group/day select-none min-h-[50px]',
+            'relative grow w-full h-full p-0 text-center group/day select-none',
             'flex gap-[2px] flex-col items-center justify-center',
             'data-[hidden=true]:hidden',
             props.showWeekNumber
@@ -191,7 +191,7 @@ function WeeklyCalendar({
                 <div className="grow shrink-0 flex items-center justify-center">
                   <button
                     className={cn(
-                      'cursor-pointer h-8 flex items-center justify-center rounded-full text-[14px] font-medium text-secondary hover:bg-white/5 in-data-[selected=true]:hover:bg-primary',
+                      'cursor-pointer size-8 aspect-square flex items-center justify-center rounded-full text-[14px] font-medium text-secondary hover:bg-white/5 in-data-[selected=true]:hover:bg-primary',
                       'data-[today=true]:text-primary data-[today=true]:opacity-100',
                       defaultClassNames.day,
                     )}
@@ -239,7 +239,7 @@ function CalendarDayButton({
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
       className={cn(
-        'w-8 h-8 text-secondary opacity-70 p-0 flex cursor-pointer aspect-square size-auto min-w-(--cell-size) flex-col gap-1 leading-none font-bold',
+        'w-full h-full text-secondary opacity-70 p-0 flex cursor-pointer min-w-(--cell-size) flex-col gap-1 leading-none font-bold',
         'in-data-[today=true]:text-primary in-data-[today=true]:opacity-100',
         'data-[selected-single=true]:opacity-100 data-[selected-single=true]:text-white data-[selected-single=true]:bg-primary data-[selected-single=true]:rounded-full',
         'data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-middle=true]:rounded-none',
