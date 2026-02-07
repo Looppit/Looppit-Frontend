@@ -26,13 +26,15 @@ export function MonthlyCalendarSheet({
         />
       </DrawerTrigger>
       <DrawerContent>
-        <TodoCalendar
-          mode="single"
-          type="monthly"
-          selected={new Date(selectedDate)}
-          onSelect={onSelect}
-          completedColors={completedCategoryData}
-        />
+        <div className="h-[450px]">
+          <TodoCalendar
+            mode="single"
+            type="monthly"
+            selected={new Date(selectedDate)}
+            onSelect={onSelect}
+            completedColors={completedCategoryData}
+          />
+        </div>
       </DrawerContent>
     </Drawer>
   );
