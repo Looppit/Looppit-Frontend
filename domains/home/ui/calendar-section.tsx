@@ -16,6 +16,7 @@ export const CalendarSection = () => {
   // 날짜 선택을 하지 않고, 네비게이션 변경을 하더라도 그 달에 해당하는 데이터를 보여주기 위해 날짜 상태 관리 추가
   const [calendarYearMonth, setCalendarYearMonth] = useState(todoYearMonth);
   const { completedCategoryData } = useGetCalendarSectionData({
+    selectedDate,
     calendarYearMonth,
   });
 

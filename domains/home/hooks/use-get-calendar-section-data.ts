@@ -1,10 +1,20 @@
 import { useMemo } from 'react';
 
+import {
+  addMonths,
+  endOfMonth,
+  format,
+  getWeek,
+  startOfMonth,
+  subMonths,
+} from 'date-fns';
+
 import { useTodosByDate } from './queries';
 import { getCompletedCategoryData } from '../utils';
 
 interface UseGetCalendarSectionDataProps {
   calendarYearMonth: string;
+  selectedDate: Date;
 }
 
 /**
@@ -14,13 +24,46 @@ interface UseGetCalendarSectionDataProps {
  */
 export const useGetCalendarSectionData = ({
   calendarYearMonth,
+  selectedDate,
 }: UseGetCalendarSectionDataProps) => {
+  const firstWeekNumberOfCurrentMonth = getWeek(startOfMonth(selectedDate));
+  const lastWeekNumberOfCurrentMonth = getWeek(endOfMonth(selectedDate));
+
+  const [isFirstWeek, isLastWeek] = useMemo(() => {
+    return [
+      getWeek(selectedDate) === firstWeekNumberOfCurrentMonth,
+      getWeek(selectedDate) === lastWeekNumberOfCurrentMonth,
+    ];
+  }, [
+    selectedDate,
+    firstWeekNumberOfCurrentMonth,
+    lastWeekNumberOfCurrentMonth,
+  ]);
+  const prevYearMonth = isFirstWeek
+    ? format(subMonths(selectedDate, 1), 'yyyy-MM')
+    : null;
+  const nextYearMonth = isLastWeek
+    ? format(addMonths(selectedDate, 1), 'yyyy-MM')
+    : null;
+
+  const { data: prevMonthTodos = [] } = useTodosByDate(
+    prevYearMonth,
+    !!prevYearMonth,
+  );
   const { data: todos } = useTodosByDate(calendarYearMonth);
+  const { data: nextMonthTodos = [] } = useTodosByDate(
+    nextYearMonth,
+    !!nextYearMonth,
+  );
 
   const completedCategoryData = useMemo(() => {
     if (!todos) return {};
-    return getCompletedCategoryData(todos);
-  }, [todos]);
+    return getCompletedCategoryData([
+      ...prevMonthTodos,
+      ...todos,
+      ...nextMonthTodos,
+    ]);
+  }, [prevMonthTodos, todos, nextMonthTodos]);
 
   return {
     completedCategoryData,
