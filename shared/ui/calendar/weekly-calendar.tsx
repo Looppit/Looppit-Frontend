@@ -25,6 +25,7 @@ function WeeklyCalendar({
   SubDayComponent,
   selected,
   onSelect,
+  onNavigate,
   ...props
 }: WeeklyCalendarProps) {
   const defaultClassNames = getDefaultClassNames();
@@ -55,7 +56,10 @@ function WeeklyCalendar({
         hideNavigation
         showOutsideDays={true}
         month={month}
-        onMonthChange={setMonth}
+        onMonthChange={(date) => {
+          setMonth(date);
+          onNavigate?.(date);
+        }}
         hidden={isNotCurrentWeek}
         className={cn(
           'min-w-fit min-h-fit w-full bg-background group/calendar [--cell-size:--spacing(8)] in-data-[slot=card-content]:bg-transparentt in-data-[slot=popover-content]:bg-transparent',
