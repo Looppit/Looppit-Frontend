@@ -49,11 +49,15 @@ export default function EmailField({ onEmailSendSuccess }: EmailFieldProps) {
     }
 
     try {
-      startEmailResendTimer();
-      await sendEmail({ email: emailValue });
-
-      toast.success('이메일 인증 메일이 발송되었습니다.');
-      onEmailSendSuccess();
+      await sendEmail(
+        { email: emailValue },
+        {
+          onSuccess: () => {
+            startEmailResendTimer();
+            onEmailSendSuccess();
+          },
+        },
+      );
     } catch (error) {
       if (isApiError(error)) {
         toast.error(error.message);
