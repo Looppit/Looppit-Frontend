@@ -8,12 +8,14 @@ interface MonthlyCalendarSheetProps {
   selectedDate: Date;
   onSelect: (date: Date | undefined) => void;
   completedCategoryData: CompletedCategoryData;
+  onNavigate: (date: Date) => void;
 }
 
 export function MonthlyCalendarSheet({
   selectedDate,
   onSelect,
   completedCategoryData,
+  onNavigate,
 }: MonthlyCalendarSheetProps) {
   return (
     <Drawer>
@@ -26,8 +28,9 @@ export function MonthlyCalendarSheet({
         />
       </DrawerTrigger>
       <DrawerContent>
-        <div className="h-[450px]">
+        <div className="h-[400px]">
           <TodoCalendar
+            onNavigate={onNavigate}
             mode="single"
             type="monthly"
             selected={new Date(selectedDate)}
