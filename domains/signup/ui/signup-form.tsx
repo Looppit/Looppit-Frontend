@@ -29,7 +29,7 @@ export default function SignupForm() {
     startTimer: startEmailCertificationTimer,
     endTimer: endEmailCertificationTimer,
     formattedTime: formattedEmailCertificationTime,
-  } = useTimer(300);
+  } = useTimer(180);
 
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
   const submitDisabled = isSignupPending || !isPasswordConfirmed;
