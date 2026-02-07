@@ -1,4 +1,4 @@
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 
 import { toast } from 'sonner';
 
@@ -21,7 +21,9 @@ interface EmailFieldProps {
 }
 
 export default function EmailField({ onEmailSendSuccess }: EmailFieldProps) {
-  const { control, formState, getValues } = useFormContext<SignupFormValues>();
+  const { control, formState } = useFormContext<SignupFormValues>();
+  const emailValue = useWatch({ control, name: 'email' });
+
   const {
     mutateAsync: sendEmail,
     isPending,
@@ -32,7 +34,6 @@ export default function EmailField({ onEmailSendSuccess }: EmailFieldProps) {
   const { startTimer: startEmailResendTimer, isRunning: isTimerRunning } =
     useTimer(60);
 
-  const emailValue = getValues('email');
   const error = formState.errors.email;
   const isCertificationDisabled =
     emailValue === '' ||
