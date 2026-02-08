@@ -8,7 +8,7 @@ import {
   type DayButton,
 } from 'react-day-picker';
 
-import { format } from 'date-fns';
+import { addWeeks, format, subWeeks } from 'date-fns';
 import { ko } from 'react-day-picker/locale';
 
 import { useSwipe } from '@/shared/hooks';
@@ -43,8 +43,10 @@ function WeeklyCalendar({
     onSwipe: (direction) => {
       if (direction === 'left') {
         onClickPreviousWeek();
+        if (selected) onSelect?.(subWeeks(selected, 1));
       } else {
         onClickNextWeek();
+        if (selected) onSelect?.(addWeeks(selected, 1));
       }
     },
   });
