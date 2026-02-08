@@ -23,7 +23,7 @@ export function MonthlyCalendarSheet({
         <IconButton
           icon="ic_calendar_month"
           size="40"
-          className="absolute top-0 right-0"
+          className="absolute top-0 right-0 cursor-pointer"
           iconClassName="w-[18px] h-[18px] fill-secondary"
         />
       </DrawerTrigger>
