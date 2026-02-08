@@ -7,10 +7,9 @@ export const useWeeklyCalendar = (selectedDate?: Date) => {
     selectedDate ? startOfWeek(selectedDate) : new Date(),
   );
 
-  // 선택된 날짜가 바뀌면 해당 날짜가 포함된 주로 표시 주 동기화 (렌더 시점 동기화로 effect 회피)
   const selectedTime = selectedDate?.getTime();
   const weekOfSelected =
-    selectedTime != null ? startOfWeek(new Date(selectedTime)) : null;
+    selectedTime != null ? startOfWeek(selectedTime) : null;
 
   if (weekOfSelected && weekOfSelected.getTime() !== month.getTime()) {
     setMonth(weekOfSelected);

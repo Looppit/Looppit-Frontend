@@ -19,7 +19,7 @@ export function TodoCalendarCompletedDots({
   if (!targetCompletedColors) return null;
 
   return (
-    <div className="rdp-sub-day-dot-wrapper h-1 max-w-6 flex flex-wrap items-center justify-center gap-[2px]">
+    <div className="rdp-sub-day-dot-wrapper max-w-6 flex flex-wrap items-center justify-center gap-[2px]">
       {Object.entries(targetCompletedColors).map(
         ([key, value]) =>
           value.completed && (
