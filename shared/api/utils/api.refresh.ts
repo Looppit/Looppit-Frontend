@@ -50,7 +50,7 @@ class RefreshTokenHandler {
       await this.processSuspendedRequests(axiosInstance);
     } catch (error) {
       if (typeof window !== 'undefined') {
-        window.location.href = '/login';
+        window.location.href = '/landing';
       }
 
       await this.rejectSuspendedRequests(error);

@@ -30,11 +30,11 @@ export const useCreateTodo = (yearMonth: string) => {
     onSuccess: () => {
       trackEvent('todo_created');
       invalidateTodoListQueries(queryClient, yearMonth);
-      toast.success('투두가 생성되었어요');
+      toast.success('할 일이 생성되었어요');
     },
     onError: (error) => {
-      toast.error('투두 생성에 실패했어요');
-      console.error('투두 생성 오류:', error);
+      toast.error('할 일 생성에 실패했어요');
+      console.error('할 일 생성 오류:', error);
     },
   });
 };
@@ -68,8 +68,8 @@ export const useToggleTodo = (yearMonth: string) => {
           result.previousTodos,
         );
       }
-      toast.error('투두 상태 변경에 실패했어요');
-      console.error('투두 토글 오류:', error);
+      toast.error('할 일 상태 변경에 실패했어요');
+      console.error('할 일 토글 오류:', error);
     },
 
     onSettled: (_, __, variables) => {
@@ -88,11 +88,11 @@ export const useUpdateTodo = (yearMonth: string) => {
     onSuccess: () => {
       trackEvent('todo_updated');
       invalidateTodoListQueries(queryClient, yearMonth);
-      toast.success('투두가 수정되었어요');
+      toast.success('할 일이 수정되었어요');
     },
     onError: (error) => {
-      toast.error('투두 수정에 실패했어요');
-      console.error('투두 수정 오류:', error);
+      toast.error('할 일 수정에 실패했어요');
+      console.error('할 일 수정 오류:', error);
     },
   });
 };
@@ -106,11 +106,11 @@ export const useDeleteTodo = (yearMonth: string) => {
     onSuccess: () => {
       trackEvent('todo_deleted');
       invalidateTodoListQueries(queryClient, yearMonth);
-      toast.success('투두가 삭제되었어요');
+      toast.success('할 일이 삭제되었어요');
     },
     onError: (error) => {
-      toast.error('투두 삭제에 실패했어요');
-      console.error('투두 삭제 오류:', error);
+      toast.error('할 일 삭제에 실패했어요');
+      console.error('할 일 삭제 오류:', error);
     },
   });
 };
