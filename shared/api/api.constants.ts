@@ -32,6 +32,10 @@ export const DEFAULT_ERROR_MESSAGE = '알 수 없는 오류가 발생했습니�
  * ```
  */
 export const BACKEND_ERROR = {
+  USER: {
+    USER_ERROR_006: '비밀번호가 일치하지 않아요.',
+    USER_ERROR_008: '탈퇴 후 30일 이내에는 재가입이 불가능해요.',
+  },
   CATEGORY: {
     CATEGORY_ERROR_001: '카테고리 이름이 이미 존재해요.',
     CATEGORY_ERROR_003: '카테고리는 최대 20개까지 만들 수 있어요.',

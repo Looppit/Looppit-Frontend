@@ -1,6 +1,7 @@
 import { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 import { postReissue } from './api.refresh-api';
+import { createApiError } from './api.response-format';
 
 type SuspendedRequest = {
   config: InternalAxiosRequestConfig;
@@ -65,13 +66,13 @@ class RefreshTokenHandler {
   ) {
     try {
       if (typeof window === 'undefined') {
-        return Promise.reject(error);
+        return Promise.reject(createApiError(error));
       }
 
       const originalRequest = error.config;
 
       if (!originalRequest || originalRequest._retry) {
-        return Promise.reject(error);
+        return Promise.reject(createApiError(error));
       }
 
       originalRequest._retry = true;
@@ -83,7 +84,7 @@ class RefreshTokenHandler {
       }
       return requestPromise;
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject(createApiError(error));
     }
   }
 }

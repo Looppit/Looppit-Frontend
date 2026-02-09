@@ -42,8 +42,17 @@ export const updateUserRequestSchema = userProfileFieldsSchema.extend({
 export type UpdateUserRequest = z.infer<typeof updateUserRequestSchema>;
 
 /** 회원 탈퇴 요청 스키마 */
-export const DeleteUserRequestSchema = z.object({
-  password: z.string(),
+export const DeleteEmailUserRequestSchema = z.object({
+  password: z.string().min(1, '비밀번호를 입력해주세요'),
 });
 
-export type DeleteUserRequest = z.infer<typeof DeleteUserRequestSchema>;
+export const DeleteSnsUserRequestSchema = z.object({
+  password: z.string().optional(),
+});
+
+export type DeleteEmailUserRequest = z.infer<
+  typeof DeleteEmailUserRequestSchema
+>;
+export type DeleteSnsUserRequest = z.infer<typeof DeleteSnsUserRequestSchema>;
+
+export type DeleteUserRequest = DeleteEmailUserRequest | DeleteSnsUserRequest;
