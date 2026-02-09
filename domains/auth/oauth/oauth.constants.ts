@@ -11,7 +11,7 @@ export const OAUTH_REDIRECT = {
   SUCCESS_TO_ONBOARDING: (provider: string) =>
     `/onboarding?oauth_success=${provider.toLowerCase()}`,
   FAILURE: (errorCode: string, provider?: string) =>
-    `/login?error=${errorCode}${provider ? `&provider=${provider}` : ''}`,
+    `/landing?error=${errorCode}${provider ? `&provider=${provider}` : ''}`,
 } as const;
 
 /**
