@@ -1,18 +1,23 @@
 import { z } from 'zod';
 
+import { profileFormFieldSchemas } from '@/domains/user/user.constants';
+
+const { nickname, imgPath } = profileFormFieldSchemas;
+
+/** 온보딩 폼: 닉네임 선택(비필수) */
 export const onboardingFormSchema = z.object({
-  nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }),
-  imgPath: z.instanceof(File).nullable(),
+  nickname: nickname.optional,
+  imgPath: imgPath.fileOnly,
 });
 
 export type OnboardingFormValues = z.infer<typeof onboardingFormSchema>;
 
 export const nicknameStepSchema = z.object({
-  nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }),
+  nickname: nickname.optional,
 });
 
 export const profileImageStepSchema = z.object({
-  imgPath: z.instanceof(File).nullable(),
+  imgPath: imgPath.fileOnly,
 });
 
 export const OnboardingStepSchema: Record<
