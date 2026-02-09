@@ -42,8 +42,7 @@ export function ProfileScreen() {
   }, [updateProfileMutations, form]);
 
   const onError = (errors: FieldErrors<UserProfileFormValues>) => {
-    const message = getFirstFormErrorMessage(errors);
-    toast.error(message);
+    toast.error(getFirstFormErrorMessage(errors));
   };
 
   return (
