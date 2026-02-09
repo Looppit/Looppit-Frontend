@@ -7,18 +7,20 @@ import Image from 'next/image';
 import { toast } from 'sonner';
 
 import { ASSET_URL } from '@/shared/constants';
-import { getImageFileValidatorError } from '@/shared/utils';
+import { cn, getImageFileValidatorError } from '@/shared/utils';
 
 import { IconButton } from '../icon-button';
 
 type InputProfileImageProps = {
   imageFile: string | null | File;
   onFileChange: (file?: File) => void;
+  className?: string;
 };
 
 export function InputProfileImage({
   imageFile,
   onFileChange,
+  className,
 }: InputProfileImageProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const imageUrl = useMemo(() => {
@@ -54,7 +56,12 @@ export function InputProfileImage({
   }, [imageUrl]);
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center py-6">
+    <div
+      className={cn(
+        'flex-1 flex flex-col items-center justify-center',
+        className,
+      )}
+    >
       <div className="relative mb-10 group cursor-pointer">
         <input
           type="file"

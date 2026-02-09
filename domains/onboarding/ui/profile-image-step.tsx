@@ -16,6 +16,7 @@ function ProfileImageStep() {
     <InputProfileImage
       imageFile={profileImage}
       onFileChange={handleFileChange}
+      className="py-6"
     />
   );
 }
