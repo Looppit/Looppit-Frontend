@@ -7,7 +7,7 @@ export function SettingScreen() {
 
   return (
     <div>
-      <SettingHeader title="마이페이지" hideBackButton href="/" />
+      <SettingHeader title="마이페이지" hideBackButton />
       <SettingUserPreview
         nickname={user?.nickname ?? ''}
         imgPath={user?.imgPath ?? null}
