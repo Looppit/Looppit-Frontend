@@ -1,6 +1,24 @@
-import { initAxiosInstance } from '@/shared/api/utils/api.instance';
+import {
+  initAxiosInstance,
+  setupInterceptors,
+  toApiError,
+} from '@/shared/api/utils';
 
 import { API_BASE_URL } from './api.constants';
 import { ApiClient } from './api.core';
 
-export const apiServerClient = new ApiClient(initAxiosInstance(API_BASE_URL));
+const serverInstance = initAxiosInstance(API_BASE_URL);
+
+setupInterceptors(serverInstance, {
+  request: {
+    onFulfilled: (config) => config,
+    onRejected: (error) => Promise.reject(error),
+  },
+  response: {
+    onFulfilled: (response) => response,
+    onRejected: (error) => Promise.reject(toApiError(error)),
+  },
+});
+
+//TODO: 확인
+export const apiServerClient = new ApiClient(serverInstance);

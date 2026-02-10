@@ -1,19 +1,35 @@
-import { initAxiosInstance } from '@/shared/api/utils/api.instance';
 import {
-  setupErrorInterceptors,
-  setupRequestInterceptor,
-} from '@/shared/api/utils/api.interceptors';
+  handleNetworkError,
+  handleUnAuthorizedError,
+  initAxiosInstance,
+  setupInterceptors,
+  toApiError,
+} from '@/shared/api/utils';
 import { PROJECT_ENV } from '@/shared/constants';
 
 import { ApiClient } from './api.core';
 
-export const createAxiosClient = () => {
-  const instance = initAxiosInstance(PROJECT_ENV.clientBaseUrl);
+const instance = initAxiosInstance(PROJECT_ENV.clientBaseUrl);
 
-  setupRequestInterceptor(instance);
-  setupErrorInterceptors(instance);
+setupInterceptors(instance, {
+  request: {
+    onFulfilled: async (config) => config,
+    onRejected: (error) => Promise.reject(error),
+  },
+  response: {
+    onFulfilled: (response) => response,
+    onRejected: (error) => {
+      if (!error.response) {
+        return handleNetworkError();
+      }
 
-  return instance;
-};
+      if (error.response.status === 401) {
+        return handleUnAuthorizedError(instance, error);
+      }
 
-export const apiClient = new ApiClient(createAxiosClient());
+      return Promise.reject(toApiError(error));
+    },
+  },
+});
+
+export const apiClient = new ApiClient(instance);
