@@ -4,9 +4,9 @@ import { FieldErrors, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 
+import { getFormValidationMessage } from '@/shared/lib';
 import { Button } from '@/shared/ui/button';
 import { Form } from '@/shared/ui/form';
-import { getFirstFormErrorMessage } from '@/shared/utils';
 
 import { useGetUser, useUpdateProfile } from './hooks';
 import {
@@ -42,7 +42,7 @@ export function ProfileScreen() {
   }, [updateProfileMutations, form]);
 
   const onError = (errors: FieldErrors<UserProfileFormValues>) => {
-    toast.error(getFirstFormErrorMessage(errors));
+    toast.error(getFormValidationMessage(errors));
   };
 
   return (

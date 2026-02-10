@@ -10,10 +10,8 @@ import {
   DeleteEmailUserRequestSchema,
   DeleteSnsUserRequestSchema,
 } from '@/domains/user/user.types';
-import {
-  getFirstFormErrorMessage,
-  removeTokensFromCookies,
-} from '@/shared/utils';
+import { getFormValidationMessage } from '@/shared/lib';
+import { removeTokensFromCookies } from '@/shared/utils';
 
 const createDeleteAccountFormSchema = (isSnsUser: boolean) => {
   return isSnsUser ? DeleteSnsUserRequestSchema : DeleteEmailUserRequestSchema;
@@ -52,7 +50,7 @@ export function useDeleteAccountForm() {
       });
     },
     (error) => {
-      toast.error(getFirstFormErrorMessage(error));
+      toast.error(getFormValidationMessage(error));
     },
   );
 
