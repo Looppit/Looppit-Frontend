@@ -20,5 +20,4 @@ setupInterceptors(serverInstance, {
   },
 });
 
-//TODO: 확인
 export const apiServerClient = new ApiClient(serverInstance);

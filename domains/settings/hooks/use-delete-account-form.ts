@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { FormEvent, useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,7 +21,7 @@ type DeleteAccountFormValues = z.infer<
   ReturnType<typeof createDeleteAccountFormSchema>
 >;
 
-export function useDeleteAccountForm() {
+export const useDeleteAccountForm = () => {
   const { data: user } = useGetUser();
   const { mutate: deleteUser } = useDeleteUser();
 
@@ -40,23 +40,28 @@ export function useDeleteAccountForm() {
     },
   });
 
-  const handleClickDelete = form.handleSubmit(
-    (data) => {
-      deleteUser(isSnsUser ? {} : { password: data.password }, {
-        onSuccess: async () => {
-          await removeTokensFromCookies();
-          window.location.href = '/';
+  const handleSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      form.handleSubmit(
+        (data) => {
+          deleteUser(isSnsUser ? {} : { password: data.password }, {
+            onSuccess: async () => {
+              await removeTokensFromCookies();
+              window.location.href = '/';
+            },
+          });
         },
-      });
+        (error) => {
+          toast.error(getFormValidationMessage(error));
+        },
+      )(e);
     },
-    (error) => {
-      toast.error(getFormValidationMessage(error));
-    },
+    [deleteUser, form, isSnsUser],
   );
 
   return {
     form,
     isSnsUser,
-    handleClickDelete,
+    handleSubmit,
   };
-}
+};

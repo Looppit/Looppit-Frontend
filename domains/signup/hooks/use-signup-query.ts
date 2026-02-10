@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 
 import { postSignupRequest } from '@/domains/signup/api';
 import { SignupRequest } from '@/domains/signup/types';
+import { getUserApiErrorMessage } from '@/domains/user/utils';
 import { ApiError } from '@/shared/api/api.types';
 import { trackEvent } from '@/shared/lib/posthog';
 
@@ -24,7 +25,7 @@ export const useSignup = () => {
         method: 'email',
         error_code: error.responseCode,
       });
-      toast.error(error.message);
+      toast.error(getUserApiErrorMessage(error, '회원가입에 실패했어요'));
     },
   });
 };

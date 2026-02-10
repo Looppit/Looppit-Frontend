@@ -12,11 +12,7 @@ export type EmailSendRequest = {
   email: string;
 };
 
-export type EmailSendResponse = unknown;
-
 export type EmailCertifyRequest = {
   email: string;
   code: string;
 };
-
-export type EmailCertifyResponse = unknown;

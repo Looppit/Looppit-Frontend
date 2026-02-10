@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { toast } from 'sonner';
 
-import { isApiError } from '@/shared/guard';
+import { getUserApiErrorMessage } from '@/domains/user/utils';
 import { Button } from '@/shared/ui/button';
 import { FieldError } from '@/shared/ui/field';
 import { FormControl, FormItem, FormLabel } from '@/shared/ui/form';
@@ -38,17 +38,11 @@ export default function EmailConfirmField({
   const handleConfirm = async () => {
     if (isCertificationDisabled) return;
 
-    try {
-      const email = getValues('email');
-      await certifyEmail({ email, code });
+    const email = getValues('email');
+    await certifyEmail({ email, code });
 
-      toast.success('이메일 인증이 완료되었습니다.');
-      onEmailCertificationSuccess();
-    } catch (error) {
-      if (isApiError(error)) {
-        toast.error(error.message);
-      }
-    }
+    toast.success('이메일 인증이 완료되었어요.');
+    onEmailCertificationSuccess();
   };
 
   return (
@@ -81,9 +75,12 @@ export default function EmailConfirmField({
         </div>
       </FormControl>
       {certificationError && (
-        <FieldError
-          errors={certificationError ? [certificationError] : undefined}
-        />
+        <FieldError>
+          {getUserApiErrorMessage(
+            certificationError,
+            '이메일 인증에 실패했어요',
+          )}
+        </FieldError>
       )}
     </FormItem>
   );

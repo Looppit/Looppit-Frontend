@@ -1,16 +1,12 @@
 import type { ApiError } from '@/shared/api/api.types';
-import { getUserErrorMessage } from '@/shared/api/utils';
+import { toApiErrorUserMessage } from '@/shared/error';
 
 /**
- * 사용자 도메인 에러 메시지를 가져옵니다.
- *
- * @param error - API 에러 객체
- * @param defaultMessage - 기본 에러 메시지
- * @returns 사용자에게 표시할 에러 메시지
+ * 사용자 도메인 API 에러 → 사용자에게 보여줄 메시지
  */
-export const getUserDomainErrorMessage = (
+export const getUserApiErrorMessage = (
   error: ApiError,
   defaultMessage = '사용자 처리에 실패했어요',
 ): string => {
-  return getUserErrorMessage('USER', error.responseCode, defaultMessage);
+  return toApiErrorUserMessage('USER', error, defaultMessage);
 };

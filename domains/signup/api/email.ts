@@ -1,18 +1,11 @@
 import { apiClient } from '@/shared/api/api.client';
 import { joinPathWithQuery } from '@/shared/utils';
 
-import {
-  EmailSendRequest,
-  EmailSendResponse,
-  EmailCertifyRequest,
-  EmailCertifyResponse,
-} from '../types';
+import { EmailSendRequest, EmailCertifyRequest } from '../types';
 
 export const postEmailSendRequest = async (data: EmailSendRequest) => {
   const endpoint = joinPathWithQuery('/email/send', { email: data.email });
-  const response = await apiClient.post<EmailSendResponse>(endpoint);
-
-  return response;
+  await apiClient.post<void>(endpoint);
 };
 
 export const postEmailCertifyRequest = async (data: EmailCertifyRequest) => {
@@ -20,7 +13,6 @@ export const postEmailCertifyRequest = async (data: EmailCertifyRequest) => {
     email: data.email,
     code: data.code,
   });
-  const response = await apiClient.post<EmailCertifyResponse>(endpoint, data);
 
-  return response;
+  await apiClient.post<void>(endpoint, data);
 };
