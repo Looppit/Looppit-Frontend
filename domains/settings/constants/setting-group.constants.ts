@@ -43,6 +43,14 @@ export const SETTING_GROUP_LIST: Record<string, SettingGroup> = {
           name: 'ic_help',
         },
       },
+      {
+        label: '개인정보처리방침',
+        href: '/privacy',
+        icon: {
+          name: 'ic_info',
+          noneFill: true,
+        },
+      },
     ],
   },
 };
