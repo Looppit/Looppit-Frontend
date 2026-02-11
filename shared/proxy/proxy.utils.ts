@@ -4,7 +4,12 @@ import { NextRequest } from 'next/server';
 
 import { COOKIE_KEYS } from '@/shared/constants';
 
-export const GUEST_ROUTES = ['/landing', '/login', '/signup'] as const;
+export const GUEST_ROUTES = [
+  '/landing',
+  '/login',
+  '/signup',
+  '/privacy',
+] as const;
 
 export const isGuestRoute = (request: NextRequest) => {
   const { pathname } = request.nextUrl;
