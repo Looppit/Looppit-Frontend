@@ -11,3 +11,4 @@ export * from './error';
 export * from './color';
 export * from './file';
 export * from './date';
+export * from './form-error';

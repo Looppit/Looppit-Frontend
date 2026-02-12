@@ -84,6 +84,7 @@ export const TodoFormSheet = ({
           onChange={(value) => form.setValue('title', value)}
           onSubmit={handleSubmit}
           maxLength={100}
+          autoFocus
         />
         <div className="h-px w-full bg-white/5" />
         <TodoFormSheetUI.OptionsBar

@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 
 import { Button } from '@/shared/ui/button';
 import { Form } from '@/shared/ui/form';
-import { Spacing } from '@/shared/ui/spacing';
+import { getFirstFormErrorMessage } from '@/shared/utils';
 
 import { useGetUser, useUpdateProfile } from './hooks';
 import {
@@ -32,7 +32,7 @@ export function ProfileScreen() {
     mode: 'onChange',
   });
 
-  const handleUpdateProfile = useCallback(() => {
+  const onSubmit = useCallback(() => {
     updateProfileMutations({
       form: form.getValues(),
       onSuccess: () => {
@@ -41,21 +41,31 @@ export function ProfileScreen() {
     });
   }, [updateProfileMutations, form]);
 
+  const onError = (errors: FieldErrors<UserProfileFormValues>) => {
+    const message = getFirstFormErrorMessage(errors);
+    toast.error(message);
+  };
+
   return (
     <div className="flex flex-col h-full overflow-hidden relative">
       <ProfileHeader />
       <Form {...form}>
-        <div className="flex-1 overflow-y-auto px-6 pt-10 pb-40 no-scrollbar">
+        <div className="flex-1 overflow-y-auto px-6 pt-10 pb-40">
           <ProfileImageField />
           <div className="space-y-6">
             <EmailField email={user?.email ?? ''} />
             <NicknameField />
             <ContentField />
           </div>
-          <Spacing size={108} />
-          <Button onClick={handleUpdateProfile} disabled={isPending}>
-            {isPending ? '저장 중...' : '저장하기'}
-          </Button>
+          <div className="fixed inset-x-0 bottom-6 px-6">
+            <Button
+              type="button"
+              onClick={form.handleSubmit(onSubmit, onError)}
+              disabled={isPending}
+            >
+              {isPending ? '저장 중...' : '저장하기'}
+            </Button>
+          </div>
         </div>
       </Form>
     </div>
