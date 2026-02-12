@@ -1,13 +1,8 @@
 import { useMemo } from 'react';
 
-import {
-  addMonths,
-  endOfMonth,
-  format,
-  getWeek,
-  startOfMonth,
-  subMonths,
-} from 'date-fns';
+import { addMonths, format, subMonths } from 'date-fns';
+
+import { isFirstWeek, isLastWeek } from '@/shared/utils';
 
 import { useTodosByDate } from './queries';
 import { getCompletedCategoryData } from '../utils';
@@ -26,23 +21,10 @@ export const useGetCalendarSectionData = ({
   calendarYearMonth,
   selectedDate,
 }: UseGetCalendarSectionDataProps) => {
-  const firstWeekNumberOfCurrentMonth = getWeek(startOfMonth(selectedDate));
-  const lastWeekNumberOfCurrentMonth = getWeek(endOfMonth(selectedDate));
-
-  const [isFirstWeek, isLastWeek] = useMemo(() => {
-    return [
-      getWeek(selectedDate) === firstWeekNumberOfCurrentMonth,
-      getWeek(selectedDate) === lastWeekNumberOfCurrentMonth,
-    ];
-  }, [
-    selectedDate,
-    firstWeekNumberOfCurrentMonth,
-    lastWeekNumberOfCurrentMonth,
-  ]);
-  const prevYearMonth = isFirstWeek
+  const prevYearMonth = isFirstWeek(selectedDate)
     ? format(subMonths(selectedDate, 1), 'yyyy-MM')
     : null;
-  const nextYearMonth = isLastWeek
+  const nextYearMonth = isLastWeek(selectedDate)
     ? format(addMonths(selectedDate, 1), 'yyyy-MM')
     : null;
 
