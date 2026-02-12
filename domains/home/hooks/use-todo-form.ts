@@ -16,7 +16,7 @@ import {
   type TodoFormValues,
 } from '@/domains/home/types';
 import { getInitialFormValues } from '@/domains/home/utils';
-import { getFirstFormErrorMessage } from '@/shared/utils';
+import { getFormValidationMessage } from '@/shared/lib';
 
 type UseTodoFormProps = {
   mode: TodoFormMode;
@@ -139,7 +139,7 @@ export const useTodoForm = ({
           handleUpdate(data);
         },
         (error) => {
-          toast.error(getFirstFormErrorMessage(error));
+          toast.error(getFormValidationMessage(error));
         },
       )(e);
     },

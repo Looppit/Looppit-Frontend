@@ -35,7 +35,6 @@ const UserProfileCardItem = ({
           className="w-full h-full object-cover"
           alt="Avatar"
           src={imgPath || ASSET_URL.DEFAULT_IMAGE}
-          unoptimized
           width={36}
           height={36}
         />

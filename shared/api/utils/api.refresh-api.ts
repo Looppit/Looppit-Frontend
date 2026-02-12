@@ -3,10 +3,6 @@
 import { cookies } from 'next/headers';
 
 import { apiServerClient } from '@/shared/api/api.server-client';
-import {
-  createApiError,
-  createApiResponse,
-} from '@/shared/api/utils/api.response-format';
 import { applySetCookieHeader, removeTokensFromCookies } from '@/shared/utils';
 
 export async function postReissue() {
@@ -25,10 +21,10 @@ export async function postReissue() {
       await applySetCookieHeader(setCookieHeaders);
     }
 
-    return createApiResponse(response.data);
+    return response.data;
   } catch (error) {
     await removeTokensFromCookies();
 
-    throw createApiError(error);
+    throw error;
   }
 }

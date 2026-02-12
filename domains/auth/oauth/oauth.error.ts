@@ -62,8 +62,9 @@ export const classifyOAuthError = (error: unknown): OAuthError => {
 const classifyApiError = (apiError: ApiError): OAuthError => {
   const code = apiError.code;
 
-  if (typeof code === 'string' && code.startsWith('HTTP_')) {
-    const statusCode = parseInt(code.replace('HTTP_', ''), 10);
+  //TODO: PR 분리로 인한 로직 변경
+  if (typeof code === 'string') {
+    const statusCode = code;
 
     if (statusCode === 400) {
       return {

@@ -15,7 +15,7 @@ import {
   type UseCategoryFormProps,
 } from '@/domains/category/types';
 import { toCategoryPayload } from '@/domains/category/utils';
-import { getFirstFormErrorMessage } from '@/shared/utils';
+import { getFormValidationMessage } from '@/shared/lib';
 
 export const useCategoryForm = ({
   mode,
@@ -94,7 +94,7 @@ export const useCategoryForm = ({
           handleUpdate(data);
         },
         (error) => {
-          toast.error(getFirstFormErrorMessage(error));
+          toast.error(getFormValidationMessage(error));
         },
       )(e);
     },

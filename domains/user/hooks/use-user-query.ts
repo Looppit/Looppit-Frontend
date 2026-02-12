@@ -17,7 +17,7 @@ import {
   DeleteUserRequest,
   UpdateUserRequest,
 } from '../user.types';
-import { getUserDomainErrorMessage } from '../utils';
+import { getUserApiErrorMessage } from '../utils';
 
 export const profileQueryOption = queryOptions<GetUserResponse>({
   queryKey: userKeys.base,
@@ -72,7 +72,7 @@ export const useDeleteUser = () => {
     },
     onError: (error) => {
       toast.error(
-        getUserDomainErrorMessage(error, '회원탈퇴 처리 중 오류가 발생했어요'),
+        getUserApiErrorMessage(error, '회원탈퇴 처리 중 오류가 발생했어요'),
       );
     },
   });

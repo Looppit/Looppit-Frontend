@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { FormEvent, useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,10 +10,8 @@ import {
   DeleteEmailUserRequestSchema,
   DeleteSnsUserRequestSchema,
 } from '@/domains/user/user.types';
-import {
-  getFirstFormErrorMessage,
-  removeTokensFromCookies,
-} from '@/shared/utils';
+import { getFormValidationMessage } from '@/shared/lib';
+import { removeTokensFromCookies } from '@/shared/utils';
 
 const createDeleteAccountFormSchema = (isSnsUser: boolean) => {
   return isSnsUser ? DeleteSnsUserRequestSchema : DeleteEmailUserRequestSchema;
@@ -23,7 +21,7 @@ type DeleteAccountFormValues = z.infer<
   ReturnType<typeof createDeleteAccountFormSchema>
 >;
 
-export function useDeleteAccountForm() {
+export const useDeleteAccountForm = () => {
   const { data: user } = useGetUser();
   const { mutate: deleteUser } = useDeleteUser();
 
@@ -42,23 +40,28 @@ export function useDeleteAccountForm() {
     },
   });
 
-  const handleClickDelete = form.handleSubmit(
-    (data) => {
-      deleteUser(isSnsUser ? {} : { password: data.password }, {
-        onSuccess: async () => {
-          await removeTokensFromCookies();
-          window.location.href = '/';
+  const handleSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      form.handleSubmit(
+        (data) => {
+          deleteUser(isSnsUser ? {} : { password: data.password }, {
+            onSuccess: async () => {
+              await removeTokensFromCookies();
+              window.location.href = '/';
+            },
+          });
         },
-      });
+        (error) => {
+          toast.error(getFormValidationMessage(error));
+        },
+      )(e);
     },
-    (error) => {
-      toast.error(getFirstFormErrorMessage(error));
-    },
+    [deleteUser, form, isSnsUser],
   );
 
   return {
     form,
     isSnsUser,
-    handleClickDelete,
+    handleSubmit,
   };
-}
+};

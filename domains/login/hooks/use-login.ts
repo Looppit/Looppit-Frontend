@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
+import { getUserApiErrorMessage } from '@/domains/user/utils';
 import { ApiError } from '@/shared/api/api.types';
 import { trackEvent } from '@/shared/lib/posthog';
 
@@ -12,14 +13,17 @@ export const useLogin = () => {
   const router = useRouter();
 
   return useMutation<void, ApiError, FormData>({
-    mutationFn: (formData) => postLogin(formData),
+    mutationFn: async (formData) => {
+      const errorResult = await postLogin(formData);
+      if (errorResult) throw errorResult;
+    },
     onError: (error) => {
       trackEvent('login_failed', {
         method: 'email',
         error_code: error.responseCode,
       });
 
-      toast.error(error.message);
+      toast.error(getUserApiErrorMessage(error, '로그인에 실패했어요'));
     },
     onSuccess: () => {
       trackEvent('login_completed', { method: 'email' });

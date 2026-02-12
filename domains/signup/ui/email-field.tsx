@@ -3,7 +3,6 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { SignupFormValues } from '@/domains/signup/types';
-import { isApiError } from '@/shared/guard';
 import { useTimer } from '@/shared/hooks';
 import { Button } from '@/shared/ui/button';
 import { FieldError } from '@/shared/ui/field';
@@ -44,25 +43,15 @@ export default function EmailField({ onEmailSendSuccess }: EmailFieldProps) {
   const handleVerifyEmail = async () => {
     if (isCertificationDisabled) return;
     if (isTimerRunning) {
-      toast.error('이메일 재요청은 1분 후에 가능합니다.');
+      toast.error('이메일 재요청은 1분 후에 가능해요.');
       return;
     }
 
-    try {
-      await sendEmail(
-        { email: emailValue },
-        {
-          onSuccess: () => {
-            startEmailResendTimer();
-            onEmailSendSuccess();
-          },
-        },
-      );
-    } catch (error) {
-      if (isApiError(error)) {
-        toast.error(error.message);
-      }
-    }
+    startEmailResendTimer();
+    await sendEmail({ email: emailValue });
+
+    toast.success('이메일 인증 메일이 발송되었어요.');
+    onEmailSendSuccess();
   };
 
   return (
