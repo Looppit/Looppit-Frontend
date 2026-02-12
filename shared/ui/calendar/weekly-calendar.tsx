@@ -2,11 +2,13 @@
 
 import * as React from 'react';
 import {
+  CaptionLabel,
   DayPicker,
   getDefaultClassNames,
   type DayButton,
 } from 'react-day-picker';
 
+import { addWeeks, format, subWeeks } from 'date-fns';
 import { ko } from 'react-day-picker/locale';
 
 import { useSwipe } from '@/shared/hooks';
@@ -25,6 +27,7 @@ function WeeklyCalendar({
   SubDayComponent,
   selected,
   onSelect,
+  onNavigate,
   ...props
 }: WeeklyCalendarProps) {
   const defaultClassNames = getDefaultClassNames();
@@ -40,14 +43,16 @@ function WeeklyCalendar({
     onSwipe: (direction) => {
       if (direction === 'left') {
         onClickPreviousWeek();
+        if (selected) onSelect?.(subWeeks(selected, 1));
       } else {
         onClickNextWeek();
+        if (selected) onSelect?.(addWeeks(selected, 1));
       }
     },
   });
 
   return (
-    <div className="w-full" ref={swipeAreaRef}>
+    <div className="w-full overflow-x-auto" ref={swipeAreaRef}>
       <DayPicker
         selected={selected}
         onSelect={onSelect}
@@ -55,10 +60,13 @@ function WeeklyCalendar({
         hideNavigation
         showOutsideDays={true}
         month={month}
-        onMonthChange={setMonth}
+        onMonthChange={(date) => {
+          setMonth(date);
+          onNavigate?.(date);
+        }}
         hidden={isNotCurrentWeek}
         className={cn(
-          'w-full max-w-md bg-background group/calendar [--cell-size:--spacing(8)] in-data-[slot=card-content]:bg-transparentt in-data-[slot=popover-content]:bg-transparent',
+          'w-full bg-background group/calendar [--cell-size:--spacing(8)] in-data-[slot=card-content]:bg-transparentt in-data-[slot=popover-content]:bg-transparent',
           String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
           String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
           className,
@@ -108,13 +116,6 @@ function WeeklyCalendar({
             'absolute bg-popover inset-0 opacity-0',
             defaultClassNames.dropdown,
           ),
-          caption_label: cn(
-            'select-none font-bold text-white',
-            captionLayout === 'label'
-              ? 'text-base'
-              : 'rounded-md pl-2 pr-1 flex items-center gap-1 text-sm h-8 [&>svg]:text-muted-foreground [&>svg]:size-3.5',
-            defaultClassNames.caption_label,
-          ),
           table: 'w-full border-collapse',
           weekdays: cn('flex', defaultClassNames.weekdays),
           weekday: cn(
@@ -132,7 +133,7 @@ function WeeklyCalendar({
             defaultClassNames.week_number,
           ),
           day: cn(
-            'relative w-full h-full p-0 text-center group/day select-none min-h-[50px]',
+            'relative grow w-full h-full p-0 text-center group/day select-none',
             'flex gap-[2px] flex-col items-center justify-center',
             'data-[hidden=true]:hidden',
             props.showWeekNumber
@@ -185,18 +186,28 @@ function WeeklyCalendar({
               </td>
             );
           },
+          CaptionLabel: ({ ...props }) => {
+            return (
+              <CalendarCaptionLabel
+                {...props}
+                selected={selected ?? new Date()}
+              />
+            );
+          },
           Day: ({ children, ...props }) => {
             return (
               <div {...props}>
-                <button
-                  className={cn(
-                    'grow shrink-0 cursor-pointer w-[50px] h-[50px] flex items-center justify-center rounded-full text-[14px] font-medium text-secondary hover:bg-white/5 in-data-[selected=true]:hover:bg-primary',
-                    'data-[today=true]:text-primary data-[today=true]:opacity-100',
-                    defaultClassNames.day,
-                  )}
-                >
-                  {children}
-                </button>
+                <div className="grow shrink-0 flex items-center justify-center">
+                  <button
+                    className={cn(
+                      'cursor-pointer size-8 aspect-square flex items-center justify-center rounded-full text-[14px] font-medium text-secondary hover:bg-white/5 in-data-[selected=true]:hover:bg-primary',
+                      'data-[today=true]:text-primary data-[today=true]:opacity-100',
+                      defaultClassNames.day,
+                    )}
+                  >
+                    {children}
+                  </button>
+                </div>
                 {SubDayComponent && SubDayComponent({ day: props.day })}
               </div>
             );
@@ -205,6 +216,29 @@ function WeeklyCalendar({
         }}
         {...props}
       />
+    </div>
+  );
+}
+
+function CalendarCaptionLabel({
+  ...props
+}: React.ComponentProps<typeof CaptionLabel> & {
+  selected: Date | undefined;
+}) {
+  const { selected, className, ...rest } = props;
+  const defaultClassNames = getDefaultClassNames();
+  const displayMonth = selected ? format(selected, 'yyyy년 MM월') : '';
+
+  return (
+    <div
+      className={cn(
+        'select-none font-bold text-white',
+        defaultClassNames.caption_label,
+        className,
+      )}
+      {...rest}
+    >
+      {displayMonth}
     </div>
   );
 }
@@ -237,7 +271,7 @@ function CalendarDayButton({
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
       className={cn(
-        'w-8 h-8 text-secondary opacity-70 p-0 flex cursor-pointer aspect-square size-auto min-w-(--cell-size) flex-col gap-1 leading-none font-bold',
+        'w-full h-full text-secondary opacity-70 p-0 flex cursor-pointer min-w-(--cell-size) flex-col gap-1 leading-none font-bold',
         'in-data-[today=true]:text-primary in-data-[today=true]:opacity-100',
         'data-[selected-single=true]:opacity-100 data-[selected-single=true]:text-white data-[selected-single=true]:bg-primary data-[selected-single=true]:rounded-full',
         'data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-middle=true]:rounded-none',
