@@ -45,8 +45,8 @@ export const useGetUserWithSuspense = () => {
 export const useUpdateUser = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<GetUserResponse, ApiError, UpdateUserRequest>({
-    mutationFn: (data: UpdateUserRequest) => updateUser(data),
+  return useMutation<GetUserResponse, ApiError, Partial<UpdateUserRequest>>({
+    mutationFn: (data: Partial<UpdateUserRequest>) => updateUser(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: userKeys.base });
     },
