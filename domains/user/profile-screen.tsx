@@ -42,12 +42,11 @@ export function ProfileScreen() {
   }, [updateProfileMutations, form]);
 
   const onError = (errors: FieldErrors<UserProfileFormValues>) => {
-    const message = getFirstFormErrorMessage(errors);
-    toast.error(message);
+    toast.error(getFirstFormErrorMessage(errors));
   };
 
   return (
-    <div className="flex flex-col h-full overflow-hidden relative">
+    <div className="flex flex-col h-full relative">
       <ProfileHeader />
       <Form {...form}>
         <div className="flex-1 overflow-y-auto px-6 pt-10 pb-40">

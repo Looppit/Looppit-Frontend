@@ -20,7 +20,7 @@ export default function RootLayout({
       <body
         className={`${wantedSans.variable} overflow-y-scroll bg-background text-white font-wanted-sans antialiased`}
       >
-        <div className="relative mx-auto min-h-screen max-w-xl overflow-hidden">
+        <div className="relative mx-auto min-h-screen max-w-xl">
           <Providers>{children}</Providers>
         </div>
         <Toaster

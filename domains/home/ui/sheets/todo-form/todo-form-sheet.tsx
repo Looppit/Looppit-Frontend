@@ -69,7 +69,7 @@ export const TodoFormSheet = ({
   };
 
   const displayTitle =
-    mode === TODO_FORM_MODE.CREATE ? '투두 추가' : '투두 수정';
+    mode === TODO_FORM_MODE.CREATE ? '할 일 추가' : '할 일 수정';
   const disabled = !todoText.trim() || !selectedCategoryId || isSubmitting;
 
   return (

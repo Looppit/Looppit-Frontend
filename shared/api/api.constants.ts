@@ -5,6 +5,10 @@ import type { ErrorMessageMap } from './api.types';
 export const { apiEndPoint: API_BASE_URL } = PROJECT_ENV;
 export const API_TIMEOUT = 5000;
 
+/**
+ * HTTP 상태 코드별 기본 에러 메시지 맵
+ * API 요청 시 서버에서 반환하는 HTTP 상태 코드에 따라 표시할 에러 메시지를 정의합니다.
+ */
 export const ERROR_MESSAGE_MAP: ErrorMessageMap = {
   400: '잘못된 요청입니다. 입력 내용을 확인해주세요.',
   401: '로그인이 필요합니다.',
@@ -17,3 +21,28 @@ export const ERROR_MESSAGE_MAP: ErrorMessageMap = {
 };
 
 export const DEFAULT_ERROR_MESSAGE = '알 수 없는 오류가 발생했습니다.';
+
+/**
+ * 백엔드에서 반환하는 커스텀 에러 코드별 메시지 맵
+ * 도메인별로 그룹화되어 있으며, 각 도메인의 특정 에러 코드에 대한 사용자 친화적인 메시지를 정의합니다.
+ *
+ * @example
+ * ```typescript
+ * BACKEND_ERROR.CATEGORY.CATEGORY_ERROR_001 // '카테고리 이름이 이미 존재해요.'
+ * ```
+ */
+export const BACKEND_ERROR = {
+  CATEGORY: {
+    CATEGORY_ERROR_001: '카테고리 이름이 이미 존재해요.',
+    CATEGORY_ERROR_003: '카테고리는 최대 20개까지 만들 수 있어요.',
+  },
+} as const;
+
+export type BackendErrorType = keyof typeof BACKEND_ERROR;
+
+export type BackendErrorCode<T extends BackendErrorType> =
+  keyof (typeof BACKEND_ERROR)[T];
+
+export type AllBackendErrorCodes = {
+  [K in BackendErrorType]: BackendErrorCode<K>;
+}[BackendErrorType];

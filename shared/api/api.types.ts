@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE_MAP } from '@/shared/api/api.constants';
+import { AllBackendErrorCodes, ERROR_MESSAGE_MAP } from './api.constants';
 
 export interface ApiResponse<T> {
   responseCode: string;
@@ -8,7 +8,7 @@ export interface ApiResponse<T> {
 export interface ApiError {
   code: ErrorCode;
   message: string;
-  responseCode?: string;
+  responseCode?: AllBackendErrorCodes;
   field?: string;
 }
 

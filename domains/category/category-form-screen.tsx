@@ -54,6 +54,8 @@ const CategoryFormScreenContent = ({ mode }: CategoryFormScreenProps) => {
           <CategoryForm.Preview icon={selectedIcon} color={selectedColor} />
           <CategoryForm.Input
             value={categoryName}
+            maxLength={15}
+            autoFocus
             onChange={(value) =>
               form.setValue('categoryName', value, { shouldValidate: true })
             }

@@ -45,7 +45,7 @@ export const TodoDeleteSheet = ({
   return (
     <Drawer open={true} onOpenChange={handleOpenChange}>
       <DrawerHeader className="sr-only">
-        <DrawerTitle>투두 삭제</DrawerTitle>
+        <DrawerTitle>할 일 삭제</DrawerTitle>
         <DrawerDescription />
       </DrawerHeader>
       <DrawerContent className="bg-card rounded-t-3xl p-6">

@@ -39,7 +39,7 @@ export const DetailHeader = ({
   return (
     <header
       className={cn(
-        'px-5 pt-6 pb-6 flex items-center justify-between bg-background w-full shrink-0',
+        'sticky top-0 px-5 z-10 py-6 flex items-center justify-between bg-background w-full shrink-0',
         className,
       )}
     >
