@@ -48,7 +48,6 @@ export const SETTING_GROUP_LIST: Record<string, SettingGroup> = {
         href: '/privacy',
         icon: {
           name: 'ic_info',
-          noneFill: true,
         },
       },
     ],
