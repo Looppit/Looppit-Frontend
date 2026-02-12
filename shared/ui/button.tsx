@@ -31,7 +31,7 @@ const buttonVariants = cva(
         outline:
           'bg-card enabled:active:bg-card-lighter enabled:hover:bg-card-lighter text-white/90 border border-white/10 gap-4',
         ghost:
-          'bg-transparent text-white enabled:active:bg-transparent enabled:hover:bg-transparent',
+          'bg-transparent text-white enabled:active:bg-transparent enabled:hover:bg-transparent shadow-none',
       },
       size: {
         title: 'typography-title-medium',
