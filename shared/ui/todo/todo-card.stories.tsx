@@ -33,13 +33,16 @@ export const Default: Story = {
   render: () => (
     <>
       <TodoCard>
-        <TodoCard.Header
-          title="업무"
-          color="#2563eb"
-          icon="ic_book"
-          onTitleClick={() => {}}
-          onAddClick={() => {}}
-        />
+        <TodoCard.Header>
+          <TodoCard.CategoryTitle
+            title="업무"
+            color="#2563eb"
+            icon="ic_book"
+            onTitleClick={() => {}}
+          />
+          <TodoCard.Count completedCount={1} totalCount={3} />
+          <TodoCard.AddButton onAddClick={() => {}} color="#2563eb" />
+        </TodoCard.Header>
         <TodoCard.Progress value={66.7} bgColor={getGradient('#2563eb')} />
         <TodoCard.ItemGroup>
           <SwipeableContainer

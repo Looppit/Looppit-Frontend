@@ -18,5 +18,8 @@ export const updateUser = async (data: UpdateUserRequest) => {
 };
 
 export const deleteUser = async (data: DeleteUserRequest) => {
-  return await apiClient.delete<void>('/user', data);
+  return await apiClient.request<void>('/user', {
+    method: 'DELETE',
+    body: data,
+  });
 };

@@ -26,8 +26,8 @@ export const authConfig = {
     }),
   ],
   pages: {
-    signIn: '/login',
-    error: '/login',
+    signIn: '/landing',
+    error: '/landing',
     newUser: '/onboarding',
   },
   callbacks: {

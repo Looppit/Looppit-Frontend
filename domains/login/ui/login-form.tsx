@@ -1,7 +1,10 @@
-import { useForm } from 'react-hook-form';
+import { useCallback } from 'react';
+import { FieldErrors, useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 
+import { getFormValidationMessage } from '@/shared/lib';
 import { trackEvent } from '@/shared/lib/posthog';
 import { Button } from '@/shared/ui/button';
 import { Form } from '@/shared/ui/form';
@@ -20,27 +23,33 @@ export default function LoginForm() {
   const { mutate: loginMutation, isPending: isLoginPending } = useLogin();
   const submitDisabled = isLoginPending;
 
-  const handleSubmitForm = async (data: LoginFormValues) => {
-    trackEvent('login_started', { method: 'email' });
+  const handleSubmit = useCallback(
+    async (data: LoginFormValues) => {
+      trackEvent('login_started', { method: 'email' });
 
-    const formData = new FormData();
-    formData.append('email', data.email);
-    formData.append('password', data.password);
+      const formData = new FormData();
+      formData.append('email', data.email);
+      formData.append('password', data.password);
 
-    loginMutation(formData);
-  };
+      loginMutation(formData);
+    },
+    [loginMutation],
+  );
+
+  const handleError = useCallback((errors: FieldErrors) => {
+    toast.error(getFormValidationMessage(errors));
+  }, []);
 
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-4">
+      <form
+        className="flex flex-col gap-4"
+        onSubmit={form.handleSubmit(handleSubmit, handleError)}
+      >
         <EmailField />
         <PasswordField />
         <div className="flex flex-col items-center justify-center gap-2">
-          <Button
-            onClick={form.handleSubmit(handleSubmitForm)}
-            className="w-full"
-            disabled={submitDisabled}
-          >
+          <Button type="submit" className="w-full" disabled={submitDisabled}>
             {isLoginPending ? '로그인 중...' : '로그인'}
           </Button>
         </div>

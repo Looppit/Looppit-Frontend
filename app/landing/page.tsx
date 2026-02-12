@@ -1,5 +1,12 @@
-import { LandingScreen } from '@/domains/landing';
+import { Suspense } from 'react';
+
+import { LandingPageEffects, LandingScreen } from '@/domains/landing';
 
 export default function LandingPage() {
-  return <LandingScreen />;
+  return (
+    <Suspense fallback={null}>
+      <LandingPageEffects />
+      <LandingScreen />
+    </Suspense>
+  );
 }

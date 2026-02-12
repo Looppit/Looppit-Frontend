@@ -7,6 +7,14 @@ const nextConfig: NextConfig = {
    * 이 옵션 없으면 이벤트 수집 요청이 끊겨 데이터 유실 가능 (PostHog proxy 문서 권장)
    */
   skipTrailingSlashRedirect: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'looppit.s3.ap-northeast-2.amazonaws.com',
+      },
+    ],
+  },
   rewrites: async () => {
     return [
       {

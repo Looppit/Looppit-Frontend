@@ -12,7 +12,7 @@ export function AccountScreen() {
 
   return (
     <div>
-      <SettingHeader title="계정 관리" href="/setting" />
+      <SettingHeader title="계정 관리" />
       <div className="px-5 pt-6 py-6 flex flex-col gap-4">
         <SettingCardItem
           label="프로필 수정"

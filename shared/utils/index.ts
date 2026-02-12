@@ -10,3 +10,4 @@ export * from './platform';
 export * from './error';
 export * from './color';
 export * from './file';
+export * from './date';

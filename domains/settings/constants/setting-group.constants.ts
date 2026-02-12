@@ -26,18 +26,18 @@ export const SETTING_GROUP_LIST: Record<string, SettingGroup> = {
       },
     ],
   },
-  information: {
-    label: '정보',
+  feedback: {
+    label: '고객 지원',
     childrens: [
       {
-        label: '앱 정보',
-        href: '/settings/information',
+        label: '앱 개선 제안',
+        href: '/settings/feedback',
         icon: {
           name: 'ic_info',
         },
       },
       {
-        label: '도움말 및 지원',
+        label: '1:1 문의하기',
         href: '/settings/help',
         icon: {
           name: 'ic_help',

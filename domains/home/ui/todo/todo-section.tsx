@@ -25,16 +25,29 @@ export const TodoSection = ({
 }: TodoSectionProps) => {
   const handlers = useTodoSection({ categoryId });
   const progressValue = useMemo(() => calculateProgress(todos), [todos]);
+  const completedCount = useMemo(
+    () => todos.filter((todo) => todo.completed).length,
+    [todos],
+  );
 
   return (
     <TodoCard>
-      <TodoCard.Header
-        title={categoryName}
-        color={categoryColor}
-        icon={categoryIconName}
-        onTitleClick={handlers.onTitleClick}
-        onAddClick={handlers.onAddClick}
-      />
+      <TodoCard.Header>
+        <TodoCard.CategoryTitle
+          title={categoryName}
+          color={categoryColor}
+          icon={categoryIconName}
+          onTitleClick={handlers.onTitleClick}
+        />
+        <TodoCard.Count
+          completedCount={completedCount}
+          totalCount={todos.length}
+        />
+        <TodoCard.AddButton
+          onAddClick={handlers.onAddClick}
+          color={categoryColor}
+        />
+      </TodoCard.Header>
       <TodoCard.Progress
         value={progressValue}
         bgColor={getGradient(categoryColor)}

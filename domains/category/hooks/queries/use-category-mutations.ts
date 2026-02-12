@@ -7,7 +7,11 @@ import {
   updateCategory,
 } from '@/domains/category/api/category.api';
 import { categoryKeys } from '@/domains/category/category.keys';
-import { UpdateCategoryParams } from '@/domains/category/types';
+import {
+  CreateCategoryParams,
+  UpdateCategoryParams,
+} from '@/domains/category/types';
+import { getCategoryErrorMessage } from '@/domains/category/utils';
 import type { ApiError } from '@/shared/api/api.types';
 import { trackEvent } from '@/shared/lib/posthog';
 
@@ -19,7 +23,7 @@ export const useCreateCategory = (options: UseCreateCategory = {}) => {
   const { showSuccessToast = true } = options;
   const queryClient = useQueryClient();
 
-  return useMutation({
+  return useMutation<void, ApiError, CreateCategoryParams>({
     mutationFn: createCategory,
     onSuccess: async () => {
       trackEvent('category_created');
@@ -28,15 +32,16 @@ export const useCreateCategory = (options: UseCreateCategory = {}) => {
         refetchType: 'all',
       });
 
-      if (showSuccessToast) {
-        toast.success('카테고리가 생성되었어요');
-      }
+      if (!showSuccessToast) return;
+
+      toast.success('카테고리가 생성되었어요');
     },
     onError: (error) => {
-      if (showSuccessToast) {
-        toast.error('카테고리 생성에 실패했어요');
-      }
       console.error('카테고리 생성 오류:', error);
+
+      if (!showSuccessToast) return;
+
+      toast.error(getCategoryErrorMessage(error, '카테고리 생성에 실패했어요'));
     },
   });
 };
@@ -55,11 +60,7 @@ export const useUpdateCategory = () => {
       toast.success('카테고리가 수정되었어요');
     },
     onError: (error) => {
-      if (error.code === 409) {
-        toast.error('카테고리 이름이 이미 존재해요.');
-        return;
-      }
-      toast.error('카테고리 수정에 실패했어요');
+      toast.error(getCategoryErrorMessage(error, '카테고리 수정에 실패했어요'));
       console.error('카테고리 수정 오류:', error);
     },
   });

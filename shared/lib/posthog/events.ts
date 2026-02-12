@@ -23,6 +23,7 @@ export type PostHogEvent =
   | 'category_updated'
   | 'category_deleted'
   | 'onboarding_completed'
+  | 'custom_form_submitted'
   //TODO: 탈퇴 로직 완료시 연동할 이벤트명
   | 'withdrawal_completed'
   | 'withdrawal_failed';
@@ -65,6 +66,14 @@ export interface PostHogEventProperties {
   category_updated: Record<string, never>;
   category_deleted: Record<string, never>;
   onboarding_completed: Record<string, never>;
+  custom_form_submitted: {
+    form_id: string;
+    answer_1?: string;
+    answer_2?: string;
+    answer_3?: string;
+    user_feedback?: string;
+    user_email?: string;
+  };
   withdrawal_completed: Record<string, never>;
   withdrawal_failed: {
     error_code?: string;

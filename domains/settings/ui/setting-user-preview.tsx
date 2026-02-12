@@ -13,7 +13,7 @@ export function SettingUserPreview({
     <div className="flex flex-col items-center mt-8 px-6">
       <ProfileImage imageUrl={imgPath} size="small" className="relative mb-4" />
       <div className="flex flex-col gap-1">
-        <h3 className="typography-body-bold">{nickname}</h3>
+        <h3 className="typography-body-bold text-center">{nickname}</h3>
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ type TodoFormSheetRootProps = {
 const TodoFormSheetRoot = ({
   open,
   onOpenChange,
-  title = '투두',
+  title = '할 일',
   children,
 }: TodoFormSheetRootProps) => {
   return (

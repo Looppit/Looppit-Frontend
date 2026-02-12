@@ -5,7 +5,7 @@ import {
   KAKAO_ERROR_MESSAGES,
   KakaoErrorCode,
 } from '@/domains/auth/oauth/kakao.constants';
-import { OAUTH_DEFAULT_ERROR_MESSAGE } from '@/domains/auth/oauth/oauth.constants';
+import { OAUTH_DEFAULT_ERROR_MESSAGE } from '@/shared/error';
 import { getErrorMessage } from '@/shared/utils';
 
 /**

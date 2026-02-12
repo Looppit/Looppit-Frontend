@@ -56,7 +56,7 @@ export const withoutSearchParams = (
  *
  * @example
  * ```ts
- * joinPathWithQuery('/login', searchParams) // '/login?foo=bar'
+ * joinPathWithQuery('/landing', searchParams) // '/landing?foo=bar'
  * joinPathWithQuery('/email/send', { email: 'test@test.com' }) // '/email/send?email=test%40test.com'
  * ```
  */

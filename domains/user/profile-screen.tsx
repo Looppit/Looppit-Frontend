@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 
+import { getFormValidationMessage } from '@/shared/lib';
 import { Button } from '@/shared/ui/button';
 import { Form } from '@/shared/ui/form';
-import { Spacing } from '@/shared/ui/spacing';
 
 import { useGetUser, useUpdateProfile } from './hooks';
 import {
@@ -32,7 +32,7 @@ export function ProfileScreen() {
     mode: 'onChange',
   });
 
-  const handleUpdateProfile = useCallback(() => {
+  const handleSubmit = useCallback(() => {
     updateProfileMutations({
       form: form.getValues(),
       onSuccess: () => {
@@ -41,22 +41,32 @@ export function ProfileScreen() {
     });
   }, [updateProfileMutations, form]);
 
+  const handleError = useCallback(
+    (errors: FieldErrors<UserProfileFormValues>) => {
+      toast.error(getFormValidationMessage(errors));
+    },
+    [],
+  );
+
   return (
-    <div className="flex flex-col h-full overflow-hidden relative">
+    <div className="flex flex-col h-full relative">
       <ProfileHeader />
       <Form {...form}>
-        <div className="flex-1 overflow-y-auto px-6 pt-10 pb-40 no-scrollbar">
-          <ProfileImageField />
-          <div className="space-y-6">
-            <EmailField email={user?.email ?? ''} />
-            <NicknameField />
-            <ContentField />
+        <form onSubmit={form.handleSubmit(handleSubmit, handleError)}>
+          <div className="flex-1 overflow-y-auto px-6 pt-10 pb-40">
+            <ProfileImageField />
+            <div className="space-y-6">
+              <EmailField email={user?.email ?? ''} />
+              <NicknameField />
+              <ContentField />
+            </div>
+            <div className="fixed inset-x-0 bottom-6 px-6">
+              <Button type="submit" disabled={isPending}>
+                {isPending ? '저장 중...' : '저장하기'}
+              </Button>
+            </div>
           </div>
-          <Spacing size={108} />
-          <Button onClick={handleUpdateProfile} disabled={isPending}>
-            {isPending ? '저장 중...' : '저장하기'}
-          </Button>
-        </div>
+        </form>
       </Form>
     </div>
   );

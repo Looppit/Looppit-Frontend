@@ -1,6 +1,5 @@
-import axios from 'axios';
-
 import { apiClient } from '@/shared/api/api.client';
+import { apiServerClient } from '@/shared/api/api.server-client';
 
 import {
   CreatePresignedUrlRequest,
@@ -21,7 +20,9 @@ export const uploadFileWithPresignedUrl = async ({
   url,
   file,
 }: UploadFileWithPresignedUrlRequest) => {
-  return await axios.put(url, file, {
+  await apiServerClient.requestRaw(url, {
+    method: 'PUT',
+    body: file,
     headers: {
       'Content-Type': file.type,
     },

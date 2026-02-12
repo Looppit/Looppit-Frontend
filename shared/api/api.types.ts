@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE_MAP } from '@/shared/api/api.constants';
+import { AllBackendErrorCodes, HTTP_ERROR_MESSAGE_MAP } from './api.constants';
 
 export interface ApiResponse<T> {
   responseCode: string;
@@ -6,10 +6,9 @@ export interface ApiResponse<T> {
 }
 
 export interface ApiError {
-  code: ErrorCode;
+  code: HTTPErrorCode;
   message: string;
-  responseCode?: string;
-  field?: string;
+  responseCode?: AllBackendErrorCodes;
 }
 
 export interface ErrorResponse {
@@ -21,11 +20,8 @@ export interface ErrorResponse {
 
 export type HttpStatusCode = 400 | 401 | 403 | 404 | 409 | 500 | 502 | 503;
 
-export type ErrorMessageMap = Record<HttpStatusCode, string>;
-export type ErrorStatusKey = keyof typeof ERROR_MESSAGE_MAP;
-
-export type HttpErrorCode = `HTTP_${ErrorStatusKey}`;
-export type ErrorCode = ErrorStatusKey | HttpErrorCode;
+export type HTTPErrorMessageMap = Record<HttpStatusCode, string>;
+export type HTTPErrorCode = keyof typeof HTTP_ERROR_MESSAGE_MAP;
 
 export type ErrorTransformer = (
   statusCode: number,

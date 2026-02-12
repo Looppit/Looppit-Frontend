@@ -16,6 +16,7 @@ import {
   type TodoFormValues,
 } from '@/domains/home/types';
 import { getInitialFormValues } from '@/domains/home/utils';
+import { getFormValidationMessage } from '@/shared/lib';
 
 type UseTodoFormProps = {
   mode: TodoFormMode;
@@ -137,13 +138,8 @@ export const useTodoForm = ({
           }
           handleUpdate(data);
         },
-        (errors) => {
-          const firstError = Object.values(errors)[0];
-          if (firstError?.message) {
-            toast.error(firstError.message);
-            return;
-          }
-          toast.error('입력 정보를 확인해주세요.');
+        (error) => {
+          toast.error(getFormValidationMessage(error));
         },
       )(e);
     },

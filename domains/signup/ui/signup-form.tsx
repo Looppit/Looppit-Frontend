@@ -1,11 +1,13 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useCallback, useState } from 'react';
+import { FieldErrors, useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 
 import { useSignup } from '@/domains/signup/hooks';
 import { signupFormSchema, SignupFormValues } from '@/domains/signup/types';
 import { useTimer } from '@/shared/hooks';
+import { getFormValidationMessage } from '@/shared/lib';
 import { Button } from '@/shared/ui/button';
 import { Form } from '@/shared/ui/form';
 import { Spacing } from '@/shared/ui/spacing';
@@ -26,29 +28,36 @@ export default function SignupForm() {
   });
   const { mutate: signup, isPending: isSignupPending } = useSignup();
   const {
-    startTimer: startEmailCertificationTimer,
-    endTimer: endEmailCertificationTimer,
+    startTimer: handleStartEmailCertificationTimer,
+    endTimer: handleEndEmailCertificationTimer,
     formattedTime: formattedEmailCertificationTime,
-  } = useTimer(300);
+  } = useTimer(180);
 
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
   const submitDisabled = isSignupPending || !isPasswordConfirmed;
 
-  const onSubmit = (data: SignupFormValues) => {
-    if (submitDisabled) return;
-    signup(data);
-  };
+  const handleSubmit = useCallback(
+    (data: SignupFormValues) => {
+      if (submitDisabled) return;
+      signup(data);
+    },
+    [submitDisabled, signup],
+  );
+
+  const handleError = useCallback((errors: FieldErrors) => {
+    toast.error(getFormValidationMessage(errors));
+  }, []);
 
   return (
     <Form {...form}>
       <form
         className="flex flex-col gap-4"
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(handleSubmit, handleError)}
       >
-        <EmailField onEmailSendSuccess={() => startEmailCertificationTimer()} />
+        <EmailField onEmailSendSuccess={handleStartEmailCertificationTimer} />
         <EmailConfirmField
           time={formattedEmailCertificationTime}
-          onEmailCertificationSuccess={() => endEmailCertificationTimer()}
+          onEmailCertificationSuccess={handleEndEmailCertificationTimer}
         />
         <PasswordField />
         <PasswordConfirmField
@@ -59,10 +68,7 @@ export default function SignupForm() {
         />
         <div className="flex flex-col">
           <Spacing size={108} />
-          <Button
-            onClick={form.handleSubmit(onSubmit)}
-            disabled={submitDisabled}
-          >
+          <Button type="submit" disabled={submitDisabled}>
             {isSignupPending ? '회원가입 중...' : '회원가입'}
           </Button>
         </div>

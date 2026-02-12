@@ -13,7 +13,7 @@ import {
 } from '../types/todo.types';
 
 export const getTodos = async (
-  yearMonth: string,
+  yearMonth: string | null,
   options?: ServerFetchOptions,
 ): Promise<CategoryWithTodosResponse[]> => {
   const endpoint = joinPathWithQuery('/todos', { yearMonth });

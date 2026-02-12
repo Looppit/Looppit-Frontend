@@ -72,7 +72,7 @@ export const TodoActionsSheet = ({
     <Drawer open={true} onOpenChange={handleOpenChange}>
       <DrawerContent className="bg-card rounded-t-3xl p-6">
         <DrawerHeader className="sr-only">
-          <DrawerTitle>투두 메뉴</DrawerTitle>
+          <DrawerTitle>할 일 메뉴</DrawerTitle>
           <DrawerDescription />
         </DrawerHeader>
         <div className="flex flex-col gap-3">
