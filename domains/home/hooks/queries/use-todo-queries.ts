@@ -23,8 +23,14 @@ export const useTodosAndCategories = (yearMonth: string) => {
   );
 };
 
-export const useTodosByDate = (date: string) => {
-  return useQuery(todosQueryOptions(date));
+export const useTodosByDate = (
+  date: string | null,
+  enabled: boolean = true,
+) => {
+  return useQuery({
+    ...todosQueryOptions(date ?? ''),
+    enabled,
+  });
 };
 
 export const useTodosWithSuspense = (yearMonth: string) => {

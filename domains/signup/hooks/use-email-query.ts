@@ -10,6 +10,9 @@ import { postEmailSendRequest, postEmailCertifyRequest } from '../api';
 export const useEmailSendMutation = () => {
   return useMutation<void, ApiError, EmailSendRequest>({
     mutationFn: postEmailSendRequest,
+    onSuccess: () => {
+      toast.success('이메일 인증 메일이 발송되었어요');
+    },
     onError: (error) => {
       toast.error(getUserApiErrorMessage(error, '이메일 전송에 실패했어요'));
     },

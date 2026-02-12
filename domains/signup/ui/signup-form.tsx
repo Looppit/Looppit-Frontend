@@ -28,10 +28,10 @@ export default function SignupForm() {
   });
   const { mutate: signup, isPending: isSignupPending } = useSignup();
   const {
-    startTimer: startEmailCertificationTimer,
-    endTimer: endEmailCertificationTimer,
+    startTimer: handleStartEmailCertificationTimer,
+    endTimer: handleEndEmailCertificationTimer,
     formattedTime: formattedEmailCertificationTime,
-  } = useTimer(300);
+  } = useTimer(180);
 
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
   const submitDisabled = isSignupPending || !isPasswordConfirmed;
@@ -54,10 +54,10 @@ export default function SignupForm() {
         className="flex flex-col gap-4"
         onSubmit={form.handleSubmit(handleSubmit, handleError)}
       >
-        <EmailField onEmailSendSuccess={() => startEmailCertificationTimer()} />
+        <EmailField onEmailSendSuccess={handleStartEmailCertificationTimer} />
         <EmailConfirmField
           time={formattedEmailCertificationTime}
-          onEmailCertificationSuccess={() => endEmailCertificationTimer()}
+          onEmailCertificationSuccess={handleEndEmailCertificationTimer}
         />
         <PasswordField />
         <PasswordConfirmField
