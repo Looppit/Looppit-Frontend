@@ -1,8 +1,9 @@
 'use server';
 
+import { toOAuthError } from '@/shared/error';
+
 import { postOAuthSignupRequest } from './oauth.api';
 import { OAUTH_REDIRECT } from './oauth.constants';
-import { classifyOAuthError } from './oauth.error';
 
 import type { OAuthSignupRequest } from './oauth.api';
 
@@ -20,7 +21,7 @@ export const processOAuthLogin = async (
       ? OAUTH_REDIRECT.SUCCESS_TO_ONBOARDING(params.provider)
       : OAUTH_REDIRECT.SUCCESS(params.provider);
   } catch (error) {
-    const oauthError = classifyOAuthError(error);
+    const oauthError = toOAuthError(error);
     const providerLower = params.provider?.toLowerCase();
     return OAUTH_REDIRECT.FAILURE(oauthError.code, providerLower);
   }

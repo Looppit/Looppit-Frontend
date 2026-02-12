@@ -6,6 +6,11 @@ import { usePathname, useSearchParams } from 'next/navigation';
 
 import { toast } from 'sonner';
 
+import {
+  OAUTH_ERROR_PARAM_CODES,
+  toOAuthUserMessage,
+  type OAuthErrorCodeParam,
+} from '@/shared/error';
 import { trackEvent } from '@/shared/lib/posthog';
 import {
   joinPathWithQuery,
@@ -14,11 +19,9 @@ import {
 } from '@/shared/utils';
 
 import { type SocialProvider, SOCIAL_PROVIDERS } from '../auth.types';
-import { OAUTH_ERROR_CODES, OAuthErrorCode } from './oauth.constants';
-import { getOAuthErrorMessage } from './oauth.error';
 
-const isValid = createTypeValidator<OAuthErrorCode>(
-  Object.values(OAUTH_ERROR_CODES),
+const isValid = createTypeValidator<OAuthErrorCodeParam>(
+  OAUTH_ERROR_PARAM_CODES,
 );
 
 const isOAuthProviderValue =
@@ -98,7 +101,7 @@ export function useOAuthError() {
     const errorCode = searchParams.get('error');
     if (!errorCode || !isValid(errorCode)) return;
 
-    const errorMessage = getOAuthErrorMessage(errorCode);
+    const errorMessage = toOAuthUserMessage(errorCode);
     const provider = searchParams.get('provider');
 
     if (!provider || !isOAuthProviderValue(provider)) return;
