@@ -44,6 +44,7 @@ export const BACKEND_ERROR = {
     CATEGORY_ERROR_001: '카테고리 이름이 이미 존재해요.',
     CATEGORY_ERROR_003: '카테고리는 최대 20개까지 만들 수 있어요.',
   },
+  S3: {},
 } as const;
 
 export type BackendErrorType = keyof typeof BACKEND_ERROR;
