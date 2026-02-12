@@ -27,7 +27,10 @@ export const useTodosByDate = (
   date: string | null,
   enabled: boolean = true,
 ) => {
-  return useQuery(todosQueryOptions(date, enabled));
+  return useQuery({
+    ...todosQueryOptions(date ?? ''),
+    enabled,
+  });
 };
 
 export const useTodosWithSuspense = (yearMonth: string) => {
