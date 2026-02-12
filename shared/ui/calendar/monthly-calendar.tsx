@@ -30,6 +30,7 @@ function MonthlyCalendar({
   SubDayComponent,
   selected,
   onSelect,
+  onNavigate,
   ...props
 }: MonthlyCalendarProps) {
   const defaultClassNames = getDefaultClassNames();
@@ -56,7 +57,10 @@ function MonthlyCalendar({
       locale={ko}
       showOutsideDays={showOutsideDays}
       month={month}
-      onMonthChange={setMonth}
+      onMonthChange={(date) => {
+        setMonth(date);
+        onNavigate?.(date);
+      }}
       className={cn(
         'w-full max-w-md group/calendar p-3 [--cell-size:--spacing(8)] in-data-[slot=card-content]:bg-transparentt in-data-[slot=popover-content]:bg-transparent',
         String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,

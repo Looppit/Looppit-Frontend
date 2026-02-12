@@ -12,12 +12,9 @@ export type DayPickerSingleProps = Omit<
 export type CalendarProps = DayPickerSingleProps & {
   type: 'weekly' | 'monthly';
   SubDayComponent?: (props: { day: DayProps['day'] }) => React.ReactNode;
+  onNavigate?: (date: Date) => void;
 };
 
-export type MonthlyCalendarProps = DayPickerSingleProps & {
-  SubDayComponent?: (props: { day: DayProps['day'] }) => React.ReactNode;
-};
+export type MonthlyCalendarProps = Omit<CalendarProps, 'type'>;
 
-export type WeeklyCalendarProps = DayPickerSingleProps & {
-  SubDayComponent?: (props: { day: DayProps['day'] }) => React.ReactNode;
-};
+export type WeeklyCalendarProps = Omit<CalendarProps, 'type'>;
