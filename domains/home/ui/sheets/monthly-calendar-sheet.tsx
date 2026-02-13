@@ -25,7 +25,7 @@ export function MonthlyCalendarSheet({
 }: MonthlyCalendarSheetProps) {
   return (
     <Drawer>
-      <DrawerTrigger>
+      <DrawerTrigger asChild>
         <IconButton
           icon="ic_calendar_month"
           size="40"
