@@ -32,7 +32,7 @@ export const CalendarSection = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative min-h-[125px]">
       <TodoCalendar
         mode="single"
         type="weekly"
