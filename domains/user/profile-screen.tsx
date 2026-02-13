@@ -49,18 +49,21 @@ export function ProfileScreen() {
   );
 
   return (
-    <div className="flex flex-col h-full relative">
+    <div className="flex flex-col h-dvh relative">
       <ProfileHeader />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit, handleError)}>
-          <div className="flex-1 overflow-y-auto px-6 pt-10 pb-40">
+        <form
+          className="flex flex-col h-dvh"
+          onSubmit={form.handleSubmit(handleSubmit, handleError)}
+        >
+          <div className="flex flex-col flex-1 overflow-y-auto px-6 pt-10">
             <ProfileImageField />
             <div className="space-y-6">
               <EmailField email={user?.email ?? ''} />
               <NicknameField />
               <ContentField />
             </div>
-            <div className="fixed inset-x-0 bottom-6 px-6">
+            <div className="flex grow pb-6 items-end justify-end">
               <Button type="submit" disabled={isPending}>
                 {isPending ? '저장 중...' : '저장하기'}
               </Button>
