@@ -15,7 +15,7 @@ export const CategoryCreateButton = () => {
     <IconButton
       icon="ic_add"
       size="40"
-      className="fixed bottom-[100px] right-4 bg-primary text-white"
+      className="sticky bottom-[100px] ml-auto mr-4 block bg-primary text-white"
       iconClassName="fill-current"
       onClick={handleCreateCategory}
     />
