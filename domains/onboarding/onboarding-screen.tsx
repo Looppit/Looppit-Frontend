@@ -19,13 +19,15 @@ import {
   NicknameStep,
   ProfileImageStep,
 } from './ui';
+import { useGetUser } from '../user/hooks';
 
 function OnboardingScreen() {
+  const { data: user } = useGetUser();
   const form = useForm<OnboardingFormValues>({
     resolver: zodResolver(onboardingFormSchema),
-    defaultValues: {
-      nickname: '',
-      imgPath: null,
+    values: {
+      nickname: user?.nickname ?? '',
+      imgPath: user?.imgPath ?? null,
     },
     mode: 'onChange',
   });
