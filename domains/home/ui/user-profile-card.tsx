@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
 import { User } from '@/domains/user/user.types';
 import { ASSET_URL } from '@/shared/constants';
@@ -27,10 +26,7 @@ const UserProfileCardItem = ({
 }: UserProfileCardItemProps) => {
   return (
     <>
-      <Link
-        href="/profile"
-        className="size-9 rounded-full overflow-hidden border border-white/10 active:scale-95 transition-transform"
-      >
+      <div className="size-9 rounded-full overflow-hidden border border-white/10 active:scale-95 transition-transform">
         <Image
           className="w-full h-full object-cover"
           alt="Avatar"
@@ -38,7 +34,7 @@ const UserProfileCardItem = ({
           width={36}
           height={36}
         />
-      </Link>
+      </div>
       <UserProfileCardRow>
         <h1 className="typography-title-medium">
           {nickname}님, 오늘도 반가워요
