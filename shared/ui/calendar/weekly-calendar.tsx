@@ -5,6 +5,7 @@ import {
   CaptionLabel,
   DayPicker,
   getDefaultClassNames,
+  Week,
   type DayButton,
 } from 'react-day-picker';
 
@@ -176,7 +177,17 @@ function WeeklyCalendar({
               />
             );
           },
-          DayButton: CalendarDayButton,
+          CaptionLabel: ({ ...props }) => {
+            return (
+              <CalendarCaptionLabel
+                {...props}
+                selected={selected ?? new Date()}
+              />
+            );
+          },
+          Week: ({ children, ...props }) => {
+            return <CalendarWeek {...props}>{children}</CalendarWeek>;
+          },
           WeekNumber: ({ children, ...props }) => {
             return (
               <td {...props}>
@@ -186,19 +197,11 @@ function WeeklyCalendar({
               </td>
             );
           },
-          CaptionLabel: ({ ...props }) => {
-            return (
-              <CalendarCaptionLabel
-                {...props}
-                selected={selected ?? new Date()}
-              />
-            );
-          },
           Day: ({ children, ...props }) => {
             return (
               <div {...props}>
                 <div className="grow shrink-0 flex items-center justify-center">
-                  <button
+                  <div
                     className={cn(
                       'cursor-pointer size-8 aspect-square flex items-center justify-center rounded-full text-[14px] font-medium text-secondary hover:bg-white/5 in-data-[selected=true]:hover:bg-primary',
                       'data-[today=true]:text-primary data-[today=true]:opacity-100',
@@ -206,12 +209,13 @@ function WeeklyCalendar({
                     )}
                   >
                     {children}
-                  </button>
+                  </div>
                 </div>
                 {SubDayComponent && SubDayComponent({ day: props.day })}
               </div>
             );
           },
+          DayButton: CalendarDayButton,
           ...components,
         }}
         {...props}
@@ -239,6 +243,25 @@ function CalendarCaptionLabel({
       {...rest}
     >
       {displayMonth}
+    </div>
+  );
+}
+
+function CalendarWeek({
+  children,
+  className,
+  ...props
+}: React.ComponentProps<typeof Week> & {
+  className?: string;
+}) {
+  const defaultClassNames = getDefaultClassNames();
+
+  return (
+    <div
+      className={cn('flex w-full', defaultClassNames.week, className)}
+      {...props}
+    >
+      {children}
     </div>
   );
 }
