@@ -7,7 +7,7 @@ const { nickname, imgPath } = profileFormFieldSchemas;
 /** 온보딩 폼: 닉네임 선택(비필수) */
 export const onboardingFormSchema = z.object({
   nickname: nickname.optional,
-  imgPath: imgPath.fileOnly,
+  imgPath: imgPath.withString,
 });
 
 export type OnboardingFormValues = z.infer<typeof onboardingFormSchema>;
@@ -17,7 +17,7 @@ export const nicknameStepSchema = z.object({
 });
 
 export const profileImageStepSchema = z.object({
-  imgPath: imgPath.fileOnly,
+  imgPath: imgPath.withString,
 });
 
 export const OnboardingStepSchema: Record<
