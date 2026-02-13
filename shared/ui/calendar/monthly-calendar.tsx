@@ -19,6 +19,15 @@ import { Button, buttonVariants } from '@/shared/ui/button';
 import { cn } from '@/shared/utils';
 
 import { MonthlyCalendarProps } from './calendar.type';
+import {
+  CalendarMonthGrid,
+  CalendarRoot,
+  CalendarWeek,
+  CalendarWeekday,
+  CalendarWeekdays,
+  CalendarWeekNumber,
+  CalendarWeeks,
+} from './common-calendar';
 
 function MonthlyCalendar({
   className,
@@ -122,7 +131,7 @@ function MonthlyCalendar({
         table: 'w-full border-collapse',
         weekdays: cn('flex', defaultClassNames.weekdays),
         weekday: cn(
-          'text-secondary opacity-50 nth-1:text-destructive nth-1:opacity-100 nth-7:text-action nth-7:opacity-100',
+          'text-secondary opacity-50 nth-1:text-destructive nth-1:opacity-100 nth-7:text-action nth-7:opacity-100 text-center',
           'rounded-md flex-1 typography-caption-bold select-none',
           defaultClassNames.weekday,
         ),
@@ -167,13 +176,26 @@ function MonthlyCalendar({
       components={{
         Root: ({ className, rootRef, ...props }) => {
           return (
-            <div
-              data-slot="calendar"
-              ref={rootRef}
-              className={cn(className)}
-              {...props}
-            />
+            <CalendarRoot className={className} rootRef={rootRef} {...props} />
           );
+        },
+        MonthGrid: ({ children, ...props }) => {
+          return <CalendarMonthGrid {...props}>{children}</CalendarMonthGrid>;
+        },
+        Weekdays: ({ children, ...props }) => {
+          return <CalendarWeekdays {...props}>{children}</CalendarWeekdays>;
+        },
+        Weekday: ({ children, ...props }) => {
+          return <CalendarWeekday {...props}>{children}</CalendarWeekday>;
+        },
+        Weeks: ({ children, ...props }) => {
+          return <CalendarWeeks {...props}>{children}</CalendarWeeks>;
+        },
+        Week: ({ children, ...props }) => {
+          return <CalendarWeek {...props}>{children}</CalendarWeek>;
+        },
+        WeekNumber: ({ children, ...props }) => {
+          return <CalendarWeekNumber {...props}>{children}</CalendarWeekNumber>;
         },
         Chevron: ({ className, orientation, ...props }) => {
           if (orientation === 'left') {
@@ -195,27 +217,18 @@ function MonthlyCalendar({
             <ChevronDownIcon className={cn('size-6', className)} {...props} />
           );
         },
-        DayButton: CalendarDayButton,
-        WeekNumber: ({ children, ...props }) => {
-          return (
-            <td {...props}>
-              <div className="flex size-(--cell-size) items-center justify-center text-center">
-                {children}
-              </div>
-            </td>
-          );
-        },
+        DayButton: MonthlyCalendarDayButton,
         Day: ({ children, ...props }) => {
           return (
             <div {...props}>
-              <button
+              <div
                 className={cn(
                   'grow shrink-0 cursor-pointer size-8 flex items-center justify-center rounded-full text-[14px] font-medium text-white/80 hover:bg-white/5 in-data-[selected=true]:hover:bg-primary',
                   defaultClassNames.day,
                 )}
               >
                 {children}
-              </button>
+              </div>
               {SubDayComponent && SubDayComponent({ day: props.day })}
             </div>
           );
@@ -227,7 +240,7 @@ function MonthlyCalendar({
   );
 }
 
-function CalendarDayButton({
+function MonthlyCalendarDayButton({
   className,
   day,
   modifiers,
@@ -257,9 +270,6 @@ function CalendarDayButton({
       className={cn(
         'w-8 h-8 in-data-[today=true]:text-primary data-[selected-single=true]:text-white data-[selected-single=true]:bg-primary data-[selected-single=true]:rounded-full p-0',
         'data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-middle=true]:rounded-none',
-        // 'data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-start=true]:rounded-md data-[range-start=true]:rounded-l-md',
-        // 'data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground data-[range-end=true]:rounded-md data-[range-end=true]:rounded-r-md',
-        // 'group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px]',
         'dark:hover:text-accent-foreground enabled:hover:scale-100 transition-none',
         'flex cursor-pointer aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal [&>span]:text-xs [&>span]:opacity-70',
         defaultClassNames.day,
@@ -270,4 +280,4 @@ function CalendarDayButton({
   );
 }
 
-export { MonthlyCalendar, CalendarDayButton };
+export { MonthlyCalendar, MonthlyCalendarDayButton };

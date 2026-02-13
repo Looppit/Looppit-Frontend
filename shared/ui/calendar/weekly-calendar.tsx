@@ -5,11 +5,6 @@ import {
   CaptionLabel,
   DayPicker,
   getDefaultClassNames,
-  MonthGrid,
-  Week,
-  Weekday,
-  Weekdays,
-  Weeks,
   type DayButton,
 } from 'react-day-picker';
 
@@ -22,6 +17,15 @@ import { cn } from '@/shared/utils';
 
 import { useWeeklyCalendar } from './calendar.hooks';
 import { WeeklyCalendarProps } from './calendar.type';
+import {
+  CalendarMonthGrid,
+  CalendarRoot,
+  CalendarWeek,
+  CalendarWeekday,
+  CalendarWeekdays,
+  CalendarWeekNumber,
+  CalendarWeeks,
+} from './common-calendar';
 
 function WeeklyCalendar({
   className,
@@ -173,10 +177,9 @@ function WeeklyCalendar({
         components={{
           Root: ({ className, rootRef, ...props }) => {
             return (
-              <div
-                data-slot="calendar"
-                ref={rootRef}
-                className={cn(className)}
+              <CalendarRoot
+                className={className}
+                rootRef={rootRef}
                 {...props}
               />
             );
@@ -189,7 +192,7 @@ function WeeklyCalendar({
           },
           CaptionLabel: ({ ...props }) => {
             return (
-              <CalendarCaptionLabel
+              <WeeklyCalendarCaptionLabel
                 {...props}
                 selected={selected ?? new Date()}
               />
@@ -206,11 +209,7 @@ function WeeklyCalendar({
           },
           WeekNumber: ({ children, ...props }) => {
             return (
-              <td {...props}>
-                <div className="flex size-(--cell-size) items-center justify-center text-center">
-                  {children}
-                </div>
-              </td>
+              <CalendarWeekNumber {...props}>{children}</CalendarWeekNumber>
             );
           },
           Day: ({ children, ...props }) => {
@@ -231,7 +230,7 @@ function WeeklyCalendar({
               </div>
             );
           },
-          DayButton: CalendarDayButton,
+          DayButton: WeeklyCalendarDayButton,
           ...components,
         }}
         {...props}
@@ -240,49 +239,7 @@ function WeeklyCalendar({
   );
 }
 
-function CalendarMonthGrid({
-  children,
-  ...props
-}: React.ComponentProps<typeof MonthGrid> & {
-  className?: string;
-}) {
-  const defaultClassNames = getDefaultClassNames();
-  return (
-    <div className={cn(defaultClassNames.month_grid)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function CalendarWeekdays({
-  children,
-  ...props
-}: React.ComponentProps<typeof Weekdays> & {
-  className?: string;
-}) {
-  const defaultClassNames = getDefaultClassNames();
-  return (
-    <div className={cn(defaultClassNames.weekdays)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function CalendarWeekday({
-  children,
-  ...props
-}: React.ComponentProps<typeof Weekday> & {
-  className?: string;
-}) {
-  const defaultClassNames = getDefaultClassNames();
-  return (
-    <div className={cn(defaultClassNames.weekday)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function CalendarCaptionLabel({
+function WeeklyCalendarCaptionLabel({
   ...props
 }: React.ComponentProps<typeof CaptionLabel> & {
   selected: Date | undefined;
@@ -305,40 +262,7 @@ function CalendarCaptionLabel({
   );
 }
 
-function CalendarWeeks({
-  children,
-  ...props
-}: React.ComponentProps<typeof Weeks> & {
-  className?: string;
-}) {
-  const defaultClassNames = getDefaultClassNames();
-  return (
-    <div className={cn('flex w-full', defaultClassNames.weeks)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function CalendarWeek({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<typeof Week> & {
-  className?: string;
-}) {
-  const defaultClassNames = getDefaultClassNames();
-
-  return (
-    <div
-      className={cn('flex w-full', defaultClassNames.week, className)}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
-
-function CalendarDayButton({
+function WeeklyCalendarDayButton({
   className,
   day,
   modifiers,
@@ -382,4 +306,4 @@ function CalendarDayButton({
   );
 }
 
-export { WeeklyCalendar, CalendarDayButton };
+export { WeeklyCalendar, WeeklyCalendarDayButton };
