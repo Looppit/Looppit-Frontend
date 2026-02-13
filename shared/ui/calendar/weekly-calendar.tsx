@@ -5,7 +5,11 @@ import {
   CaptionLabel,
   DayPicker,
   getDefaultClassNames,
+  MonthGrid,
   Week,
+  Weekday,
+  Weekdays,
+  Weeks,
   type DayButton,
 } from 'react-day-picker';
 
@@ -120,7 +124,7 @@ function WeeklyCalendar({
           table: 'w-full border-collapse',
           weekdays: cn('flex', defaultClassNames.weekdays),
           weekday: cn(
-            'text-secondary opacity-50 font-bold',
+            'text-secondary opacity-50 font-bold text-center',
             'rounded-md flex-1 typography-caption-bold select-none',
             defaultClassNames.weekday,
           ),
@@ -177,6 +181,12 @@ function WeeklyCalendar({
               />
             );
           },
+          MonthGrid: ({ children, ...props }) => {
+            return <CalendarMonthGrid {...props}>{children}</CalendarMonthGrid>;
+          },
+          Weekdays: ({ children, ...props }) => {
+            return <CalendarWeekdays {...props}>{children}</CalendarWeekdays>;
+          },
           CaptionLabel: ({ ...props }) => {
             return (
               <CalendarCaptionLabel
@@ -185,8 +195,14 @@ function WeeklyCalendar({
               />
             );
           },
+          Weeks: ({ children, ...props }) => {
+            return <CalendarWeeks {...props}>{children}</CalendarWeeks>;
+          },
           Week: ({ children, ...props }) => {
             return <CalendarWeek {...props}>{children}</CalendarWeek>;
+          },
+          Weekday: ({ children, ...props }) => {
+            return <CalendarWeekday {...props}>{children}</CalendarWeekday>;
           },
           WeekNumber: ({ children, ...props }) => {
             return (
@@ -224,6 +240,48 @@ function WeeklyCalendar({
   );
 }
 
+function CalendarMonthGrid({
+  children,
+  ...props
+}: React.ComponentProps<typeof MonthGrid> & {
+  className?: string;
+}) {
+  const defaultClassNames = getDefaultClassNames();
+  return (
+    <div className={cn(defaultClassNames.month_grid)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+function CalendarWeekdays({
+  children,
+  ...props
+}: React.ComponentProps<typeof Weekdays> & {
+  className?: string;
+}) {
+  const defaultClassNames = getDefaultClassNames();
+  return (
+    <div className={cn(defaultClassNames.weekdays)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+function CalendarWeekday({
+  children,
+  ...props
+}: React.ComponentProps<typeof Weekday> & {
+  className?: string;
+}) {
+  const defaultClassNames = getDefaultClassNames();
+  return (
+    <div className={cn(defaultClassNames.weekday)} {...props}>
+      {children}
+    </div>
+  );
+}
+
 function CalendarCaptionLabel({
   ...props
 }: React.ComponentProps<typeof CaptionLabel> & {
@@ -243,6 +301,20 @@ function CalendarCaptionLabel({
       {...rest}
     >
       {displayMonth}
+    </div>
+  );
+}
+
+function CalendarWeeks({
+  children,
+  ...props
+}: React.ComponentProps<typeof Weeks> & {
+  className?: string;
+}) {
+  const defaultClassNames = getDefaultClassNames();
+  return (
+    <div className={cn('flex w-full', defaultClassNames.weeks)} {...props}>
+      {children}
     </div>
   );
 }
