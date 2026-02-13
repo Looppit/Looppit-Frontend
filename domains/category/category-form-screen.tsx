@@ -8,6 +8,7 @@ import {
   CATEGORY_COLORS,
   CATEGORY_FORM_MODE,
   CATEGORY_ICON_PREVIEW,
+  CATEGORY_NAME_MAX_LENGTH,
   CategoryFormMode,
 } from '@/domains/category/constants';
 import {
@@ -54,7 +55,7 @@ const CategoryFormScreenContent = ({ mode }: CategoryFormScreenProps) => {
           <CategoryForm.Preview icon={selectedIcon} color={selectedColor} />
           <CategoryForm.Input
             value={categoryName}
-            maxLength={15}
+            maxLength={CATEGORY_NAME_MAX_LENGTH}
             autoFocus
             onChange={(value) =>
               form.setValue('categoryName', value, { shouldValidate: true })

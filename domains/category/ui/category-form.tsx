@@ -51,15 +51,22 @@ const CategoryFormInput = ({
   value,
   onChange,
   error,
+  maxLength,
   ...props
 }: CategoryFormInputProps) => {
   return (
     <div className="space-y-2">
-      <FieldLabel>카테고리 이름</FieldLabel>
+      <div className="flex items-center justify-between">
+        <FieldLabel>카테고리 이름</FieldLabel>
+        <span className="text-secondary opacity-50 typography-body-semibold">
+          {value?.length ?? 0}/{maxLength}
+        </span>
+      </div>
       <Input
         placeholder="예: 운동, 공부"
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        maxLength={maxLength}
         {...props}
       />
       <FieldError errors={error ? [error] : undefined} />

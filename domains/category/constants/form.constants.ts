@@ -20,3 +20,5 @@ export const DEFAULT_CATEGORY = {
   categoryIconName: 'ic_favorite' as CategoryIconName,
   categoryColor: CATEGORY_COLORS[0],
 };
+
+export const CATEGORY_NAME_MAX_LENGTH = 15;
