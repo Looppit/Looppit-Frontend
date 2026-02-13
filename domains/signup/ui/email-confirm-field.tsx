@@ -47,7 +47,7 @@ export default function EmailConfirmField({
 
   return (
     <FormItem className="flex flex-col gap-3">
-      <FormLabel>이메일</FormLabel>
+      <FormLabel>인증번호</FormLabel>
       <FormControl>
         <div className="flex items-center gap-2">
           <InputGroup>
