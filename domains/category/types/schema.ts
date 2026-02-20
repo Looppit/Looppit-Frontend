@@ -10,7 +10,10 @@ export const categoryFormSchema = z.object({
   categoryName: z
     .string()
     .min(1, '카테고리 이름을 입력해주세요')
-    .max(CATEGORY_NAME_MAX_LENGTH, '카테고리 이름은 15자 이내로 작성해주세요'),
+    .max(
+      CATEGORY_NAME_MAX_LENGTH,
+      `${CATEGORY_NAME_MAX_LENGTH}자 이내로 작성해주세요`,
+    ),
   categoryIconName: z.enum(CATEGORY_ICONS, '아이콘을 선택해주세요'),
   categoryColor: z.enum(CATEGORY_COLORS, '색상을 선택해주세요'),
 });
