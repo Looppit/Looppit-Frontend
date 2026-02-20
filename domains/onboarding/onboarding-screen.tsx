@@ -27,7 +27,7 @@ function OnboardingScreen() {
     resolver: zodResolver(onboardingFormSchema),
     values: {
       nickname: user?.nickname ?? '',
-      imgPath: user?.imgPath ?? null,
+      imgPath: null,
     },
     mode: 'onChange',
   });
