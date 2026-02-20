@@ -7,13 +7,19 @@ import { Input } from '@/shared/ui/input';
 
 export function NicknameField() {
   const { control } = useFormContext<UserProfileFormValues>();
+
   return (
     <FormField
       control={control}
       name="nickname"
       render={({ field }) => (
         <FormItem className="flex flex-col gap-2">
-          <FormLabel>닉네임</FormLabel>
+          <div className="flex items-center justify-between">
+            <FormLabel>닉네임</FormLabel>
+            <span className="text-secondary opacity-50 typography-body-semibold">
+              {field.value?.length ?? 0}/{NICKNAME_MAX_LENGTH}
+            </span>
+          </div>
           <FormControl>
             <Input
               {...field}

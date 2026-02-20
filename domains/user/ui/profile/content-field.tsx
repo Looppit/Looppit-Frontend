@@ -15,7 +15,12 @@ export function ContentField() {
       name="content"
       render={({ field }) => (
         <FormItem className="flex flex-col gap-2">
-          <FormLabel>한줄 소개</FormLabel>
+          <div className="flex items-center justify-between">
+            <FormLabel>한줄 소개</FormLabel>
+            <span className="text-secondary opacity-50 typography-body-semibold">
+              {field.value?.length ?? 0}/{CONTENT_MAX_LENGTH}
+            </span>
+          </div>
           <FormControl>
             <Input
               {...field}
