@@ -8,7 +8,6 @@ const envs = {
   urls: {
     apiEndPoint: process.env.NEXT_PUBLIC_API_BASE_URL,
     clientBaseUrl: process.env.NEXT_PUBLIC_API_CLIENT_BASE_URL,
-    domain: process.env.NEXT_PUBLIC_DOMAIN,
   },
   postHog: {
     postHogKey: process.env.NEXT_PUBLIC_POSTHOG_KEY,
