@@ -5,6 +5,7 @@ import {
   useUploadFileWithPresignedUrl,
 } from '@/domains/s3/s3.hooks';
 import { getImageContentType } from '@/domains/s3/s3.utils';
+import { omitEmptyValues } from '@/shared/utils';
 
 import { useUpdateUser } from './use-user-query';
 import { UpdateUserRequest, UserProfileFormValues } from '../user.types';
@@ -59,7 +60,9 @@ export const useUpdateProfile = () => {
           requestData.imgPath = key;
         }
 
-        updateUserMutation(requestData, { onSuccess });
+        const filteredData = omitEmptyValues<UpdateUserRequest>(requestData);
+
+        updateUserMutation(filteredData, { onSuccess });
       } catch (error) {
         console.error(error);
       }

@@ -13,8 +13,8 @@ export const getUser = async (options?: ServerFetchOptions) => {
   return await apiClient.get<GetUserResponse>('/user', headers);
 };
 
-export const updateUser = async (data: UpdateUserRequest) => {
-  return await apiClient.put<GetUserResponse>('/user', data);
+export const updateUser = async (data: Partial<UpdateUserRequest>) => {
+  return await apiClient.patch<GetUserResponse>('/user', data);
 };
 
 export const deleteUser = async (data: DeleteUserRequest) => {
