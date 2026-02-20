@@ -40,6 +40,18 @@ const config: StorybookConfig = {
         'process.env.NEXT_PUBLIC_API_BASE_URL': JSON.stringify(
           process.env.NEXT_PUBLIC_API_BASE_URL!,
         ),
+        'process.env.NEXT_PUBLIC_API_CLIENT_BASE_URL': JSON.stringify(
+          process.env.NEXT_PUBLIC_API_CLIENT_BASE_URL!,
+        ),
+        'process.env.NEXT_PUBLIC_DOMAIN': JSON.stringify(
+          process.env.NEXT_PUBLIC_DOMAIN!,
+        ),
+        'process.env.NEXT_PUBLIC_POSTHOG_KEY': JSON.stringify(
+          process.env.NEXT_PUBLIC_POSTHOG_KEY!,
+        ),
+        'process.env.NEXT_PUBLIC_POSTHOG_HOST': JSON.stringify(
+          process.env.NEXT_PUBLIC_POSTHOG_HOST!,
+        ),
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV!),
       }),
     );
