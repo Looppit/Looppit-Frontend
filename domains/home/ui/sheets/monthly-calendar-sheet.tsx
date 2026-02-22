@@ -1,5 +1,11 @@
 import { TodoCalendar } from '@/domains/todo/ui';
-import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/shared/ui/drawer';
 import { IconButton } from '@/shared/ui/icon-button';
 
 import { CompletedCategoryData } from '../../utils';
@@ -19,7 +25,7 @@ export function MonthlyCalendarSheet({
 }: MonthlyCalendarSheetProps) {
   return (
     <Drawer>
-      <DrawerTrigger>
+      <DrawerTrigger asChild>
         <IconButton
           icon="ic_calendar_month"
           size="40"
@@ -27,7 +33,11 @@ export function MonthlyCalendarSheet({
           iconClassName="w-[18px] h-[18px] fill-secondary"
         />
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent aria-describedby="월별 달력" aria-description="월별 달력">
+        <DrawerTitle className="sr-only">달력</DrawerTitle>
+        <DrawerDescription className="sr-only">
+          날짜를 선택하세요.
+        </DrawerDescription>
         <div className="h-[400px]">
           <TodoCalendar
             onNavigate={onNavigate}
