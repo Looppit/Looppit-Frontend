@@ -1,6 +1,8 @@
 import { useCallback, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 
+import { useRouter } from 'next/navigation';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 
@@ -18,6 +20,8 @@ import PasswordConfirmField from './password-confirm-field';
 import PasswordField from './password-field';
 
 export default function SignupForm() {
+  const router = useRouter();
+
   const form = useForm<SignupFormValues>({
     resolver: zodResolver(signupFormSchema),
     mode: 'onChange',
@@ -26,7 +30,7 @@ export default function SignupForm() {
       password: '',
     },
   });
-  const { mutate: signup, isPending: isSignupPending } = useSignup();
+  const { mutateAsync: handleSignup, isPending: isSignupPending } = useSignup();
   const {
     startTimer: handleStartEmailCertificationTimer,
     endTimer: handleEndEmailCertificationTimer,
@@ -37,11 +41,12 @@ export default function SignupForm() {
   const submitDisabled = isSignupPending || !isPasswordConfirmed;
 
   const handleSubmit = useCallback(
-    (data: SignupFormValues) => {
+    async (data: SignupFormValues) => {
       if (submitDisabled) return;
-      signup(data);
+      await handleSignup(data);
+      router.replace('/onboarding');
     },
-    [submitDisabled, signup],
+    [submitDisabled, handleSignup, router],
   );
 
   const handleError = useCallback((errors: FieldErrors) => {
