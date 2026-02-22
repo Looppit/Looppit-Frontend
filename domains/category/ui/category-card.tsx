@@ -9,7 +9,7 @@ import { cn, getGradient } from '@/shared/utils';
 type CategoryCardProps = Category;
 
 const CategoryCardRoot = ({ children }: StrictPropsWithChildren) => {
-  return <div className="grid grid-cols-3 gap-3 px-5">{children}</div>;
+  return <div className="grid grid-cols-3 gap-3 px-5 flex-1">{children}</div>;
 };
 
 const CategoryCardItemFrame = ({
