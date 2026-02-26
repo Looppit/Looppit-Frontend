@@ -9,21 +9,17 @@ import {
 import { categoryKeys } from '@/domains/category/category.keys';
 import {
   CreateCategoryParams,
+  CreateCategoryResponse,
   UpdateCategoryParams,
 } from '@/domains/category/types';
 import { getCategoryErrorMessage } from '@/domains/category/utils';
 import type { ApiError } from '@/shared/api/api.types';
 import { trackEvent } from '@/shared/lib/posthog';
 
-type UseCreateCategory = {
-  showSuccessToast?: boolean;
-};
-
-export const useCreateCategory = (options: UseCreateCategory = {}) => {
-  const { showSuccessToast = true } = options;
+export const useCreateCategory = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<void, ApiError, CreateCategoryParams>({
+  return useMutation<CreateCategoryResponse, ApiError, CreateCategoryParams>({
     mutationFn: createCategory,
     onSuccess: async () => {
       trackEvent('category_created');
@@ -32,15 +28,10 @@ export const useCreateCategory = (options: UseCreateCategory = {}) => {
         refetchType: 'all',
       });
 
-      if (!showSuccessToast) return;
-
       toast.success('카테고리가 생성되었어요');
     },
     onError: (error) => {
       console.error('카테고리 생성 오류:', error);
-
-      if (!showSuccessToast) return;
-
       toast.error(getCategoryErrorMessage(error, '카테고리 생성에 실패했어요'));
     },
   });
