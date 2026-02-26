@@ -25,10 +25,10 @@ export const getCompletedCategoryData = (
       const byDate = (completedCategoryData[date] ||= {});
       const entry = (byDate[categoryKey] ||= {
         color: categoryColor,
-        completed: true,
+        completed,
       });
-      if (!entry.completed) return;
-      entry.completed = completed;
+
+      if (entry.completed) return;
     });
   });
 
