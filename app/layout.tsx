@@ -35,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${wantedSans.variable} overflow-y-scroll bg-background text-white font-wanted-sans antialiased`}
+        className={`${wantedSans.variable} overflow-y-scroll bg-background text-white font-wanted-sans antialiased break-keep`}
       >
         <div className="relative mx-auto min-h-screen max-w-xl">
           <Providers>{children}</Providers>

@@ -35,11 +35,12 @@ export const TodoDeleteSheet = ({
     onClose();
   };
 
-  const handleDelete = () => {
-    deleteTodoMutation.mutate({
+  const handleDelete = async () => {
+    await deleteTodoMutation.mutateAsync({
       categoryId,
       todoId: todo.todoId,
     });
+    onClose();
   };
 
   return (

@@ -64,6 +64,7 @@ const TodoFormSheetInput = ({
       onChange={(e) => onChange(e.target.value)}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
+          e.preventDefault();
           onSubmit();
         }
       }}
