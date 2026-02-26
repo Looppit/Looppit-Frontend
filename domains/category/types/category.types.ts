@@ -15,6 +15,8 @@ export type CategoryResponse = Category[];
 /** API Request Types */
 export type CreateCategoryParams = Omit<Category, 'id'>;
 
+export type CreateCategoryResponse = Category;
+
 export type UpdateCategoryParams = {
   categoryId: string;
   data: CategoryFormValues;

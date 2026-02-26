@@ -5,6 +5,7 @@ import { toRequestHeadersFromOptions } from '@/shared/api/utils';
 import {
   CategoryResponse,
   CreateCategoryParams,
+  CreateCategoryResponse,
   UpdateCategoryParams,
 } from '../types';
 
@@ -22,8 +23,13 @@ export const getCategories = async (
 
 export const createCategory = async (
   data: CreateCategoryParams,
-): Promise<void> => {
-  await apiClient.post<ApiResponse<void>>('/category', data);
+): Promise<CreateCategoryResponse> => {
+  const response = await apiClient.post<ApiResponse<CreateCategoryResponse>>(
+    '/category',
+    data,
+  );
+
+  return response.result;
 };
 
 export const updateCategory = async ({
