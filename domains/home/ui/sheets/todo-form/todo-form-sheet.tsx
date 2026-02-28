@@ -79,29 +79,27 @@ export const TodoFormSheet = ({
         onOpenChange={handleOpenChange}
         title={displayTitle}
       >
-        <TodoFormSheetUI.Input
-          value={todoText}
-          onChange={(value) => form.setValue('title', value)}
-          onSubmit={handleSubmit}
-          maxLength={100}
-          autoFocus
-        />
-        <div className="h-px w-full bg-white/5" />
-        <TodoFormSheetUI.OptionsBar
-          date={date}
-          selectedCategory={selectedCategory}
-          onDateClick={handleDateClick}
-          onCategoryClick={handleCategoryClick}
-        />
-        <div className="mt-4 flex items-center gap-4">
-          <TodoFormSheetUI.SuggestedTags
-            onTagClick={(tag) => form.setValue('title', tag)}
+        <form onSubmit={handleSubmit} className="contents">
+          <TodoFormSheetUI.Input
+            value={todoText}
+            onChange={(value) => form.setValue('title', value)}
+            maxLength={100}
+            autoFocus
           />
-          <TodoFormSheetUI.SubmitButton
-            disabled={disabled}
-            onClick={handleSubmit}
+          <div className="h-px w-full bg-white/5" />
+          <TodoFormSheetUI.OptionsBar
+            date={date}
+            selectedCategory={selectedCategory}
+            onDateClick={handleDateClick}
+            onCategoryClick={handleCategoryClick}
           />
-        </div>
+          <div className="mt-4 flex items-center gap-4">
+            <TodoFormSheetUI.SuggestedTags
+              onTagClick={(tag) => form.setValue('title', tag)}
+            />
+            <TodoFormSheetUI.SubmitButton disabled={disabled} />
+          </div>
+        </form>
       </TodoFormSheetUI>
       <CategorySelectSheet
         open={isCategorySheetOpen}
