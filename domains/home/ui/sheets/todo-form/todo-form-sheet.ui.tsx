@@ -44,14 +44,12 @@ const TodoFormSheetRoot = ({
 type TodoFormSheetInputProps = {
   value: string;
   onChange: (value: string) => void;
-  onSubmit: () => void;
   placeholder?: string;
-} & Omit<React.ComponentProps<'input'>, 'onChange' | 'onKeyDown' | 'type'>;
+} & Omit<React.ComponentProps<'input'>, 'onChange' | 'type'>;
 
 const TodoFormSheetInput = ({
   value,
   onChange,
-  onSubmit,
   placeholder = '할 일을 입력하세요',
   ...props
 }: TodoFormSheetInputProps) => {
@@ -62,12 +60,6 @@ const TodoFormSheetInput = ({
       type="text"
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          onSubmit();
-        }
-      }}
       {...props}
     />
   );
@@ -160,21 +152,21 @@ const TodoFormSheetSuggestedTags = ({
 
 type TodoFormSheetSubmitButtonProps = {
   disabled: boolean;
-  onClick: () => void;
-};
+} & Omit<React.ComponentProps<typeof IconButton>, 'icon' | 'size'>;
 
 const TodoFormSheetSubmitButton = ({
   disabled,
-  onClick,
+  ...props
 }: TodoFormSheetSubmitButtonProps) => {
   return (
     <IconButton
       icon="ic_arrow_upward"
       size="40"
+      type="submit"
       className="bg-primary border-primary text-white"
       iconClassName="fill-current"
       disabled={disabled}
-      onClick={onClick}
+      {...props}
     />
   );
 };
