@@ -6,8 +6,8 @@ import { joinPathWithQuery } from '@/shared/utils';
 import {
   CategoryWithTodosResponse,
   CreateTodoParams,
+  CreateTodoResponse,
   DeleteTodoParams,
-  TodoResponse,
   ToggleTodoParams,
   UpdateTodoParams,
 } from '../types/todo.types';
@@ -28,11 +28,13 @@ export const getTodos = async (
 export const createTodo = async ({
   categoryId,
   data,
-}: CreateTodoParams): Promise<void> => {
-  await apiClient.post<ApiResponse<TodoResponse>>(
+}: CreateTodoParams): Promise<CreateTodoResponse> => {
+  const response = await apiClient.post<ApiResponse<CreateTodoResponse>>(
     `/categories/${categoryId}`,
     data,
   );
+
+  return response.result;
 };
 
 export const toggleTodoDone = async ({
@@ -40,7 +42,7 @@ export const toggleTodoDone = async ({
   todoId,
   completed,
 }: ToggleTodoParams): Promise<void> => {
-  const endpoint = `categories/${categoryId}/todos/${todoId}/${
+  const endpoint = `/categories/${categoryId}/todos/${todoId}/${
     completed ? 'done' : 'cancel'
   }`;
   await apiClient.patch<ApiResponse<void>>(endpoint);

@@ -11,7 +11,7 @@ import { CalendarSection } from './ui/calendar-section';
 
 export const HomeScreen = () => {
   return (
-    <div className="pt-9 px-5 min-h-screen flex flex-col gap-5">
+    <div className="pt-9 px-5 min-h-screen flex flex-col gap-5 mb-4">
       <UserGreetingSection />
       <HabitStreakSection />
       <CalendarSection />

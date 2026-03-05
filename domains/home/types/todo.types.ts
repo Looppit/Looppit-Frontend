@@ -28,7 +28,12 @@ export interface TodoResponse {
   date: string;
   completed: boolean;
 }
-
+export interface CreateTodoResponse {
+  id: number;
+  categoryId: number;
+  title: string;
+  date: string;
+}
 export interface CategoryWithTodosResponse extends Pick<
   Category,
   'categoryName' | 'categoryIconName' | 'categoryColor'
